@@ -986,7 +986,7 @@ babel-plugin-transform-strict-mode@^6.24.1:
     babel-runtime "^6.22.0"
     babel-types "^6.24.1"
 
-babel-preset-es2015@^6.24.0:
+babel-preset-es2015@^6.18.0, babel-preset-es2015@^6.24.0:
   version "6.24.1"
   resolved "https://registry.npmjs.org/babel-preset-es2015/-/babel-preset-es2015-6.24.1.tgz#d44050d6bc2c9feea702aaf38d727a0210538939"
   dependencies:
@@ -1022,7 +1022,7 @@ babel-preset-jest@^22.2.0:
     babel-plugin-jest-hoist "^22.2.0"
     babel-plugin-syntax-object-rest-spread "^6.13.0"
 
-babel-preset-stage-0@^6.5.0:
+babel-preset-stage-0@^6.16.0, babel-preset-stage-0@^6.5.0:
   version "6.24.1"
   resolved "https://registry.npmjs.org/babel-preset-stage-0/-/babel-preset-stage-0-6.24.1.tgz#5642d15042f91384d7e5af8bc88b1db95b039e6a"
   dependencies:
@@ -1057,7 +1057,7 @@ babel-preset-stage-3@^6.24.1:
     babel-plugin-transform-exponentiation-operator "^6.24.1"
     babel-plugin-transform-object-rest-spread "^6.22.0"
 
-babel-register@^6.24.0, babel-register@^6.26.0:
+babel-register@^6.18.0, babel-register@^6.24.0, babel-register@^6.26.0:
   version "6.26.0"
   resolved "https://registry.npmjs.org/babel-register/-/babel-register-6.26.0.tgz#6ed021173e2fcb486d7acb45c6009a856f647071"
   dependencies:
@@ -1951,6 +1951,16 @@ cross-spawn@^5.0.1, cross-spawn@^5.1.0:
     lru-cache "^4.0.1"
     shebang-command "^1.2.0"
     which "^1.2.9"
+
+cross-var@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/cross-var/-/cross-var-1.1.0.tgz#f0f0d4bb235d95138d1a539842d290f00db71cd6"
+  dependencies:
+    babel-preset-es2015 "^6.18.0"
+    babel-preset-stage-0 "^6.16.0"
+    babel-register "^6.18.0"
+    cross-spawn "^5.0.1"
+    exit "^0.1.2"
 
 cryptiles@2.x.x:
   version "2.0.5"

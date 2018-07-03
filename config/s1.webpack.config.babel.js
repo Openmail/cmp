@@ -35,12 +35,12 @@ module.exports = [
 				filename: '../reference.html',
 				template: 's1/reference.hbs',
 				inject: false,
-				inline: UglifyJS.minify(fs.readFileSync('./src/loader.js', 'utf8')).code,
+				inline: UglifyJS.minify(fs.readFileSync('./src/s1/loader.js', 'utf8')).code,
 				version
 			}),
 			new CopyWebpackPlugin([
 				{
-					from: 'loader.js',
+					from: 's1/loader.js',
 					to: './loader.js',
 					transform(content) {
 						// Just want to uglify and copy this file over

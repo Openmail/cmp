@@ -1,7 +1,7 @@
 /* eslint-disable max-nested-callbacks */
 
 import { expect } from 'chai';
-import { init } from '../lib/init';
+import { init } from '../../lib/init';
 
 const fakeScriptSrc = "./fake-loader-src.js";
 let cmpLoader;
@@ -44,7 +44,7 @@ describe('cmpLoader as import', () => {
 
 		beforeEach(() => {
 			appendChild = window.document.body.appendChild = jest.fn(() => {
-				require('../s1/cmp'); // need to require this here because there is no built version that we can script load
+				require('../cmp'); // need to require this here because there is no built version that we can script load
 			});
 		});
 

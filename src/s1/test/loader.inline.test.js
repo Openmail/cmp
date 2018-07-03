@@ -3,7 +3,7 @@
 
 import { expect } from 'chai';
 import fs from 'fs';
-import vendorlist from '../docs/assets/vendorlist.json';
+import vendorlist from '../../docs/assets/vendorlist.json';
 // import pubvendorsStub
 // import vendorlistStub
 const fakeScriptSrc = './fake-loader-src.js';
@@ -13,7 +13,7 @@ describe('cmpLoader as script tag', () => {
 
 	beforeEach(() => {
 		appendChild = window.document.body.appendChild = jest.fn(() => {});
-		const content = fs.readFileSync('./src/loader.js');
+		const content = fs.readFileSync('./src/s1/loader.js');
 		eval(content + '; global.cmp = cmp');
 	});
 
@@ -111,7 +111,7 @@ describe('cmpLoader as script tag', () => {
 				return Promise.resolve(src);
 			});
 			appendChild = window.document.body.appendChild = jest.fn(() => {
-				require('../s1/cmp'); // need to require this here because there is no built version that we can script load
+				require('../cmp'); // need to require this here because there is no built version that we can script load
 			});
 		});
 

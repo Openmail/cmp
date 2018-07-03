@@ -2,10 +2,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 
 import webpack from 'webpack';
-// import CopyWebpackPlugin from 'copy-webpack-plugin';
 import autoprefixer from 'autoprefixer';
 import path from 'path';
-// import UglifyJS from 'uglify-es';
 import packageJson from '../package.json';
 
 const ENV = process.env.NODE_ENV || 'development';

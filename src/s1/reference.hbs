@@ -10,10 +10,10 @@
 	-->
 
 	<!--// LOADER //-->
-	<script src="./loader.js"></script>
+	<script src="./{{{htmlWebpackPlugin.options.version}}}/loader.js"></script>
 	<script>
 		const config = {
-			scriptSrc: window.location.search.indexOf("remote=true") >= 0 ? 'https://s.flocdn.com/cmp/s1.cmp.js' : './s1.cmp.js',
+			scriptSrc: window.location.search.indexOf("remote=true") >= 0 ? 'https://s.flocdn.com/christian-test/{{{htmlWebpackPlugin.options.version}}}/cmp.js' : './{{{htmlWebpackPlugin.options.version}}}/cmp.js',
 			// scriptSrc: './s1.cmp.js',
 			// logging: false,
 			// pubVendorListLocation: './pubvendors.json',

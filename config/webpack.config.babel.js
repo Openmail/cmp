@@ -22,7 +22,7 @@ module.exports = [
 		},
 
 		output: {
-			path: path.resolve(__dirname, '../', 'build'),
+			path: path.resolve(__dirname, '../', 'dist'),
 			publicPath: './',
 			filename: '[name].bundle.js'
 		},
@@ -51,7 +51,7 @@ module.exports = [
 		},
 
 		output: {
-			path: path.resolve(__dirname, '../', 'build/docs'),
+			path: path.resolve(__dirname, '../', 'dist/docs'),
 			publicPath: './',
 			filename: '[name].bundle.js'
 		},

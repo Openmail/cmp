@@ -15,7 +15,8 @@ const GDPR_OPT_IN_COOKIE = "gdpr_opt_in";
 const GDPR_OPT_IN_COOKIE_MAX_AGE = 33696000;
 
 const defaultConfig = {
-	logging: false
+	logging: false,
+	shouldAutoConsent: false,
 };
 
 const initialize = (config, callback) => {
@@ -23,7 +24,8 @@ const initialize = (config, callback) => {
 		cmp('addEventListener', 'onSubmit', () => {
 			checkConsent();
 		});
-		checkConsent(callback);
+		const {shouldAutoConsent}  = config;
+		checkConsent(callback, shouldAutoConsent);
 	});
 };
 
@@ -34,7 +36,7 @@ const checkHasConsentedAll = ({ purposeConsents } = {}) => {
 	return !hasAnyPurposeDisabled;
 };
 
-const checkConsent = (callback = () => {}) => {
+const checkConsent = (callback = () => {}, shouldAutoConsent) => {
 	let errorMsg = "";
 	if (!cmp.isLoaded) {
 		errorMsg = 'CMP failed to load';
@@ -54,7 +56,8 @@ const checkConsent = (callback = () => {}) => {
 				handleConsentResult({
 					vendorList,
 					vendorConsentData,
-					callback
+					callback,
+					shouldAutoConsent
 				});
 			});
 		});
@@ -65,12 +68,21 @@ const handleConsentResult = ({
 	vendorList = {},
 	vendorConsentData = {},
 	callback,
-	errorMsg = ""
+	errorMsg = "",
+	shouldAutoConsent
 }) => {
 	const hasConsentedCookie = readCookie(GDPR_OPT_IN_COOKIE);
 	const { vendorListVersion: listVersion } = vendorList;
 	const { created, vendorListVersion } = vendorConsentData;
 	if (!created) {
+		if (shouldAutoConsent) {
+			return (() => {
+				log.debug("CMP: auto-consent to all conditions.");
+				cmp.acceptAll();
+				checkConsent(callback);
+			})();
+		}
+
 		errorMsg = 'No consent data found. Show consent tool';
 	}
 	// if (vendorListVersion !== listVersion) {
@@ -100,6 +112,7 @@ const handleConsentResult = ({
 			vendorConsentData,
 			errorMsg
 		};
+
 		callback.call(this, consent);
 
 		if (created && hasConsented !== hasConsentedCookie) {

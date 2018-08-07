@@ -57,7 +57,7 @@
 		const config = {
 			scriptSrc: window.location.search.indexOf("remote=true") >= 0 ? 'https://s.flocdn.com/cmp/{{{htmlWebpackPlugin.options.version}}}/cmp.js' : './cmp.js',
 			// scriptSrc: './s1.cmp.js',
-			// logging: false,
+			logging: false,
 			// pubVendorListLocation: './pubvendors.json',
 			// pubVendorListLocation: 'https://s.flocdn.com/cmp/pubvendors.json',
 			// logging: false,
@@ -69,6 +69,7 @@
 			// localization: {},
 			// forceLocale: null,
 			gdprApplies: true,
+			shouldAutoConsent: true,
 			// allowedVendorIds: null
 		}
 
@@ -85,6 +86,7 @@
 		cmp('init', config, function (result) {
 			if (result.consentRequired) {
 				if (result.errorMsg) {
+					console.log('init', 'showConsentTool', result);
 					cmp('showConsentTool');
 					cmp('addEventListener', 'onConsentChanged', onConsentChanged);
 				} else {

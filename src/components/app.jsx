@@ -36,6 +36,7 @@ export default class App extends Component {
 			store,
 		} = state;
 		const {
+			shouldAutoAccept,
 			theme,
 		} = props;
 
@@ -50,6 +51,7 @@ export default class App extends Component {
 				<Banner isShowing={isBannerShowing}
 						isModalShowing={isModalShowing}
 						onSave={this.onSave}
+						shouldAutoAccept={shouldAutoAccept}
 						onShowModal={toggleModalShowing}
 						theme={theme}
 				/>

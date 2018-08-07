@@ -12,7 +12,6 @@ class LocalLabel extends Label {
 const PANEL_COLLECTED = 0;
 const PANEL_PURPOSE = 1;
 
-
 export default class Banner extends Component {
 
 	constructor(props) {
@@ -21,6 +20,33 @@ export default class Banner extends Component {
 			isExpanded: false,
 			selectedPanelIndex: 0,
 		};
+	}
+	componentDidUpdate = (prevProps) => {
+		const {isShowing} = this.props;
+		const {isShowing: isShowingPrev} = prevProps;
+		if (isShowing !== isShowingPrev) {
+			this.toggleKeyDownEvent(isShowing);
+		}
+	}
+
+	componentWillUnmount = () => {
+		this.toggleKeyDownEvent(false);
+	}
+
+	toggleKeyDownEvent = (isShowing) => {
+		document.onkeydown = null; // remove event
+		if (isShowing) {
+			document.onkeydown = this.onKeyDown; // add event listener
+		}
+	}
+
+	onKeyDown = (evt) => {
+		evt = evt || window.event;
+		const {key = '', keyCode = ''} = evt;
+		const isEscape = (key === 'Escape' || key === 'Esc' || keyCode === 27);
+		if (isEscape) {
+			this.props.onSave();
+		}
 	}
 
 	handleInfo = (index) => () => {

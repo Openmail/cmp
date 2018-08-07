@@ -157,6 +157,19 @@ const commonConfig = {
 		__filename: false,
 		__dirname: false,
 		setImmediate: false
+	},
+	devtool: ENV === 'production' ? 'source-map' : 'cheap-module-eval-source-map',
+
+	devServer: {
+		port: process.env.PORT || 8080,
+		host: 'localhost',
+		publicPath: '/',
+		contentBase: './src',
+		historyApiFallback: true,
+		disableHostCheck: true,
+		open: false,
+		openPage: 'docs/',
+		https: false
 	}
 };
 

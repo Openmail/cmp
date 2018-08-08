@@ -78,7 +78,7 @@ const handleConsentResult = ({
 		if (shouldAutoConsent) {
 			return (() => {
 				log.debug("CMP: auto-consent to all conditions.");
-				cmp.acceptAll();
+				cmp('acceptAllConsents');
 				checkConsent(callback);
 			})();
 		}

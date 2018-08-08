@@ -148,6 +148,14 @@ describe('cmp', () => {
 			});
 		});
 
+		it('acceptAllConsents executes', (done) => {
+			const persist = jest.spyOn(cmp.store, 'persist');
+			cmp.processCommand('acceptAllConsents', null, () => {
+				expect(persist.mock.calls).to.have.length(1);
+				done();
+			});
+		});
+
 		describe('addEventListener', () => {
 
 			it('only adds the callback instance once', () => {
@@ -222,5 +230,4 @@ describe('cmp', () => {
 
 		expect(processSpy.mock.calls[0][0]).to.equal('showConsentTool');
 	});
-
 });

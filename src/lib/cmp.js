@@ -182,8 +182,9 @@ export default class Cmp {
 		/**
 		 * Trigger the consent tool to consent to all criteria
 		 */
-		consentAll: () => {
+		acceptAllConsents: (_, callback = () => {}) => {
 			this.store.persist();
+			callback();
 		}
 	};
 

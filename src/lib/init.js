@@ -59,10 +59,7 @@ export function init(configUpdates) {
 				...cmp.commands,
 				notify: cmp.notify,
 				isLoaded: cmp.isLoaded,
-				processCommand: cmp.processCommand,
-				acceptAll: () => {
-					store.persist();
-				}
+				processCommand: cmp.processCommand
 			});
 
 			cmp.notify('isLoaded');

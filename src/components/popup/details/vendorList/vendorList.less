@@ -1,0 +1,46 @@
+@import '../../../../style/variables';
+
+.vendorList {
+	.even {
+		background: @color-table-background;
+	}
+	table {
+		border-collapse: collapse;
+		margin-top: 10px;
+		width: 100%;
+		tr {
+			td {
+				padding: 10px;
+			}
+		}
+	}
+
+	.customize {
+		margin-bottom: 30px;
+		display: block;
+
+		@media @smartphone {
+			font-size: 14px;
+			line-height: 16px;
+		}
+	}
+
+	.company {
+		min-height: 20px;
+		align-items: center;
+	}
+	.policy {
+		fill: @color-primary;
+		font-size: 14px;
+
+		svg {
+			vertical-align: middle;
+ 			margin: 0 5px;
+ 		}
+		margin: 0 5px;
+		@media @smartphone {
+			font-size: 12px;
+			line-height: 14px;
+		}
+	}
+}

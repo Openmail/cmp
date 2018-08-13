@@ -1,0 +1,23 @@
+@import '../../style/variables';
+
+@button-size: 30px;
+
+.closeButton {
+	fill: @color-secondary;
+	width: @button-size;
+	height: @button-size;
+	cursor: pointer;
+	position: absolute;
+	top: 15px;
+	right: 25px;
+
+	@media @smartphone {
+		right: 15px;
+	}
+
+	&.hasBorder {
+		background-color: white;
+		border-radius: 50%;
+		box-shadow: 0px 0px 0px 2px @color-border;
+	}
+}

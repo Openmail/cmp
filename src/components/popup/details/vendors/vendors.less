@@ -1,0 +1,129 @@
+@import '../../../../style/variables';
+
+div.vendors {
+	display: flex;
+	flex-direction: column;
+
+	.header {
+		display: flex;
+		flex-shrink: 0;
+		@media @smartphone {
+			flex-direction: column;
+			align-items: center;
+		}
+	}
+	.title {
+		flex: 1;
+		font-size: 24px;
+		font-weight: bold;
+		@media @smartphone {
+			text-align: center;
+			padding-bottom: 5px;
+		}
+	}
+	.button {
+		min-width: 140px;
+		padding: 8px;
+		white-space: nowrap;
+
+		&:first-child {
+			margin-right: 10px;
+		}
+
+		@media @smartphone {
+			flex: 1;
+		}
+	}
+	.options {
+		display: flex;
+		@media @smartphone {
+			width: 100%;
+		}
+	}
+	.description {
+		margin: 10px 0;
+		flex-shrink: 0;
+	}
+
+	.vendorHeader {
+		display: flex;
+		flex-shrink: 0;
+	}
+	.vendorContent {
+		display: flex;
+	}
+	.vendorList {
+		margin-top: 10px;
+	}
+	.vendorName {
+		min-height: 30px;
+		display: flex;
+		align-items: center;
+		font-size: 14px;
+
+		svg {
+			vertical-align: middle;
+ 		}
+
+		@media @smartphone {
+			font-size: 12px;
+			line-height: 14px;
+		}
+	}
+
+	.allowAllToggle {
+		text-align: right;
+
+		@media @smartphone {
+			font-size: 14px;
+			line-height: 16px;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+	}
+
+	table {
+		width: 100%;
+		border-collapse: collapse;
+
+		thead tr {
+			border: 1px solid @color-border;
+			font-size: 12px;
+		}
+
+		tr {
+			min-height: 40px;
+			th {
+				font-weight: bold;
+			}
+			td, th {
+				padding: 5px;
+				font-size: 12px;
+				&:first-child {
+					width: 100%;
+					text-align: left;
+				}
+				&:last-child {
+					padding-right: 15px;
+					white-space: nowrap;
+					text-align: right;
+				}
+			}
+		}
+
+		tr.even {
+			background-color: @color-table-background;
+		}
+	}
+	.allowColumn {
+		text-align: center;
+	}
+	.allowSwitch {
+		display: flex;
+		align-items: center;
+	}
+	.policy {
+		margin: 0 5px;
+		fill: @color-primary;
+	}
+}

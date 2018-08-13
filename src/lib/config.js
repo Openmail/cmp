@@ -8,6 +8,7 @@ const defaultConfig = {
 	storeConsentGlobally: false,
 	storePublisherData: false,
 	logging: false,
+	testing: false,
 	localization: {},
 	forceLocale: null,
 	gdprApplies: true,

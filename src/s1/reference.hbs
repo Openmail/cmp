@@ -58,6 +58,7 @@
 			scriptSrc: window.location.search.indexOf("remote=true") >= 0 ? 'https://s.flocdn.com/cmp/{{{htmlWebpackPlugin.options.version}}}/cmp.js' : './cmp.js',
 			// scriptSrc: './s1.cmp.js',
 			logging: false,
+			testing: true,
 			// pubVendorListLocation: './pubvendors.json',
 			// pubVendorListLocation: 'https://s.flocdn.com/cmp/pubvendors.json',
 			// logging: false,
@@ -69,7 +70,7 @@
 			// localization: {},
 			// forceLocale: null,
 			gdprApplies: true,
-			shouldAutoConsent: true,
+			shouldAutoConsent: false,
 			// allowedVendorIds: null
 		}
 

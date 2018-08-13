@@ -17,11 +17,14 @@ const GDPR_OPT_IN_COOKIE_MAX_AGE = 33696000;
 const defaultConfig = {
 	logging: false,
 	shouldAutoConsent: false,
+	testCmp: null,
 };
 
 const initialize = (config, callback) => {
 	init(config, cmp).then(() => {
+		// console.log('listen For onSubmit');
 		cmp('addEventListener', 'onSubmit', () => {
+			// console.log("got onSubmit");
 			checkConsent();
 		});
 		const {shouldAutoConsent}  = config;
@@ -29,9 +32,10 @@ const initialize = (config, callback) => {
 	});
 };
 
-const checkHasConsentedAll = ({ purposeConsents } = {}) => {
-	const hasAnyPurposeDisabled = Object.keys(purposeConsents).find(key => {
-		return purposeConsents[key] === false;
+const checkHasConsentedAll = ({vendorConsents } = {}) => {
+	// console.log("checkHasConsentedAll", purposeConsents, vendorConsents);
+	const hasAnyPurposeDisabled = Object.keys(vendorConsents).find(key => {
+		return vendorConsents[key] === false;
 	});
 	return !hasAnyPurposeDisabled;
 };
@@ -39,12 +43,14 @@ const checkHasConsentedAll = ({ purposeConsents } = {}) => {
 const checkConsent = (callback = () => {}, shouldAutoConsent) => {
 	let errorMsg = "";
 	if (!cmp.isLoaded) {
+		console.log("checkConsent, isLoaded");
 		errorMsg = 'CMP failed to load';
 		log.error(errorMsg);
 		handleConsentResult({
 			errorMsg
 		});
 	} else if (!window.navigator.cookieEnabled) {
+		console.log("checkConsent, cookieEnabled");
 		errorMsg = 'Cookies are disabled. Ignoring CMP consent check';
 		log.error(errorMsg);
 		handleConsentResult({
@@ -53,6 +59,7 @@ const checkConsent = (callback = () => {}, shouldAutoConsent) => {
 	} else {
 		cmp('getVendorList', null, vendorList => {
 			cmp('getVendorConsents', null, vendorConsentData => {
+				console.log("checkConsent, getVendorConsents", vendorConsentData);
 				handleConsentResult({
 					vendorList,
 					vendorConsentData,
@@ -74,8 +81,10 @@ const handleConsentResult = ({
 	const hasConsentedCookie = readCookie(GDPR_OPT_IN_COOKIE);
 	const { vendorListVersion: listVersion } = vendorList;
 	const { created, vendorListVersion } = vendorConsentData;
+	console.log("handleConsentResult 1", hasConsentedCookie);
 	if (!created) {
 		if (shouldAutoConsent) {
+			console.log("shouldAutoConsent");
 			return (() => {
 				log.debug("CMP: auto-consent to all conditions.");
 				cmp('acceptAllConsents');
@@ -101,6 +110,7 @@ const handleConsentResult = ({
 	if (callback && typeof callback === "function") {
 		// store as 1 or 0
 		const hasConsented = checkHasConsentedAll(vendorConsentData);
+		// console.log("handleConsentResult 2", hasConsented, created);
 		if (created) {
 			writeCookie(GDPR_OPT_IN_COOKIE, hasConsented ? "1" : "0", GDPR_OPT_IN_COOKIE_MAX_AGE);
 		}

@@ -13,7 +13,8 @@ const defaultConfig = {
 	gdprApplies: true,
 	gdprAppliesGlobally: false,
 	allowedVendorIds: null,
-	theme: {}
+	theme: {},
+	testing: false
 };
 
 class Config {

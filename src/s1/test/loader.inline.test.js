@@ -169,5 +169,24 @@ describe('cmpLoader as script tag', () => {
 
 			global.cmp('addEventListener', 'isLoaded', callback);
 		});
+
+
+		it('auto accepts consents', done => {
+			global.cmp(
+				'init',
+				{
+					scriptSrc: fakeScriptSrc,
+					gdprApplies: true,
+					shouldAutoConsent: true
+				},
+				(result) => {
+					expect(result.consentRequired).to.be.true;
+					expect(result.errorMsg).to.be.empty;
+					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+					done();
+				}
+			);
+		});
+
 	});
 });

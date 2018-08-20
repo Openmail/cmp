@@ -62,6 +62,12 @@ export function init(configUpdates) {
 				processCommand: cmp.processCommand
 			});
 
+			if (config.testing) {
+				Object.assign(window[CMP_GLOBAL_NAME], {
+					cmp
+				});
+			}
+
 			cmp.notify('isLoaded');
 
 			// Render the UI

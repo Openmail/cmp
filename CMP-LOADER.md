@@ -10,15 +10,18 @@ The System1 CMP Loader is a shim around the [appnexus-cmp](https://github.com/ap
 
 - [Terminology](#terminology)
 - [Installation](#installation)
-  - [Quick Start: Install With Script tag](#quick-start-install-with-script-tag)
-  - [Inline: Install with raw loader tag](#inline-install-with-raw-loader-tag)
-  - [Import CMP](#import-cmp)
+  - [Quickstart](#quickstart)
 - [Roadmap](#roadmap)
-- [System1 CMP Loader API](#system1-cmp-loader-api)
+- [CMP Loader API](#cmp-loader-api)
+  - [init](#init)
+    - [init: config](#init-config)
+    - [init: callback](#init-callback)
   - [Arguments](#arguments)
-  - [Commands](#commands)
+  - [Possible Commands](#possible-commands)
+    - [Examples](#examples)
   - [Events](#events)
-  - [Deploy](#deploy)
+    - [Examples](#examples-1)
+- [Deploy](#deploy)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -38,10 +41,10 @@ The CMP Loader provides a shim to the CMP SDK. Use the CMP Loader to queue comma
 ```
 <html>
 <body>
-  <script type="text/javascript" src="//s.flocdn.com/cmp/loader.js"></script>
+  <script type="text/javascript" src="//s.flocdn.com/cmp/${VERSION}/loader.js"></script>
   <script type="text/javascript">
   const config = {
-    scriptSrc: 'https://s.flocdn.com/cmp/s1.cmp.js',
+    scriptSrc: 'https://s.flocdn.com/cmp/${VERSION}/cmp.js',
     gdprApplies: true,
     // logging: true,
     // pubVendorListLocation: '/.well-known/pubvendors.json',
@@ -96,10 +99,9 @@ The goal is to provide a CMP loader that acts as an SDK for integrating the CMP 
 - [x] Expose `init` function to allow for dynamic configuration
 - [x] Set cookie `gdpr_opt_in` as boolean for user consent to all Purposes/Vendors or not
 - [x] Allow customization of location for `pubvendors.json`
-- [ ] Return consent object in onSubmit
-- [ ] Update `commands` to return Promises
-- [ ] Publish to NPM for import support
-- [ ] Add `consentChanged` event to trigger change in consent
+- [x] Add `consentChanged` event to trigger change in consent
+- [x] Return consent object in onSubmit
+- [x] Add `shouldAutoConsent` config flag to allow for automatic consent
 
 
 # CMP Loader API
@@ -125,7 +127,7 @@ Example Configuration:
 
 ```
 const config = {
-  scriptSrc: '//s.flocdn.com/cmp/s1.cmp.js',
+  scriptSrc: '//s.flocdn.com/cmp/${VERSION}/cmp.js',
   gdprApplies: true,
   pubVendorListLocation: '//s.flocdn.com/cmp/pubvendors.json', // OPTIONAL, whitelists vendors
   logging: false,
@@ -145,6 +147,7 @@ cmp('init', config);
 - `gdprApplies`: Booelan: Enable / disable load of the CMP SDK
 - `pubVendorListLocation`: OPTIONAL: location of pub vendor list
 - `globalVendorListLocation`: OPTIONAL: global vendorList is managed by the IAB.
+- `shouldAutoConsent`: OPTIONAL: automatically consent on behalf of the user.
 
 ### init: callback
 
@@ -159,11 +162,11 @@ Use the callback to determine if you should show the consent tool or not.
 Callback Example
 
 ```
-<script type="text/javascript" src="https://s.flocdn.com/cmp/loader.js"></script>
+<script type="text/javascript" src="https://s.flocdn.com/cmp/${VERSION}/loader.js"></script>
 
 cmp('init', {
     gdprApplies: true,
-    scriptSrc: '//s.flocdn.com/cmp/s1.cmp.js'
+    scriptSrc: '//s.flocdn.com/cmp/${VERSION}/cmp.js'
   }, (result) => {
 
   // Consent is required and there was an error

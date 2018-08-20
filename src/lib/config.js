@@ -1,0 +1,48 @@
+import log from './log';
+
+const defaultConfig = {
+	customPurposeListLocation: './purposes.json',
+	globalVendorListLocation: 'https://vendorlist.consensu.org/vendorlist.json',
+	pubVendorListLocation: null,
+	globalConsentLocation: './portal.html',
+	storeConsentGlobally: false,
+	storePublisherData: false,
+	scriptSrc: null,
+	logging: false,
+	localization: {},
+	forceLocale: null,
+	gdprApplies: true,
+	allowedVendorIds: null, // [10, 52, 69, 13, 32, 25, 36]
+};
+
+class Config {
+	constructor() {
+		this.update(defaultConfig);
+	}
+
+	update = (updates) => {
+		if (updates && typeof updates === 'object') {
+			const validKeys = Object.keys(defaultConfig);
+			const { validUpdates, invalidKeys } = Object.keys(updates).reduce((acc, key) => {
+				if (validKeys.indexOf(key) > -1) {
+					acc.validUpdates = {
+						...acc.validUpdates,
+						[key]: updates[key]
+					};
+				}
+				else {
+					acc.invalidKeys.push(key);
+				}
+				return acc;
+			}, { validUpdates: {}, invalidKeys: [] });
+
+			Object.assign(this, validUpdates);
+			if (invalidKeys.length) {
+				log.warn(`Invalid CMP config values not applied: ${invalidKeys.join(', ')}`);
+			}
+
+		}
+	};
+}
+
+export default new Config();

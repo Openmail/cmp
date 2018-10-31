@@ -12,6 +12,8 @@ const CMP_VERSION = 1;
 const CMP_ID = 1;
 const COOKIE_VERSION = 1;
 
+let store;
+
 export function init(configUpdates) {
 	config.update(configUpdates);
 	log.debug('Using configuration:', config);
@@ -31,7 +33,7 @@ export function init(configUpdates) {
 				vendors && vendors.map(vendor => vendor.id);
 
 			// Initialize the store with all of our consent data
-			const store = new Store({
+			store = new Store({
 				cmpVersion: CMP_VERSION,
 				cmpId: CMP_ID,
 				cookieVersion: COOKIE_VERSION,
@@ -57,7 +59,8 @@ export function init(configUpdates) {
 				...cmp.commands,
 				notify: cmp.notify,
 				isLoaded: cmp.isLoaded,
-				processCommand: cmp.processCommand
+				processCommand: cmp.processCommand,
+				store: cmp.store
 			});
 
 			// Notify listeners that the CMP is loaded
@@ -86,4 +89,8 @@ export function init(configUpdates) {
 		.catch(err => {
 			log.error('Failed to load CMP', err);
 		});
+}
+
+export function getStore() {
+	return store;
 }

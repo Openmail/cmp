@@ -31,16 +31,16 @@ yarn start
 ```
 
 The documentation can be viewed at:
-`http://localhost:5000/docs/`
+`http://localhost:8080/docs/`
 
 ## Development
 You can start a development server that will monitor changes to all CMP and docs files with:
 ```sh
-yarn dev
+yarn dev:s1
 ```
 
 Development server can be accessed at:
-`http://localhost:8080/`
+`http://localhost:8080/reference.html`
 
 ## Testing
 

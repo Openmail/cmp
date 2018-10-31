@@ -328,6 +328,7 @@ export {
 	readPublisherConsentCookie,
 	writePublisherConsentCookie,
 
+	COOKIE_DOMAIN,
 	PUBLISHER_CONSENT_COOKIE_NAME,
 	VENDOR_CONSENT_COOKIE_NAME
 };

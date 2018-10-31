@@ -7,7 +7,7 @@ import 'core-js/fn/array/map';
 import 'core-js/fn/object/keys';
 
 import cmp from '../loader';
-import {init} from '../lib/init';
+import {init, getStore} from '../lib/init';
 import log from '../lib/log';
 import {readCookie, writeCookie} from "../lib/cookie/cookie";
 
@@ -16,15 +16,18 @@ const GDPR_OPT_IN_COOKIE_MAX_AGE = 33696000;
 
 const defaultConfig = {
 	logging: false,
-	shouldAutoConsent: false
+	shouldAutoConsent: false,
+	shouldAutoConsentWithFooter: false,
 };
 const initialize = (config, callback) => {
 	init(config, cmp).then(() => {
 		cmp('addEventListener', 'onSubmit', () => {
 			checkConsent();
 		});
-		const {shouldAutoConsent}  = config;
-		checkConsent(callback, shouldAutoConsent);
+		checkConsent({
+			callback,
+			config
+		});
 	});
 };
 
@@ -35,7 +38,10 @@ const checkHasConsentedAll = ({ purposeConsents } = {}) => {
 	return !hasAnyPurposeDisabled;
 };
 
-const checkConsent = (callback = () => {}, shouldAutoConsent) => {
+const checkConsent = ({
+	callback = () => {},
+	config
+} = {}) => {
 	let errorMsg = "";
 	if (!cmp.isLoaded) {
 		errorMsg = 'CMP failed to load';
@@ -56,7 +62,7 @@ const checkConsent = (callback = () => {}, shouldAutoConsent) => {
 					vendorList,
 					vendorConsentData,
 					callback,
-					shouldAutoConsent
+					config
 				});
 			});
 		});
@@ -67,19 +73,28 @@ const handleConsentResult = ({
 	vendorList = {},
 	vendorConsentData = {},
 	callback,
-	errorMsg = "",
-	shouldAutoConsent
+	config,
+	errorMsg = ""
 }) => {
 	const hasConsentedCookie = readCookie(GDPR_OPT_IN_COOKIE);
 	const { vendorListVersion: listVersion } = vendorList;
 	const { created, vendorListVersion } = vendorConsentData;
 
 	if (!created) {
-		if (shouldAutoConsent) {
+		const {shouldAutoConsent, shouldAutoConsentWithFooter} = config || {};
+		if (shouldAutoConsent || shouldAutoConsentWithFooter) {
 			return (() => {
 				log.debug("CMP: auto-consent to all conditions.");
 				cmp('acceptAllConsents');
-				checkConsent(callback);
+				if (shouldAutoConsentWithFooter) {
+					const store = getStore();
+					if (store) {
+						store.toggleFooterShowing(true);
+					}
+				}
+				checkConsent({
+					callback
+				});
 			})();
 		}
 
@@ -113,6 +128,7 @@ const handleConsentResult = ({
 			vendorConsentData,
 			errorMsg
 		};
+
 		callback.call(this, consent);
 
 		if (created && hasConsented !== hasConsentedCookie) {

@@ -102,6 +102,7 @@ The goal is to provide a CMP loader that acts as an SDK for integrating the CMP 
 - [x] Add `consentChanged` event to trigger change in consent
 - [x] Return consent object in onSubmit
 - [x] Add `shouldAutoConsent` config flag to allow for automatic consent
+- [x] Add `shouldAutoConsentWithFooter` config flag to allow for automatic consent and pop to footer
 
 
 # CMP Loader API
@@ -148,6 +149,7 @@ cmp('init', config);
 - `pubVendorListLocation`: OPTIONAL: location of pub vendor list
 - `globalVendorListLocation`: OPTIONAL: global vendorList is managed by the IAB.
 - `shouldAutoConsent`: OPTIONAL: automatically consent on behalf of the user.
+- `shouldAutoConsentWithFooter`: OPTIONAL: automatically consent on behalf of the user and immediately open footer
 
 ### init: callback
 

@@ -40,7 +40,7 @@ export default class App extends Component {
 						   onSave={this.onSave}
 					/>
 				}
-				<Footer store={store} />
+				<Footer store={store} onSave={this.onSave} />
 			</div>
 		);
 	}

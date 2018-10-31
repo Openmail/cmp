@@ -5,21 +5,10 @@ import { expect } from 'chai';
 import fs from 'fs';
 import vendorlist from '../docs/assets/vendorlist.json';
 import { COOKIE_DOMAIN } from "../lib/cookie/cookie";
+import { deleteAllCookies } from "./helpers";
 // import pubvendorsStub
 // import vendorlistStub
 const fakeScriptSrc = './fake-loader-src.js';
-
-
-function deleteAllCookies() {
-	let cookies = document.cookie.split(";");
-
-	for (let i = 0; i < cookies.length; i++) {
-		let cookie = cookies[i];
-		let eqPos = cookie.indexOf("=");
-		let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-		document.cookie = name + `=;${COOKIE_DOMAIN}expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-	}
-}
 
 describe('cmpLoader as script tag', () => {
 	let appendChild;
@@ -31,7 +20,7 @@ describe('cmpLoader as script tag', () => {
 	});
 
 	afterEach(() => {
-		deleteAllCookies();
+		deleteAllCookies(COOKIE_DOMAIN);
 		eval('; global.cmp = null; cmp = null;');
 		jest.restoreAllMocks();
 		appendChild.mockRestore();

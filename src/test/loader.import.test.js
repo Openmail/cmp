@@ -3,20 +3,10 @@
 import { expect } from "chai";
 import { init } from "../lib/init";
 import { COOKIE_DOMAIN } from "../lib/cookie/cookie";
+import { deleteAllCookies } from "./helpers";
 
 const fakeScriptSrc = "./fake-loader-src.js";
 let cmpLoader;
-
-function deleteAllCookies() {
-	let cookies = document.cookie.split(";");
-
-	for (let i = 0; i < cookies.length; i++) {
-		let cookie = cookies[i];
-		let eqPos = cookie.indexOf("=");
-		let name = eqPos > -1 ? cookie.substr(0, eqPos) : cookie;
-		document.cookie = name + `=;${COOKIE_DOMAIN}expires=Thu, 01 Jan 1970 00:00:00 GMT`;
-	}
-}
 
 describe("cmpLoader as import", () => {
 	beforeEach(() => {
@@ -61,7 +51,7 @@ describe("cmpLoader as import", () => {
 		});
 
 		afterEach(() => {
-			deleteAllCookies();
+			deleteAllCookies(COOKIE_DOMAIN);
 			appendChild.mockRestore();
 			jest.resetModules();
 			global.cmp = null;

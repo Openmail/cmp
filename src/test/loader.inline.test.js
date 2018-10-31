@@ -4,6 +4,8 @@
 import { expect } from 'chai';
 import fs from 'fs';
 import vendorlist from '../docs/assets/vendorlist.json';
+import { COOKIE_DOMAIN } from "../lib/cookie/cookie";
+import { deleteAllCookies } from "./helpers";
 // import pubvendorsStub
 // import vendorlistStub
 const fakeScriptSrc = './fake-loader-src.js';
@@ -18,6 +20,7 @@ describe('cmpLoader as script tag', () => {
 	});
 
 	afterEach(() => {
+		deleteAllCookies(COOKIE_DOMAIN);
 		eval('; global.cmp = null; cmp = null;');
 		jest.restoreAllMocks();
 		appendChild.mockRestore();
@@ -183,6 +186,34 @@ describe('cmpLoader as script tag', () => {
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.be.empty;
 					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+					done();
+				}
+			);
+		});
+
+		it("auto accepts consents and shows footer", done => {
+			expect(document.cookie.indexOf("euconsent")).to.be.below(0);
+
+			let toggleFooterShowing;
+
+			global.cmp("addEventListener", "isLoaded", () => {
+				const store = global.cmp.store;
+				toggleFooterShowing = jest.spyOn(store, "toggleFooterShowing");
+			});
+
+			global.cmp(
+				"init",
+				{
+					scriptSrc: fakeScriptSrc,
+					gdprApplies: true,
+					shouldAutoConsentWithFooter: true
+				},
+				result => {
+					expect(result.consentRequired).to.be.true;
+					expect(result.errorMsg).to.be.empty;
+					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+					expect(toggleFooterShowing.mock.calls).to.have.length(1);
+					toggleFooterShowing.mockRestore();
 					done();
 				}
 			);

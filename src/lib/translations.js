@@ -7,9 +7,9 @@
 export default {
 	en: {
 		intro: {
-			title: 'Privacy Choices',
+			title: 'We Value Privacy',
 			description: 'By using this site, you agree to our use of cookies and information to provide personalized content and ads and measure and analyze site usage. Click "Learn More" to change your settings.',
-			acceptAll: 'Got it',
+			acceptAll: 'OK',
 			rejectAll: '',
 			showPurposes: 'Learn More'
 		},
@@ -71,8 +71,16 @@ export default {
 			moreChoices: ''
 		},
 		footer: {
-			message: '',
-			consentLink: ''
+			message: 'We Value Privacy',
+			description: `
+				<span>To help make this website better, to personalize and enhance your content experience, for advertising purposes and to analyze our traffic, we and our partners use technology such as cookies, pixels, and/or beacons to collect certain data. By continuing to use the site or clicking “OK”, you agree to the use of this technology and collecting the data.</span>
+			`,
+			privacyPolicy: `Please visit our <a target="_blank" href="http://system1.com/terms/privacy.html">Privacy Policy</a> to learn more about
+				how we collect and use data. You can modify your settings at any
+				time by clicking
+			`,
+			privacyPolicyButton: 'Manage Privacy Settings',
+			consentLink: 'OK'
 		}
 	},
 	de: {

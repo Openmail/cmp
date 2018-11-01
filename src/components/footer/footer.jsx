@@ -65,21 +65,23 @@ export default class Footer extends Component {
 								use of this technology and collecting the data.
 							</span>
 						</LocalLabel>
-						<LocalLabel localizeKey="privacyPolicy" class={style.message}>
-							<span>
-								Please visit our
-								<a target="_blank" href="http://system1.com/terms/privacy.html">
-									Privacy Policy
-								</a>
-								to learn more about how we collect and use data. You can modify
-								your settings at any time by clicking
-							</span>
-						</LocalLabel>
-						<a class={style.modalLink} onClick={this.handleShowConsent}>
-							<LocalLabel localizeKey="privacyPolicyButton">
-								Manage Privacy Settings
+						<div class={style.privacyRow}>
+							<LocalLabel localizeKey="privacyPolicy" class={style.message}>
+								<span>
+									Please visit our
+									<a target="_blank" href="http://system1.com/terms/privacy.html">
+										Privacy Policy
+									</a>
+									to learn more about how we collect and use data. You can modify
+									your settings at any time by clicking
+								</span>
 							</LocalLabel>
-						</a>
+							<a class={style.modalLink} onClick={this.handleShowConsent}>
+								<LocalLabel localizeKey="privacyPolicyButton">
+									Manage Privacy Settings
+								</LocalLabel>
+							</a>
+						</div>
 					</div>
 				</div>
 				<div class={style.consentRow}>

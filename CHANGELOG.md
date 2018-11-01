@@ -1,6 +1,6 @@
 <a name="0.0.3-modal"></a>
 
-## [0.0.3-modal](https://github.com/Openmail/system1-cmp/compare/v0.0.2-modal...v0.0.3-modal) (2018-08-20)
+## [0.0.3-modal](https://github.com/Openmail/system1-cmp/compare/v0.0.2-modal...v0.0.3-modal) (2018-10-31)
 
 ### Features
 

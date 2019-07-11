@@ -1,15 +1,19 @@
 # System1 CMP Loader
 
-#######
-Note! The `modal` is currently used in production, it implements an optional "footer" UI solution for initial consent requests that pops the CMP into a modal view. 
+The System1 CMP Loader is a shim around the [appnexus-cmp](https://github.com/appnexus/cmp); it aims to improve installation, integration, and management of the underlying CMP and to allow us to swap out the underlying CMP at a later date.
+
+---
+
+## Note
+
+The `modal` is currently used in production, it implements an optional "footer" UI solution for initial consent requests that pops the CMP into a modal view. 
 `master` branch has been upgraded to the latest appnexus-cmp but has not been used in production at System1 yet. 
 
 Eventually we need to merge changes from the `modal` branch into `master` (probably manually) and upgrade master to the lastest from appnexus and apply any customizations on top. 
 
 As of now, just apply new changes to the `modal` branch until we formalize a plan to migrate to the lastest master branch.
-#######
 
-The System1 CMP Loader is a shim around the [appnexus-cmp](https://github.com/appnexus/cmp); it aims to improve installation, integration, and management of the underlying CMP and to allow us to swap out the underlying CMP at a later date.
+---
 
 
 [Complete Docs Are a Work In Progress](http://s.flocdn.com/cmp/docs/#/)

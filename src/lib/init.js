@@ -9,7 +9,7 @@ import pack from '../../package.json';
 import config from './config';
 
 const CMP_VERSION = 1;
-const CMP_ID = 1;
+const CMP_ID = 38;
 const COOKIE_VERSION = 1;
 
 let store;

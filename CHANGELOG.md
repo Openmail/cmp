@@ -1,3 +1,12 @@
+<a name="0.0.4-modal"></a>
+
+## [0.0.4-modal](https://github.com/Openmail/system1-cmp/compare/v0.0.3-modal...v0.0.4-modal) (2019-07-10)
+
+### Refactor
+
+ - [x] hardcodes the cmpId to System1's id `38`
+
+
 <a name="0.0.3-modal"></a>
 
 ## [0.0.3-modal](https://github.com/Openmail/system1-cmp/compare/v0.0.2-modal...v0.0.3-modal) (2018-10-31)

@@ -1,3 +1,11 @@
+<a name="0.0.5-modal"></a>
+
+## [0.0.5-modal](https://github.com/Openmail/system1-cmp/compare/v0.0.4-modal...v0.0.5-modal) (2019-07-18)
+
+### Feat
+
+ - [x] support `storeConsentGlobally` feature by adding postmessage/iframe solution
+
 <a name="0.0.4-modal"></a>
 
 ## [0.0.4-modal](https://github.com/Openmail/system1-cmp/compare/v0.0.3-modal...v0.0.4-modal) (2019-07-10)

@@ -5,6 +5,8 @@
 ### Feat
 
  - [x] support `storeConsentGlobally` feature by adding postmessage/iframe solution
+   - With `storeConsentGlobally` true; the euconsent cookie is set on the `globalConsentLocation` domain. 
+   - In the reference example, the cookie is set at `s.flocdn.com` 
 
 <a name="0.0.4-modal"></a>
 

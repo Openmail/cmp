@@ -19,11 +19,43 @@ const defaultConfig = {
 	shouldAutoConsent: false,
 	shouldAutoConsentWithFooter: false,
 };
+
+const addLocatorFrame = () => {
+	if (!window.frames['__cmpLocator']) {
+		if (document.body) {
+			const frame = document.createElement('iframe');
+			frame.style.display = 'none';
+			frame.name = '__cmpLocator';
+			document.body.appendChild(frame);
+		}
+		else {
+			setTimeout(addLocatorFrame, 5);
+		}
+	}
+};
+
+const addPostmessageReceiver = (cmp) => {
+	const onReceiveMessage = (event) => {
+		const data = event && event.data && event.data.__cmpCall;
+		if (data) {
+			const {command, parameter} = data;
+			cmp.call(this, command, parameter);
+		}
+	};
+
+	const listen = window.attachEvent || window.addEventListener;
+	listen('message', onReceiveMessage, false);
+};
+
 const initialize = (config, callback) => {
 	init(config, cmp).then(() => {
+		addPostmessageReceiver(cmp);
+		addLocatorFrame();
+
 		cmp('addEventListener', 'onSubmit', () => {
 			checkConsent();
 		});
+
 		checkConsent({
 			callback,
 			config

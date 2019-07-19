@@ -246,3 +246,12 @@ cmp('addEventListener', 'onSubmit', (event) => console.log(event));
 ```
 yarn deploy
 ```
+
+# Local Development
+
+You can start a development server that will monitor changes to all CMP and docs files with:
+```sh
+yarn dev:s1
+```
+
+Access the System1 s1cmp complete reference at http://localhost:8080/reference.html

@@ -48,6 +48,10 @@ const addPostmessageReceiver = (cmp) => {
 };
 
 const initialize = (config, callback) => {
+	// storeConsentGlobally will fail to store cookie if third party cookies are disabled
+	// TODO: check to see if 3rdpartycookies are enabled and force the user into storeConsentLocally if so
+	// https://github.com/mindmup/3rdpartycookiecheck
+
 	init(config, cmp).then(() => {
 		addPostmessageReceiver(cmp);
 		addLocatorFrame();

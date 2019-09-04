@@ -76,7 +76,6 @@ export default class Details extends Component {
 		const { purposes = [], vendors = [], features = [] } = vendorList;
 		const { purposes: customPurposes = [] } = customPurposeList;
 
-		console.log('features', features);
 		const formattedVendors = vendors
 			.map(vendor => ({
 				...vendor,

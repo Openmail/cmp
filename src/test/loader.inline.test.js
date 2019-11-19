@@ -241,6 +241,35 @@ describe("cmpLoader as script tag", () => {
 			);
 		});
 
+		it("auto upgrades consent and emits warning when previous consent found and error found", done => {
+			expect(document.cookie.indexOf("euconsent")).to.equal(-1);
+			setCookie("euconsent", oldEuconsentCookie);
+			expect(document.cookie.indexOf("euconsent")).to.equal(0);
+
+			global.cmp("addEventListener", "onConsentChanged", () => {
+				expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+				done();
+			});
+
+			global.cmp(
+				"init",
+				{
+					scriptSrc: fakeScriptSrc,
+					gdprApplies: true
+					// shouldAutoUpgradeConsent is true by default
+				},
+				result => {
+					// console.log("result", result);
+					expect(result.consentRequired).to.be.true;
+					expect(result.errorMsg).to.be.empty;
+					expect(result.warningMsg).to.equal(
+						"Consent found for version 165, but received vendor list version 5. Showing consent tool"
+					);
+					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+				}
+			);
+		});
+
 		it("does not trigger onConsentChanged when errorMsg present and consent exists", done => {
 			expect(document.cookie.indexOf("euconsent")).to.equal(-1);
 			setCookie("euconsent", oldEuconsentCookie);
@@ -254,13 +283,15 @@ describe("cmpLoader as script tag", () => {
 				{
 					scriptSrc: fakeScriptSrc,
 					gdprApplies: true,
-					shouldAutoConsentWithFooter: false
+					shouldAutoUpgradeConsent: false
 				},
 				result => {
+					// console.log("result", result);
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.equal(
 						"Consent found for version 165, but received vendor list version 5. Showing consent tool"
 					);
+					expect(result.warningMsg).to.be.empty;
 					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
 
 					setTimeout(() => {

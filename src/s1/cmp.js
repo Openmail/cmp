@@ -17,7 +17,8 @@ const GDPR_OPT_IN_COOKIE_MAX_AGE = 33696000;
 const defaultConfig = {
 	logging: false,
 	shouldAutoConsent: false,
-	shouldAutoConsentWithFooter: false
+	shouldAutoConsentWithFooter: false,
+	shouldAutoUpgradeConsent: true // if user has previously consented, but GVL changes, re-auto-consent with footer
 };
 
 const addLocatorFrame = () => {
@@ -79,19 +80,25 @@ const checkHasConsentedAll = (
 	return !hasAnyPurposeDisabled && !hasAnyVendorsDisabled;
 };
 
-const checkConsent = ({ callback = () => {}, config } = {}) => {
+const checkConsent = ({
+	callback = () => {},
+	config,
+	warningMsg = ""
+} = {}) => {
 	let errorMsg = "";
 	if (!cmp.isLoaded) {
 		errorMsg = "CMP failed to load";
 		log.error(errorMsg);
 		handleConsentResult({
-			errorMsg
+			errorMsg,
+			warningMsg
 		});
 	} else if (!window.navigator.cookieEnabled) {
 		errorMsg = "Cookies are disabled. Ignoring CMP consent check";
 		log.error(errorMsg);
 		handleConsentResult({
-			errorMsg
+			errorMsg,
+			warningMsg
 		});
 	} else {
 		cmp("getVendorList", null, vendorList => {
@@ -100,7 +107,8 @@ const checkConsent = ({ callback = () => {}, config } = {}) => {
 					vendorList,
 					vendorConsentData,
 					callback,
-					config
+					config,
+					warningMsg
 				});
 			});
 		});
@@ -112,32 +120,44 @@ const handleConsentResult = ({
 	vendorConsentData = {},
 	callback,
 	config,
+	warningMsg = "",
 	errorMsg = ""
 }) => {
 	const hasConsentedCookie = readCookie(GDPR_OPT_IN_COOKIE);
 	const { vendorListVersion: listVersion } = vendorList;
 	const { created, vendorListVersion } = vendorConsentData;
 
+	const autoConsentFlow = (shouldAutoConsentWithFooter, warningMsg = "") => {
+		cmp("acceptAllConsents");
+		if (shouldAutoConsentWithFooter) {
+			const store = getStore();
+			if (store) {
+				store.toggleFooterShowing(true);
+			}
+		}
+		checkConsent({
+			callback,
+			warningMsg
+		});
+	};
+
 	if (!created) {
 		const { shouldAutoConsent, shouldAutoConsentWithFooter } = config || {};
 		if (shouldAutoConsent || shouldAutoConsentWithFooter) {
-			return (() => {
-				log.debug("CMP: auto-consent to all conditions.");
-				cmp("acceptAllConsents");
-				if (shouldAutoConsentWithFooter) {
-					const store = getStore();
-					if (store) {
-						store.toggleFooterShowing(true);
-					}
-				}
-				checkConsent({
-					callback
-				});
-			})();
+			log.debug("CMP: auto-consent to all conditions.");
+			autoConsentFlow(shouldAutoConsentWithFooter);
+			return;
 		}
 		errorMsg = "No consent data found. Show consent tool";
 	} else if (vendorListVersion !== listVersion) {
-		errorMsg = `Consent found for version ${vendorListVersion}, but received vendor list version ${listVersion}. Showing consent tool`;
+		const msg = `Consent found for version ${vendorListVersion}, but received vendor list version ${listVersion}. Showing consent tool`;
+		log.debug(msg);
+		const { shouldAutoUpgradeConsent } = config || {};
+		if (shouldAutoUpgradeConsent) {
+			autoConsentFlow(true, msg);
+			return;
+		}
+		errorMsg = msg;
 	} else if (!listVersion) {
 		errorMsg =
 			"Could not determine vendor list version. Not showing consent tool";
@@ -163,7 +183,8 @@ const handleConsentResult = ({
 			hasConsented,
 			vendorList,
 			vendorConsentData,
-			errorMsg
+			errorMsg,
+			warningMsg
 		};
 
 		callback.call(this, consent);
@@ -188,7 +209,13 @@ const handleConsentResult = ({
 			initIndex,
 			1
 		); // remove "init" from command list because it doesn't exist
-		initialize(config, callback);
+		initialize(
+			{
+				...defaultConfig,
+				...config
+			},
+			callback
+		);
 
 		// 2. initialize call never queued, so initialize with default Config
 	} else {

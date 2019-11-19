@@ -150,14 +150,14 @@ const handleConsentResult = ({
 		}
 		errorMsg = "No consent data found. Show consent tool";
 	} else if (vendorListVersion !== listVersion) {
-		const msg = `Consent found for version ${vendorListVersion}, but received vendor list version ${listVersion}. Showing consent tool`;
-		log.debug(msg);
 		const { shouldAutoUpgradeConsent } = config || {};
 		if (shouldAutoUpgradeConsent) {
-			autoConsentFlow(true, msg);
+			warningMsg = `Consent found for version ${vendorListVersion}, but received vendor list version ${listVersion}. Consent upgraded, show consent notice`;
+			log.debug(warningMsg);
+			autoConsentFlow(true, warningMsg);
 			return;
 		}
-		errorMsg = msg;
+		errorMsg = `Consent found for version ${vendorListVersion}, but received vendor list version ${listVersion}. Show consent tool`;
 	} else if (!listVersion) {
 		errorMsg =
 			"Could not determine vendor list version. Not showing consent tool";

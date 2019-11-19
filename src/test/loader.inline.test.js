@@ -263,7 +263,7 @@ describe("cmpLoader as script tag", () => {
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.be.empty;
 					expect(result.warningMsg).to.equal(
-						"Consent found for version 165, but received vendor list version 5. Showing consent tool"
+						"Consent found for version 165, but received vendor list version 5. Consent upgraded, show consent notice"
 					);
 					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
 				}
@@ -289,7 +289,7 @@ describe("cmpLoader as script tag", () => {
 					// console.log("result", result);
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.equal(
-						"Consent found for version 165, but received vendor list version 5. Showing consent tool"
+						"Consent found for version 165, but received vendor list version 5. Show consent tool"
 					);
 					expect(result.warningMsg).to.be.empty;
 					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);

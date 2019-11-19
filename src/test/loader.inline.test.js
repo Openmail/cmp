@@ -241,13 +241,50 @@ describe("cmpLoader as script tag", () => {
 			);
 		});
 
-		it("auto upgrades consent and emits warning when previous consent found and error found", done => {
+		it("auto upgrades consent and does not trigger onConsentChanged when consent found with correctable error", done => {
 			expect(document.cookie.indexOf("euconsent")).to.equal(-1);
+			expect(document.cookie.indexOf("gdpr_opt_in")).to.equal(-1);
 			setCookie("euconsent", oldEuconsentCookie);
-			expect(document.cookie.indexOf("euconsent")).to.equal(0);
+			setCookie("gdpr_opt_in", "1");
+			expect(document.cookie.indexOf("euconsent")).to.be.above(-1);
+			expect(document.cookie.indexOf("gdpr_opt_in")).to.be.above(-1);
+
+			const onConsentChanged = jest.fn();
+			global.cmp("addEventListener", "onConsentChanged", onConsentChanged);
+
+			global.cmp(
+				"init",
+				{
+					scriptSrc: fakeScriptSrc,
+					gdprApplies: true
+					// shouldAutoUpgradeConsent is true by default
+				},
+				result => {
+					expect(result.consentRequired).to.be.true;
+					expect(result.errorMsg).to.be.empty;
+					expect(result.warningMsg).to.equal(
+						"Consent found for version 165, but received vendor list version 5. Consent upgraded, show consent notice"
+					);
+					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+
+					setTimeout(() => {
+						// notification happens after init callback, so wait a tick
+						expect(onConsentChanged.mock.calls).to.have.length(0);
+						onConsentChanged.mockRestore();
+						done();
+					}, 0);
+				}
+			);
+		});
+
+		it("auto upgrades consent and triggers onConsentChanged when gdpr_opt_in_cookie is reset", done => {
+			expect(document.cookie.indexOf("euconsent")).to.equal(-1);
+			expect(document.cookie.indexOf("gdpr_opt_in")).to.equal(-1);
+			setCookie("euconsent", oldEuconsentCookie);
+			expect(document.cookie.indexOf("euconsent")).to.be.above(-1);
 
 			global.cmp("addEventListener", "onConsentChanged", () => {
-				expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
+				expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(-1);
 				done();
 			});
 
@@ -259,7 +296,6 @@ describe("cmpLoader as script tag", () => {
 					// shouldAutoUpgradeConsent is true by default
 				},
 				result => {
-					// console.log("result", result);
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.be.empty;
 					expect(result.warningMsg).to.equal(
@@ -286,7 +322,6 @@ describe("cmpLoader as script tag", () => {
 					shouldAutoUpgradeConsent: false
 				},
 				result => {
-					// console.log("result", result);
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.equal(
 						"Consent found for version 165, but received vendor list version 5. Show consent tool"

@@ -102,7 +102,7 @@ cmp('init', config, callback);
 
 #### init: config
 
-`config` is a required argument of `init`. It allows us to configure/customize the CMP.
+`config` is a required argument of `init`. It configures/customizes the CMP.
 
 Example Configuration:
 

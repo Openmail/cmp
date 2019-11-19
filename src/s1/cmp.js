@@ -123,7 +123,7 @@ const handleConsentResult = ({
 	warningMsg = "",
 	errorMsg = ""
 }) => {
-	const hasConsentedCookie = readCookie(GDPR_OPT_IN_COOKIE);
+	const hasConsentedCookie = !!readCookie(GDPR_OPT_IN_COOKIE);
 	const { vendorListVersion: listVersion } = vendorList;
 	const { created, vendorListVersion } = vendorConsentData;
 

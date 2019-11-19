@@ -1,17 +1,17 @@
 // __cmp('setConsentUiCallback', callback) QUANTCAST
-import "core-js/fn/array/find-index";
-import "core-js/fn/array/filter";
-import "core-js/fn/array/from";
-import "core-js/fn/array/find";
-import "core-js/fn/array/map";
-import "core-js/fn/object/keys";
+import 'core-js/fn/array/find-index';
+import 'core-js/fn/array/filter';
+import 'core-js/fn/array/from';
+import 'core-js/fn/array/find';
+import 'core-js/fn/array/map';
+import 'core-js/fn/object/keys';
 
-import cmp from "../loader";
-import { init, getStore } from "../lib/init";
-import log from "../lib/log";
-import { readCookie, writeCookie } from "../lib/cookie/cookie";
+import cmp from '../loader';
+import { init, getStore } from '../lib/init';
+import log from '../lib/log';
+import { readCookie, writeCookie } from '../lib/cookie/cookie';
 
-const GDPR_OPT_IN_COOKIE = "gdpr_opt_in";
+const GDPR_OPT_IN_COOKIE = 'gdpr_opt_in';
 const GDPR_OPT_IN_COOKIE_MAX_AGE = 33696000;
 
 const defaultConfig = {
@@ -22,11 +22,11 @@ const defaultConfig = {
 };
 
 const addLocatorFrame = () => {
-	if (!window.frames["__cmpLocator"]) {
+	if (!window.frames['__cmpLocator']) {
 		if (document.body) {
-			const frame = document.createElement("iframe");
-			frame.style.display = "none";
-			frame.name = "__cmpLocator";
+			const frame = document.createElement('iframe');
+			frame.style.display = 'none';
+			frame.name = '__cmpLocator';
 			document.body.appendChild(frame);
 		} else {
 			setTimeout(addLocatorFrame, 5);
@@ -44,7 +44,7 @@ const addPostmessageReceiver = cmp => {
 	};
 
 	const listen = window.attachEvent || window.addEventListener;
-	listen("message", onReceiveMessage, false);
+	listen('message', onReceiveMessage, false);
 };
 
 const initialize = (config, callback) => {
@@ -56,7 +56,7 @@ const initialize = (config, callback) => {
 		addPostmessageReceiver(cmp);
 		addLocatorFrame();
 
-		cmp("addEventListener", "onSubmit", () => {
+		cmp('addEventListener', 'onSubmit', () => {
 			checkConsent();
 		});
 
@@ -83,26 +83,26 @@ const checkHasConsentedAll = (
 const checkConsent = ({
 	callback = () => {},
 	config,
-	warningMsg = ""
+	warningMsg = ''
 } = {}) => {
-	let errorMsg = "";
+	let errorMsg = '';
 	if (!cmp.isLoaded) {
-		errorMsg = "CMP failed to load";
+		errorMsg = 'CMP failed to load';
 		log.error(errorMsg);
 		handleConsentResult({
 			errorMsg,
 			warningMsg
 		});
 	} else if (!window.navigator.cookieEnabled) {
-		errorMsg = "Cookies are disabled. Ignoring CMP consent check";
+		errorMsg = 'Cookies are disabled. Ignoring CMP consent check';
 		log.error(errorMsg);
 		handleConsentResult({
 			errorMsg,
 			warningMsg
 		});
 	} else {
-		cmp("getVendorList", null, vendorList => {
-			cmp("getVendorConsents", null, vendorConsentData => {
+		cmp('getVendorList', null, vendorList => {
+			cmp('getVendorConsents', null, vendorConsentData => {
 				handleConsentResult({
 					vendorList,
 					vendorConsentData,
@@ -120,15 +120,15 @@ const handleConsentResult = ({
 	vendorConsentData = {},
 	callback,
 	config,
-	warningMsg = "",
-	errorMsg = ""
+	warningMsg = '',
+	errorMsg = ''
 }) => {
 	const hasConsentedCookie = !!readCookie(GDPR_OPT_IN_COOKIE);
 	const { vendorListVersion: listVersion } = vendorList;
 	const { created, vendorListVersion } = vendorConsentData;
 
-	const autoConsentFlow = (shouldAutoConsentWithFooter, warningMsg = "") => {
-		cmp("acceptAllConsents");
+	const autoConsentFlow = (shouldAutoConsentWithFooter, warningMsg = '') => {
+		cmp('acceptAllConsents');
 		if (shouldAutoConsentWithFooter) {
 			const store = getStore();
 			if (store) {
@@ -144,11 +144,11 @@ const handleConsentResult = ({
 	if (!created) {
 		const { shouldAutoConsent, shouldAutoConsentWithFooter } = config || {};
 		if (shouldAutoConsent || shouldAutoConsentWithFooter) {
-			log.debug("CMP: auto-consent to all conditions.");
+			log.debug('CMP: auto-consent to all conditions.');
 			autoConsentFlow(shouldAutoConsentWithFooter);
 			return;
 		}
-		errorMsg = "No consent data found. Show consent tool";
+		errorMsg = 'No consent data found. Show consent tool';
 	} else if (vendorListVersion !== listVersion) {
 		const { shouldAutoUpgradeConsent } = config || {};
 		if (shouldAutoUpgradeConsent) {
@@ -160,20 +160,20 @@ const handleConsentResult = ({
 		errorMsg = `Consent found for version ${vendorListVersion}, but received vendor list version ${listVersion}. Show consent tool`;
 	} else if (!listVersion) {
 		errorMsg =
-			"Could not determine vendor list version. Not showing consent tool";
+			'Could not determine vendor list version. Not showing consent tool';
 	}
 
 	if (errorMsg) {
 		log.debug(errorMsg);
 	}
 
-	if (callback && typeof callback === "function") {
+	if (callback && typeof callback === 'function') {
 		// store as 1 or 0
 		const hasConsented = checkHasConsentedAll(vendorList, vendorConsentData);
 		if (created) {
 			writeCookie(
 				GDPR_OPT_IN_COOKIE,
-				hasConsented ? "1" : "0",
+				hasConsented ? '1' : '0',
 				GDPR_OPT_IN_COOKIE_MAX_AGE
 			);
 		}
@@ -190,7 +190,7 @@ const handleConsentResult = ({
 		callback.call(this, consent);
 
 		if (created && hasConsented !== hasConsentedCookie && !errorMsg) {
-			cmp.notify("onConsentChanged", consent);
+			cmp.notify('onConsentChanged', consent);
 		}
 	}
 };
@@ -200,7 +200,7 @@ const handleConsentResult = ({
 	const initIndex =
 		cmp.commandQueue &&
 		cmp.commandQueue.findIndex(({ command }) => {
-			return command === "init";
+			return command === 'init';
 		});
 
 	// 1. initialize call was queued from global scope (inline cmpLoader)
@@ -223,7 +223,7 @@ const handleConsentResult = ({
 			const { errorMsg } = result;
 			if (errorMsg) {
 				log.debug(errorMsg);
-				cmp("showConsentTool");
+				cmp('showConsentTool');
 			}
 		});
 	}

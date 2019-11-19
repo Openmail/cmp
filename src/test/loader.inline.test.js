@@ -1,16 +1,11 @@
 /* eslint-disable max-nested-callbacks */
 /* eslint-disable no-eval */
 
-import { expect } from 'chai';
+import {expect} from 'chai';
 import fs from 'fs';
 import vendorlist from '../docs/assets/vendorlist.json';
-import { COOKIE_DOMAIN } from '../lib/cookie/cookie';
-import {
-	deleteAllCookies,
-	setCookie,
-	oldEuconsentCookie,
-	newEuconsentCookie
-} from './helpers';
+import {COOKIE_DOMAIN} from '../lib/cookie/cookie';
+import {deleteAllCookies, setCookie, oldEuconsentCookie} from './helpers';
 
 const fakeScriptSrc = './fake-loader-src.js';
 
@@ -144,7 +139,7 @@ describe('cmpLoader as script tag', () => {
 					gdprApplies: true
 				},
 				() => {
-					const init = global.cmp.commandQueue.find(({ command }) => {
+					const init = global.cmp.commandQueue.find(({command}) => {
 						return command === 'init';
 					});
 					expect(init).to.be.undefined;

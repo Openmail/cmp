@@ -72,11 +72,9 @@ const checkHasConsentedAll = (
 	{vendors = []},
 	{purposeConsents, vendorConsents} = {}
 ) => {
-	console.log('checkHasConsentedAll');
 	const hasAnyVendorsDisabled = vendors.find(
 		({id}) => vendorConsents[id] === false
 	);
-	console.log('checkHasConsetnedAll');
 	const hasAnyPurposeDisabled = Object.keys(purposeConsents).find(key => {
 		return purposeConsents[key] === false;
 	});

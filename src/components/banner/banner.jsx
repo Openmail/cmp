@@ -28,6 +28,25 @@ export default class Banner extends Component {
 		};
 	}
 
+	componentDidMount = () => {
+		document.addEventListener('keydown', this.onKeyDown);
+		document.addEventListener('click', this.handleWindowClick);
+	};
+
+	componentWillUnmount = () => {
+		document.removeEventListener('keydown', this.onKeyDown);
+		document.removeEventListener('click', this.handleWindowClick);
+	};
+
+	onKeyDown = evt => {
+		evt = evt || window.event;
+		const {key = '', keyCode = ''} = evt;
+		const isEscape = key === 'Escape' || key === 'Esc' || keyCode === 27;
+		if (isEscape) {
+			this.onAcceptAll();
+		}
+	};
+
 	handleClose = () => {
 		const {store} = this.props;
 		const {toggleFooterShowing} = store;
@@ -60,7 +79,7 @@ export default class Banner extends Component {
 	};
 
 	handleWindowClick = e => {
-		if (!this.bannerRef || !this.bannerRef.contains(e.target)) {
+		if (this.bannerRef === e.target) {
 			this.onAcceptAll();
 		}
 	};
@@ -95,7 +114,6 @@ export default class Banner extends Component {
 
 		const {} = theme;
 
-		console.log('banner: theme', theme);
 		const bannerClasses = [style.banner];
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);

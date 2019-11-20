@@ -7,9 +7,11 @@
 - [x] add `theme.isBannerModal` config option to enable banner or modal version
 - [x] updates styling and moves buttons on initial banner
 - [x] vendor consent seelcted ON when inspected instead of OFF by default
-- [x] consent when ESC or CMP closed
 - [x] upgrade to node 10 since node 8 EOL in Decemeber
 - [x] merge optional pubvendors data and languages data to provide custom purposes, custom vendors, custom features with language overrides
+- [x] auto consent when ESC key hit
+- [x] auto consent when Banner closed by clicking outside
+- [ ] make `marginTop` customizable in `theme` object
 
 <a name="1.2.0"></a>
 

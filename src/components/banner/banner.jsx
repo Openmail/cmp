@@ -122,8 +122,6 @@ export default class Banner extends Component {
 			bannerClasses.push(style.bannerModal);
 		}
 
-		console.log('purposes', purposes);
-
 		return (
 			<div
 				ref={el => (this.bannerRef = el)}

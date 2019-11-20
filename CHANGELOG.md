@@ -11,7 +11,6 @@
 - [x] merge optional pubvendors data and languages data to provide custom purposes, custom vendors, custom features with language overrides
 - [x] auto consent when ESC key hit
 - [x] auto consent when Banner closed by clicking outside
-- [ ] make `marginTop` customizable in `theme` object
 
 <a name="1.2.0"></a>
 

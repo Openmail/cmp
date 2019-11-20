@@ -43,18 +43,21 @@
 
 		.content {
 			max-width: 100%;
-			max-height: 100%;
+			max-height: calc(100% - 50px);
+			height: auto;
+			overflow: auto;
+			-webkit-overflow-scrolling: touch;
 			box-sizing: border-box;
 			background: #fff;
 			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
+			flex-direction: column; /* fixes IE11 max-height with overflow */
 			position: relative;
 			padding: 2em;
 			box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
 			border: 1px solid #41afbb;
 			border-radius: 4px;
-			overflow: auto;
 		}
 	}
 
@@ -68,8 +71,8 @@
 			}
 
 			.info {
-				flex: 1;
 				line-height: 24px;
+				max-width: 750px;
 
 				@media @smartphone {
 					font-size: 12px;
@@ -123,6 +126,7 @@
 							max-height: 0;
 							overflow: hidden;
 							transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+							transform: translateZ(0);
 
 							ul {
 								margin: 5px 0 5px 0;
@@ -137,6 +141,8 @@
 						}
 
 						&.expanded {
+							transform: translateZ(0);
+
 							a {
 								svg {
 									transform: rotate(0deg);

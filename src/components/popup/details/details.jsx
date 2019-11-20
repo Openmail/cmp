@@ -73,6 +73,7 @@ export default class Details extends Component {
 		const {purposes: customPurposes = []} = customPurposeList;
 		const {vendors: pubVendors = []} = pubVendorsList;
 
+		console.log('details: render');
 		const formattedVendors = vendors
 			.map(vendor => ({
 				...vendor,

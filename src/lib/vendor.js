@@ -21,7 +21,7 @@ function fetchPubVendorList() {
  */
 function fetchGlobalVendorList() {
 	const {globalVendorListLocation} = config;
-
+	console.log('fetchGlobalVendorList', globalVendorListLocation);
 	return (globalVendorListLocation
 		? fetch(globalVendorListLocation)
 		: Promise.reject('Missing globalVendorListLocation')

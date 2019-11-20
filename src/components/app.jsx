@@ -82,6 +82,8 @@ export default class App extends Component {
 		const {purposes = []} = vendorList;
 		const {purposes: customPurposes = []} = customPurposeList;
 
+		console.log('app:', purposes, customPurposes);
+
 		return (
 			<div class={style.gdpr}>
 				{isBannerShowing && !isModalShowing && (

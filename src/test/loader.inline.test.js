@@ -186,14 +186,17 @@ describe("cmpLoader as script tag", () => {
 			);
 		});
 
-		it("auto accepts consents and shows footer", done => {
+		it("auto accepts consents and shows banner", done => {
 			expect(document.cookie.indexOf("euconsent")).to.be.below(0);
 
-			let toggleFooterShowing;
+			let toggleConsentToolShowing;
 
 			global.cmp("addEventListener", "isLoaded", () => {
 				const store = global.cmp.store;
-				toggleFooterShowing = jest.spyOn(store, "toggleFooterShowing");
+				toggleConsentToolShowing = jest.spyOn(
+					store,
+					"toggleConsentToolShowing"
+				);
 			});
 
 			global.cmp(
@@ -207,8 +210,8 @@ describe("cmpLoader as script tag", () => {
 					expect(result.consentRequired).to.be.true;
 					expect(result.errorMsg).to.be.empty;
 					expect(document.cookie.indexOf("gdpr_opt_in=1")).to.be.above(1);
-					expect(toggleFooterShowing.mock.calls).to.have.length(1);
-					toggleFooterShowing.mockRestore();
+					expect(toggleConsentToolShowing.mock.calls).to.have.length(1);
+					toggleConsentToolShowing.mockRestore();
 					done();
 				}
 			);
@@ -252,7 +255,6 @@ describe("cmpLoader as script tag", () => {
 				{
 					scriptSrc: fakeScriptSrc,
 					gdprApplies: true
-					// shouldAutoUpgradeConsent is true by default
 				},
 				result => {
 					expect(result.consentRequired).to.be.true;
@@ -288,7 +290,6 @@ describe("cmpLoader as script tag", () => {
 				{
 					scriptSrc: fakeScriptSrc,
 					gdprApplies: true
-					// shouldAutoUpgradeConsent is true by default
 				},
 				result => {
 					expect(result.consentRequired).to.be.true;
@@ -356,6 +357,31 @@ describe("cmpLoader as script tag", () => {
 					setTimeout(() => {
 						// notification happens after init callback, so wait a tick
 						expect(onConsentChanged.mock.calls).to.have.length(0);
+						onConsentChanged.mockRestore();
+						done();
+					}, 0);
+				}
+			);
+		});
+
+		it("triggers onConsentChanged when flipping gdpr_opt_in bit", done => {
+			setCookie("gdpr_opt_in", "0"); // tests that we convert gdpr_opt_in cookie to boolean correctly
+			const onConsentChanged = jest.fn();
+			global.cmp("addEventListener", "onConsentChanged", onConsentChanged);
+			global.cmp(
+				"init",
+				{
+					scriptSrc: fakeScriptSrc,
+					gdprApplies: true,
+					shouldAutoConsentWithFooter: true
+				},
+				result => {
+					expect(result.consentRequired).to.be.true;
+					expect(result.hasConsented).to.be.true;
+
+					setTimeout(() => {
+						// notification happens after init callback, so wait a tick
+						expect(onConsentChanged.mock.calls).to.have.length(1);
 						onConsentChanged.mockRestore();
 						done();
 					}, 0);

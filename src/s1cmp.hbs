@@ -39,7 +39,6 @@
 		}
 
 		function onConsentChanged(result) {
-			console.log('result', result)
 			if (document.cookie.indexOf("gdpr_opt_in=1") < 0) {
 				console.log("cmp:onConsentChanged all-consent:failed", result);
 				// window.location.reload();
@@ -64,9 +63,7 @@
 						console.log("cmp:init: only some consent achieved", result);
 					}
 				}
-				setTimeout(() => {
-					cmp('addEventListener', 'onConsentChanged', onConsentChanged);
-				}, 0);
+				cmp('addEventListener', 'onConsentChanged', onConsentChanged);
 			} else {
 				console.log("cmp:init: consent not required", result);
 			}

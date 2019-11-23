@@ -9,6 +9,7 @@
 ### Fix
 
 - [x] Coerce cookie to Boolean to fix '0' coercing to True in onConsentChanged
+- [x] Fix failing autoConsent footer test to test Banner
 
 <a name="1.3.1"></a>
 

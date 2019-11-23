@@ -5,6 +5,7 @@
 ### Refactor
 
 - [x] Trigger onConsentChanged after callback in init to avoid double calls
+- [x] eslint / prettier configs and run updates to fix formatting incongruities
 
 ### Fix
 

@@ -38,12 +38,12 @@
 			shouldAutoConsentWithFooter: true
 		}
 
+		let hasConsentedCookie = document.cookie.indexOf("gdpr_opt_in=1");
+
 		function onConsentChanged(result) {
-			if (document.cookie.indexOf("gdpr_opt_in=1") < 0) {
-				console.log("cmp:onConsentChanged all-consent:failed", result);
-				// window.location.reload();
-			} else {
-				console.log("cmp:onConsentChanged all-consent:succeeded", result);
+			const hasConsented = result && result.data && result.data.hasConsented;
+			if (hasConsented != hasConsentedCookie) {
+				console.log("cmp:onConsentChanged", result);
 			}
 		}
 

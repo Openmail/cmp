@@ -281,7 +281,7 @@ describe('cookie', () => {
 	it('returns correct subdomain cookieDomain', () => {
 		global.window = Object.create(window);
 		const location = window.location;
-		const hostname = 'test.dummy.com';
+		const hostname = 'test.dummy.co.uk';
 		Object.defineProperty(window, 'location', {
 			value: {
 				hostname
@@ -289,9 +289,9 @@ describe('cookie', () => {
 		});
 		expect(window.location.hostname).to.equal(hostname);
 		config.update({
-			cookieDomain: '.dummy.com'
+			cookieDomain: '.dummy.co.uk'
 		});
-		expect(getCookieDomain()).to.equal(';domain=.dummy.com');
+		expect(getCookieDomain()).to.equal(';domain=.dummy.co.uk');
 
 		// reset
 		Object.defineProperty(window, 'location', location);

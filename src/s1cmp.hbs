@@ -43,7 +43,7 @@
 
 		function onConsentChanged(result) {
 			if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-				window.ReactNativeWebView.postMessage(document.cookie);
+				window.ReactNativeWebView.postMessage('ON_CONSENT_CHANGED:' + document.cookie);
 			}
 			if (document.cookie.indexOf("gdpr_opt_in=1") < 0) {
 				console.log("cmp:onConsentChanged all-consent:failed", result);
@@ -55,7 +55,7 @@
 
 		cmp('init', config, function (result) {
 			if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
-				window.ReactNativeWebView.postMessage(document.cookie);
+				window.ReactNativeWebView.postMessage('INIT:' + document.cookie);
 			}
 			if (result.consentRequired) {
 				if (result.warningMsg) {
@@ -76,6 +76,12 @@
 				cmp('addEventListener', 'onConsentChanged', onConsentChanged);
 			} else {
 				console.log("cmp:init: consent not required", result);
+			}
+		});
+
+		cmp('addEventListener', 'onSubmit', () => {
+			if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+				window.ReactNativeWebView.postMessage('ON_SUBMIT:' + document.cookie);
 			}
 		});
 

@@ -1,6 +1,14 @@
+<a name="1.3.6"></a>
+
+## [1.3.6](https://github.com/openmail/system1-cmp/compare/v1.3.4...v1.3.6) (2020-02-20)
+
+### Fix
+
+- [x] Add postMessage call to init
+
 <a name="1.3.5"></a>
 
-## [1.3.4](https://github.com/openmail/system1-cmp/compare/v1.3.4...v1.3.5) (2019-12-03)
+## [1.3.5](https://github.com/openmail/system1-cmp/compare/v1.3.4...v1.3.5) (2020-02-19)
 
 ### Docs
 

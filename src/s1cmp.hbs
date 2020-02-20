@@ -54,6 +54,9 @@
 		}
 
 		cmp('init', config, function (result) {
+			if (window.ReactNativeWebView && window.ReactNativeWebView.postMessage) {
+				window.ReactNativeWebView.postMessage(document.cookie);
+			}
 			if (result.consentRequired) {
 				if (result.warningMsg) {
 					console.log('cmp:init: warningMsg', result.warningMsg);
@@ -62,6 +65,7 @@
 					console.log('cmp:init: errorMsg', result.errorMsg);
 					cmp('showConsentTool');
 				} else {
+
 					// consent achieved
 					if (document.cookie.indexOf("gdpr_opt_in=1") >= 0) {
 						console.log("cmp:init: all consent achieved", result);

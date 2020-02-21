@@ -45,8 +45,6 @@ module.exports = [
 						cache: true,
 						showErrors: true,
 						inject: false,
-						inline: UglifyJS.minify(fs.readFileSync('./src/s1/loader.js', 'utf8')).code,
-						// version,
 						templateParameters() {
 							return {
 								props: {

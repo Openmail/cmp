@@ -3,36 +3,75 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Info.com CMP</title>
+	<title>Info.com Android Choice Screen CMP</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
 </head>
 
 <body>
-	<!--// INLINE //-->
+	<!--// INLINE
 	<script>
-		{{{ 
-			htmlWebpackPlugin.options.inline 
-		}}}
+		<%= props.inline %>
 	</script>
-	<!--// LOADER
+	<script>
+	 // 2
+	 {{{ inline }}}
+	<script>
+
+	 //-->
+	<!--// LOADER //-->
 	<script src="./loader.js"></script>
-	//-->
 	<script>
 		const config = {
 			scriptSrc: window.location.search.indexOf("remote=true") >= 0 ? 'https://s.flocdn.com/cmp/s1.cmp.js' : './cmp.js',
-			pubVendorListLocation: './assets/info.pubvendors.json',
+			pubVendorListLocation: './config/info.pubvendors.json',
 			// pubVendorListLocation: 'https://s.flocdn.com/cmp/info.pubvendors.json',
 			logging: false,
 			storePublisherData: true, // required for customPurposeListLocation
-			customPurposeListLocation: './assets/purposes.json',
-			globalVendorListLocation: './assets/vendorlist.json',
+			customPurposeListLocation: './config/purposes.json',
+			globalVendorListLocation: './config/vendorlist.json',
 			// globalVendorListLocation: 'https://vendorlist.consensu.org/vendorlist.json',
 			globalConsentLocation: 'https://s.flocdn.com/cmp/docs/portal.html',
 			storeConsentGlobally: false,
-			// localization: {},
+			localization: {
+				en: {
+					banner: {
+						title: 'Privacy Choices',
+						description: 'By using this application, you agree to our use of cookies and information to provide personalized content and ads and measure and analyze site usage. Click "Learn More" to change your settings.',
+						links: {
+							data: {
+								title: 'Information that may be used',
+								description: `
+									<ul>
+										<li>Type of browser and its settings</li>
+										<li>Information about the device's operating system</li>
+										<li>Cookie information</li>
+										<li>Information about other identifiers assigned to the device</li>
+										<li>The IP address from which the device accesses a client's website or mobile application</li>
+										<li>Information about the user's activity on that device, including web pages and mobile apps visited or used </li>
+										<li>Information about the geographic location of the device when it accesses a website or mobile application</li>
+									</ul>
+								`
+							},
+							purposes: {
+								title: 'Purposes for storing information'
+							},
+							manage: 'Learn More',
+							accept: 'Ok, Got It'
+						}
+					},
+					details: {
+						save: 'Save'
+					}
+				}
+			},
 			// forceLocale: 'es',
 			theme: {
-				isBannerModal: false
+				isBannerInline: true,
+				primaryColor: '#09f',
+				textLinkColor: '#09f',
+				boxShadow: 'none',
+				secondaryColor: '#869cc0',
+				featuresColor: '#d0d3d7'
 			},
 			gdprApplies: true,
 			// cookieDomain: '.zoo.com',
@@ -78,6 +117,10 @@
 		cmp('showConsentTool')
 
 	</script>
+	<p>
+		CMP: <%= props.version %>
+		Generated: <%= props.date %>
+	</p>
 </body>
 
 </html>

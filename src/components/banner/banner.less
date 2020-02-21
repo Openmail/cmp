@@ -27,6 +27,11 @@
 		opacity: 0;
 	}
 
+	&.bannerInline {
+		position: relative;
+		box-shadow: none;
+	}
+
 	&.bannerModal {
 		top: 0;
 		display: flex;
@@ -181,7 +186,9 @@
 					display: inline-block;
 					border: 1px solid @color-primary;
 					text-align: center;
-					transition: all 0.5s ease-in-out;
+					transition-property: color, background-color;
+					transition-duration: 500ms;
+					transition-timing-function: ease-in-out;
 					padding: 1em;
 					border-radius: 4px;
 

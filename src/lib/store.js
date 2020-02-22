@@ -323,8 +323,6 @@ export default class Store {
 	};
 
 	updateVendorList = vendorList => {
-		const { allowedVendorIds } = this;
-
 		const { created, maxVendorId = 0 } = this.vendorConsentData;
 		const { vendors = [], purposes = [] } = vendorList || {};
 

@@ -1,6 +1,4 @@
-<a name="1.4.2"></a>
-
-## [1.4.2](https://github.com/openmail/system1-cmp/compare/v1.4.1...v1.4.2) (2020-02-22)
+## [1.4.3](https://github.com/openmail/system1-cmp/compare/v1.4.2...v1.4.3) (2020-02-22)
 
 ### Refactor
 
@@ -8,6 +6,15 @@
 - [x] `pubvendors.json` can now provide custom features
 - [x] Update cached global vendor list to v190.
 - [x] Fix conflicting eslint, prettier, editorconfig settings
+
+
+<a name="1.4.2"></a>
+
+## [1.4.2](https://github.com/openmail/system1-cmp/compare/v1.4.1...v1.4.2) (2020-02-21)
+
+### Fix
+
+- [x] Fixes yarn dev and the ReactNative window detection
 
 <a name="1.4.1"></a>
 

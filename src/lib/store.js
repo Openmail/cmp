@@ -122,6 +122,7 @@ export default class Store {
 		}
 
 		return {
+			allowedVendorIds,
 			cookieVersion,
 			created,
 			lastUpdated,

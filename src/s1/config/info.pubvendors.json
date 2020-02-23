@@ -33,7 +33,7 @@
 		{
 			"id": "c2",
 			"name": "Google Analytics",
-			"purposeIds": [1],
+			"purposeIds": [],
 			"legIntPurposeIds": [5],
 			"featureIds": ["c1"],
 			"policyUrl": "https://policies.google.com/privacy"

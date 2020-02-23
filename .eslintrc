@@ -1,6 +1,6 @@
 {
 	"parser": "babel-eslint",
-	"extends": ["eslint:recommended"],
+	"extends": ["eslint:recommended", "prettier"],
 	"plugins": ["react", "jest"],
 	"env": {
 		"browser": true,
@@ -21,8 +21,8 @@
 		}
 	},
 	"globals": {
-		"sleep": 1,
-		"define": 1
+		"sleep": "readonly",
+		"define": "readonly"
 	},
 	"rules": {
 		"react/jsx-no-bind": [2, { "ignoreRefs": true }],

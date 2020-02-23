@@ -66,8 +66,8 @@ export default class Details extends Component {
 			: features;
 	};
 
-	render(props, state) {
-		const { onSave, onClose, store, theme, selectedPanelIndex, selectedPurposeDetails } = props;
+	render(props) {
+		const { onSave, store, theme, selectedPanelIndex, selectedPurposeDetails } = props;
 
 		const {
 			backgroundColor,
@@ -83,15 +83,11 @@ export default class Details extends Component {
 			vendorList = {},
 			customPurposeList = {},
 			vendorConsentData,
-			publisherConsentData,
 			pubVendorsList = {},
-			selectPurpose,
-			selectCustomPurpose,
 			selectAllVendors,
 			selectVendor
 		} = store;
-		const { selectedPurposeIds, selectedVendorIds } = vendorConsentData;
-		const { selectedCustomPurposeIds } = publisherConsentData;
+		const { selectedVendorIds } = vendorConsentData;
 		const { purposes = [], vendors = [], features = [] } = vendorList;
 		const { purposes: customPurposes = [] } = customPurposeList;
 		const { vendors: pubVendors = [], features: pubFeatures = [] } = pubVendorsList;

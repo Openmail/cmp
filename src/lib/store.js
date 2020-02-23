@@ -255,6 +255,7 @@ export default class Store {
 		} else {
 			selectedVendorIds.delete(vendorId);
 		}
+		// TODO @potench store custom-vendor selection
 		this.storeUpdate();
 	};
 
@@ -324,6 +325,9 @@ export default class Store {
 	};
 
 	updateVendorList = vendorList => {
+		// TODO @potench only global vendor list stored, need alt solution for custom vendor
+		// const { pubVendorsList = {}, allowedVendorIds } = this;
+		// const { vendors: pubVendors = [] } = pubVendorsList;
 		const { created, maxVendorId = 0 } = this.vendorConsentData;
 		const { vendors = [], purposes = [] } = vendorList || {};
 
@@ -331,6 +335,17 @@ export default class Store {
 		if (!created) {
 			this.vendorConsentData.selectedPurposeIds = new Set(purposes.map(p => p.id));
 			this.vendorConsentData.selectedVendorIds = new Set(vendors.map(v => v.id));
+
+			// allowedVendorIds merged with pubVendorsList
+			// const formattedVendors = pubVendors.length
+			// 	? pubVendors.map(vendor => ({
+			// 			...vendors.find(({ id }) => id === vendor.id),
+			// 			...vendor
+			// 	  }))
+			// 	: vendors;
+			// this.vendorConsentData.selectedVendorIds = new Set(
+			// 	formattedVendors.filter(({ id }) => !allowedVendorIds.size || allowedVendorIds.has(id)).map(({ id }) => id)
+			// );
 		}
 
 		const { selectedVendorIds = new Set() } = this.vendorConsentData;

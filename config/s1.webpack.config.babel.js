@@ -36,7 +36,7 @@ module.exports = [
 		plugins: [
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(ENV),
-				__VERSION__: version,
+				__VERSION__: JSON.stringify(version),
 			}),
 			...pages.map(
 				({ id, filename }) =>

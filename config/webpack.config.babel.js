@@ -24,13 +24,11 @@ module.exports = [
 		},
 		...commonConfig,
 		plugins: [
-			new webpack.DefinePlugin({
-				'process.env.NODE_ENV': JSON.stringify(ENV),
-				__VERSION__: version,
-			}),
+			// webpack.config.js
 			new webpack.NoEmitOnErrorsPlugin(),
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(ENV),
+				__VERSION__: JSON.stringify(version),
 			}),
 			new webpack.ProvidePlugin({
 				Promise: 'promise-polyfill',

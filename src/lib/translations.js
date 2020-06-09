@@ -232,7 +232,7 @@ export default {
 			back: '',
 			globalOptoutDescription: `
 				<p>				
-					Prueba. Dependiendo del tipo de datos que recojan, usen y procesen, así como de otros factores, incluyendo la privacidad deliberada,			
+					Dependiendo del tipo de datos que recojan, usen y procesen, así como de otros factores, incluyendo la privacidad deliberada,			
 					algunos socios asumen su consentimiento mientras que otros requieren que usted se excluya. Para obtener información sobre cada proveedor y para			
 					ejercer sus opciones, vea abajo. O para optar por no participar, visite			
 					<a href="http://optout.networkadvertising.org/?c=1#!/" target="_blank">			
@@ -708,7 +708,7 @@ export default {
 			back: '',
 			globalOptoutDescription: `								
 				<p>							
-					Test. A seconda del tipo di dati che raccolgono, utilizzano ed elaborano, e di altri fattori compresa la privacy by design,						
+					A seconda del tipo di dati che raccolgono, utilizzano ed elaborano, e di altri fattori compresa la privacy by design,						
 					alcuni partner contano sul tuo consenso, mentre altri ti chiedono di disattivare. Per informazioni su ciascun fornitore e per						
 					esercitare le tue scelte, vedi sotto. O, per disattivare, visita						
 					<a href="http://optout.networkadvertising.org/?c=1#!/" target="_blank">						
@@ -1196,7 +1196,7 @@ export default {
 			back: '',
 			globalOptoutDescription: `					
 					<p>				
-						テスト。収集、使用、また処理するデータの種類や、仕様によりプライバシーが含まれる他の要素に従い、			
+						収集、使用、また処理するデータの種類や、仕様によりプライバシーが含まれる他の要素に従い、			
 						お客様の同意に依存する特定のパートナーもいれば、選択解除を求められる場合もあります。各ベンダーに関する情報や			
 						選択を実行される場合は、以下をご覧ください。また選択を解除される場合は、以下にアクセスしてください			
 						<a href="http://optout.networkadvertising.org/?c=1#!/" target="_blank">			
@@ -1522,7 +1522,7 @@ export default {
 			back: '',
 			globalOptoutDescription: `					
 				<p>				
-					测试。 根据合作伙伴收集、使用和处理的数据类型，以及其他因素（包括设计隐私），			
+					根据合作伙伴收集、使用和处理的数据类型，以及其他因素（包括设计隐私），			
 					某些合作伙伴取决于您的同意，而其他合作伙伴则要求您选择退出。			
 					有关每个供应商的信息以及要执行的选择，请参见下文。 或选择退出，请访问			
 					<a href="http://optout.networkadvertising.org/?c=1#!/" target="_blank">			

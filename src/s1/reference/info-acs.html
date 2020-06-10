@@ -14,7 +14,6 @@
 			<%= loader %>
 		</script>
 		<script>
-			const params = new URLSearchParams(window.location.search);
 			const MESSAGE_TYPE = {
 				INIT: 'INIT',
 				ON_SUBMIT: 'ON_SUBMIT',
@@ -64,7 +63,7 @@
 						}
 					}
 				},
-				forceLocale: params.get('forceLocale'),
+				// forceLocale: '',
 				theme: {
 					isBannerInline: true,
 					primaryColor: '#09f',

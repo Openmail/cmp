@@ -186,7 +186,7 @@ export default class Vendors extends Component {
 														handleToggleFeatures={this.handleToggleFeatures}
 														style={{ color: textLinkColor }}
 													>
-														<FeaturesLabel localizeKey="menu">Features Poop</FeaturesLabel>
+														<FeaturesLabel localizeKey="menu">Features</FeaturesLabel>
 													</FeaturesButton>
 												</div>
 											)}

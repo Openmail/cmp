@@ -1,136 +1,181 @@
 /* eslint-disable quotes */
-/**
- * DE / German
- */
+//  german / de translations
+
+const features = {
+	menu: 'Features',
+	feature1: {
+		name: 'Matching von Daten aus Offline-Quellen',
+		description: `Kombination von Daten aus Offline-Quellen, die ursprünglich in anderen Kontexten gesammelt wurden.`,
+	},
+	feature2: {
+		name: `Verknüpfung von Geräten`,
+		description: `Ermöglichen die Verarbeitung der Daten eines Benutzers, um diesen Benutzer über mehrere Geräte zu verbinden.`,
+	},
+	feature3: {
+		name: `Präzise geografische Standortdaten`,
+		description: `Ermöglichen die Verarbeitung der genauen geografischen Standortdaten eines Benutzers zur Unterstützung eines Zwecks, für den diese bestimmte dritte Partei ihre Zustimmung erhalten hat.`,
+	},
+};
 
 export default {
 	banner: {
-		title: 'Cookies helfen uns einen hochwertigen Service zu bieten',
-		description: 'Wir und unsere Partner verwenden Cookies, um relevante Inhalte und Werbung bereitzustellen.',
+		title: 'Datenschutzoptionen',
+		description: `						
+			Wenn Sie diese Website besuchen, erklären Sie sich damit einverstanden, dass wir Cookies und Informationen verwenden, um personalisierte Inhalte und Anzeigen bereitzustellen und die Nutzung der Website zu messen und zu analysieren. Klicken Sie auf "Erfahren Sie mehr", um Ihre Einstellungen zu ändern.
+        `,
 		links: {
 			data: {
-				title: 'Verwendungszwecke',
-				description: `<ul>
-									<li>Browserdaten</li>
-									<li>Betriebssystemdaten</li>
-									<li>Cookie-Daten</li>
-									<li>Gerätedaten (Desktop, Mobile etc.)</li>
-									<li>IP-Adresse</li>
-									<li>Nutzungsverhalten</li>
-									<li>Geo-Daten</li>
-								</ul>`,
+				title: 'Informationen, die genutzt werden können',
+				description: `						
+					<ul>					
+						<li>Typ und Einstellungen des Browsers</li>				
+						<li>Informationen zum Betriebssystem des Geräts</li>				
+						<li>Cookie-Informationen</li>				
+						<li>Informationen über weitere, dem Gerät zugewiesene, Identifikatoren</li>				
+						Die IP-Adresse, von der das Gerät auf die Website oder				
+							App zugreift			
+						</li>				
+						<li>Informationen über Nutzeraktivitäten für das betreffende Gerät, einschließlich				
+							besuchter oder genutzter Websites und Apps			
+						</li>				
+						<li>Informationen über den geografischen Standort des Geräts beim				
+							Zugriff			
+							auf eine Website oder App			
+						</li>				
+					</ul>					
+				`,
 			},
 			purposes: {
-				title: 'Verwendung von Daten',
-				description: 'Wozu dienen diese Daten?',
+				title: 'Zwecke der Informationsspeicherung',
 			},
-			manage: 'Einstellungen',
-			accept: 'Akzeptieren und fortsetzen',
+			manage: 'Mehr Erfahren',
+			accept: 'Ok, Verstanden',
 		},
 	},
 	summary: {
-		title: 'Wie werden meine Daten verwendet?',
-		description:
-			'Unsere Partner und wir selbst verwenden Cookies (kleine Textdateien) des Browsers, um die Interessen unserer Besucher zu verstehen und ihnen relevante Inhalte und Werbung zur Verfügung zu stellen. Jetzt brauchen wir Ihre Zustimmung.',
-		detailLink: 'Informationen und Einstellungen',
+		title: 'Erfahren Sie mehr darüber, wie Informationen verwendet werden?',
+		description: `Wir und ausgewählte Unternehmen dürfen auf Ihre Informationen zugreifen und sie verwenden								
+			für die unten aufgeführten Zwecke. Sie können Ihre Auswahl unten anpassen oder							
+			unsere Website weiterhin nutzen, wenn Sie mit den Zwecken einverstanden sind.`,
+		detailLink: 'Mehr erfahren & Präferenzen festlegen',
 		who: {
-			title: 'Wer nutzt meine Daten?',
-			description:
-				'Nur unsere Partner und wir können Ihre Daten verwenden. Sie können Ihre Auswahl oben anpassen oder unsere Website weiterhin nutzen, wenn Sie zustimmen.',
-			link: 'Sehen Sie die komplette Liste unserer Partner',
+			title: 'Wer verwendet diese Informationen?',
+			description: `Wir und vorausgewählte Unternehmen werden Ihre Informationen verwenden.					Sie können		
+				jedes Unternehmen unter den oben angegebenen Links sehen oder`,
+			link: 'die vollständige Liste hier finden.',
 		},
 		what: {
-			title: 'Welche Daten werden verwendet?',
-			description: 'Jeder Partner verwendet Ihre Daten unterschiedlich.',
-			link: 'Siehe die vollständige Liste der verwendeten Daten',
+			title: 'Welche Informationen werden verwendet?',
+			description: 'Verschiedene Unternehmen verwenden unterschiedliche Informationen,',
+			link: 'die vollständige Liste finden Sie hier',
 		},
 	},
 	details: {
 		back: 'Zurück',
-		save: 'Speichern und auf der Webseite fortfahren',
+		save: 'Ok Verstanden',
 	},
 	purposes: {
-		title: 'Gesammelte Daten',
-		description: 'Liste der Daten, die gesammelt werden',
-		back: 'Konfigurieren Sie, wie diese Daten verwendet werden',
-		optoutdDescription: '',
-		items: `<ul>
-						<li>Browsertyp und Einstellungen</li>
-						<li>Informationen zum Betriebssystem</li>
-						<li>Cookie-Daten</li>
-						<li>Geräteinformationen</li>
-						<li>Die IP-Adresse, von der aus das Gerät auf die Website zugreift</li>
-						<li>Informationen zur Benutzeraktivität auf diesem Gerät, einschließlich der besuchten Webseiten</li>
-						<li>Geolokalisierungsinformationen des Geräts beim Zugriff auf die Website</li>
-					</ul>`,
+		title: '',
+		description: '',
+		back: '',
+		globalOptoutDescription: `								
+			<p>							
+				Prüfung. Abhängig von der Art der Daten, die sie sammeln, verwenden und verarbeiten, sowie von anderen Faktoren einschließlich des "privacy by design",						
+				Bestimmte Partner sind auf Ihre Zustimmung angewiesen, während andere verlangen, dass Sie sich abmelden. Für Informationen zu den einzelnen Verkäufern						
+				und zur Ausübung Ihrer Wahlmöglichkeiten, siehe unten. Oder besuchen Sie zum Opt-out die						
+				<a href="http://optout.networkadvertising.org/?c=1#!/" target="_blank">						
+					NAI					
+				</a>						
+				,						
+				<a href="http://optout.aboutads.info/?c=2#!/" target="_blank">						
+					DAA					
+				</a>						
+				, and						
+				<a href="http://youronlinechoices.eu/" target="_blank">						
+					EDAA					
+				</a>						
+				sites.						
+			</p>							z
+		`,
 		purpose1: {
-			menu: 'Speicherung und Zugriff auf Informationen',
-			title: 'Speicherung von Informationen und Zugriff',
-			description:
-				'Speicherung von Informationen oder Zugriff auf Informationen, die bereits auf Ihrem Gerät gespeichert sind, z.B. Werbe-IDs, Geräte-IDs, Cookies und ähnliche Technologien.',
+			description: 'Zulassen der Speicherung oder des Zugriffs von Informationen auf dem Gerät eines Benutzers.',
+			menu: 'Informationsspeicherung und Zugriffstest',
+			optoutDescription: '',
 		},
 		purpose2: {
+			description: `Erlauben Sie die Verarbeitung der Daten eines Benutzers, um personalisierte Werbung (einschließlich Lieferung, Messung und Berichterstattung) bereitzustellen und zu informieren, die auf den Vorlieben oder Interessen eines Benutzers basiert, die bekannt sind oder aus Daten abgeleitet werden können, die über mehrere Sites, Anwendungen oder Geräte gesammelt wurden, und/oder um zu diesem Zweck auf Informationen auf Geräten zuzugreifen oder diese zu speichern.							
+			Enthält folgende Features:							
+			<ul>							
+				<li>${features.feature1.name} – ${features.feature1.description}</li>
+				<li>${features.feature2.name} – ${features.feature2.description}</li>
+				<li>${features.feature3.name} – ${features.feature3.description}</li>
+			</ul>`,
 			menu: 'Personalisierung',
-			title: 'Personalisierung',
-			description:
-				'Die Erfassung und Verarbeitung von Informationen über Ihre Nutzung dieses Dienstes zur nachträglichen Personalisierung von Werbung und / oder Inhalten in anderen Kontexten, z.B. auf anderen Websites oder in anderen Apps. In der Regel wird der Inhalt der Website oder App verwendet, um Rückschlüsse auf Ihre Interessen zu ziehen, die die zukünftige Auswahl von Werbung und / oder Inhalten beeinflussen.',
 		},
 		purpose3: {
-			menu: 'Auslieferung und Berichte von Anzeigen',
-			title: 'Auslieferung und Berichte von Anzeigen',
-			description:
-				'Die Sammlung von Informationen und die Kombination mit zuvor gesammelten Informationen, um Werbung für Sie auszuwählen und zu liefern und die Lieferung und Wirksamkeit solcher Werbung zu messen. Dies beinhaltet die Verwendung zuvor gesammelter Informationen über Ihre Interessen zur Auswahl von Anzeigen, die Verarbeitung von Daten darüber, welche Werbeanzeigen gezeigt wurden, wie oft sie gezeigt wurden, wann und wo sie gezeigt wurden und ob Sie irgendwelche Maßnahmen im Zusammenhang mit der Werbung ergriffen haben, einschließlich z Anzeige oder einen Kauf tätigen. Dies umfasst nicht die Personalisierung, dh die Sammlung und Verarbeitung von Informationen über Ihre Nutzung dieses Dienstes, um später Werbung und / oder Inhalte in anderen Kontexten wie Websites oder Apps im Laufe der Zeit zu personalisieren',
+			description: `Erlauben Sie die Verarbeitung der Daten eines Benutzers, um Inhalte oder Werbung zu übermitteln und die Übermittlung solcher Inhalte oder Werbung zu messen, Einblicke zu erhalten und Berichte zu erstellen, um die Dienstnutzung zu verstehen; und/oder Zugriff auf oder Speicherung von Informationen auf Geräten zu diesem Zweck.							
+			Enthält folgende Features:							
+			<ul>							
+				<li>${features.feature1.name} – ${features.feature1.description}</li>
+				<li>${features.feature2.name} – ${features.feature2.description}</li>
+				<li>${features.feature3.name} – ${features.feature3.description}</li>
+			</ul>`,
+			menu: 'Anzeigenauswahl, Zustellung, Berichterstattung',
 		},
 		purpose4: {
-			menu: 'Auslieferung und Berichte von Inhalten',
-			title: 'Auslieferung und Berichte von Inhalten',
-			description:
-				'Die Sammlung von Informationen und die Kombination mit zuvor gesammelten Informationen, um Inhalte für Sie auszuwählen und zu liefern und die Lieferung und Effektivität solcher Inhalte zu messen. Dies beinhaltet die Verwendung zuvor gesammelter Informationen über Ihre Interessen, um Inhalte auszuwählen, Daten darüber zu verarbeiten, welcher Inhalt gezeigt wurde, wie oft oder wie lange er angezeigt wurde, wann und wo er gezeigt wurde und ob Sie irgendwelche Maßnahmen in Bezug auf den Inhalt ergriffen haben zum Beispiel klicken auf Inhalt. Dies beinhaltet nicht die Personalisierung, dh die Sammlung und Verarbeitung von Informationen über Ihre Nutzung dieses Dienstes, um Inhalte und / oder Werbung für Sie später in anderen Kontexten wie Websites oder Apps zu personalisieren.',
+			description: `Erlauben Sie die Verarbeitung der Daten eines Benutzers, um personalisierte Inhalte bereitzustellen und zu informieren (einschließlich Lieferung, Messung und Berichterstattung), die auf den Präferenzen oder Interessen eines Benutzers basieren, die bekannt sind oder aus Daten abgeleitet werden, die über mehrere Websites, Anwendungen oder Geräte gesammelt wurden; und/oder Zugriff auf oder Speicherung von Informationen auf Geräten zu diesem Zweck.							
+			Enthält folgende Features:							
+			<ul>							
+				<li>${features.feature1.name} – ${features.feature1.description}</li>
+				<li>${features.feature2.name} – ${features.feature2.description}</li>
+				<li>${features.feature3.name} – ${features.feature3.description}</li>
+			</ul>`,
+			menu: 'Inhaltsauswahl, Zustellung, Berichterstattung',
 		},
 		purpose5: {
-			menu: 'Zielgruppenmessung',
-			title: 'Zielgruppenmessung',
-			description:
-				'Die Sammlung von Informationen über Ihre Nutzung des Inhalts und die Kombination mit zuvor gesammelten Informationen, die verwendet werden, um Ihre Nutzung des Dienstes zu messen, zu verstehen und darüber zu berichten. Dies umfasst nicht die Personalisierung, die Sammlung von Informationen über Ihre Nutzung dieses Dienstes, um Inhalte und / oder Werbung für Sie in anderen Kontexten, d. H. Auf anderen Diensten, wie Websites oder Apps, im Zeitverlauf zu personalisieren.',
+			description: `						
+				Die Sammlung von Informationen über Ihre Verwendung des Inhalts und die Kombination mit zuvor gesammelten Informationen, um Ihre Nutzung des Dienstes zu messen, zu verstehen und darüber zu berichten. Dies umfasst nicht die Personalisierung, die Sammlung von Informationen über Ihre Nutzung dieses Dienstes, um im Laufe der Zeit Inhalte und/oder Werbung in anderen Zusammenhängen, d.h. auf anderen Diensten, wie Websites oder Apps, für Sie zu personalisieren.
+            `,
+			menu: 'Messung',
 		},
 	},
 	vendors: {
-		title: 'Unsere Partner',
-		description:
-			'Helfen Sie uns, Ihnen eine bessere Online-Erfahrung zu bieten! Unsere Partner verwenden Cookies und sammeln Informationen von Ihrem Browser im Internet, um Sie mit Inhalten zu versorgen, relevante Werbung auszuliefern und Zielgruppen im Internet zu analysieren.',
-		accept: 'Akzeptieren',
-		acceptAll: 'Alle akzeptieren / deaktivieren',
-		optOut: 'Benötigt Opt-Out',
-		back: 'Zurück',
-	},
-	features: {
-		menu: 'Funktionen',
-	},
-	footer: {
-		message: `
-				<h2>We Value Privacy</h2>
-			`,
+		title: 'Wer verwendet diese Informationen?',
 		description: `
-				<span>
-					To help make this website better, to personalize and enhance 
-					your content experience, for advertising purposes and to analyze 
-					our traffic, we and our partners use technology such as cookies,  
-					pixels, and/or beacons to collect certain data. By 
-					continuing to use the site or clicking “OK”, you agree to the 
-					use of this technology and collecting the data.
-				</span>
-			`,
-		privacyPolicy: `
-				<span>
-					Please visit our 
-					<a target="_blank" href="http://system1.com/terms/privacy.html">
-						Privacy Policy
-					</a> 
-					to learn more about how we collect and use data. You can modify 
-					your settings at any time by clicking
-				</span>
-			`,
-		privacyPolicyButton: 'Manage Privacy Settings',
+			Hier ist die vollständige Liste der Unternehmen, die Ihre Informationen verwenden werden. Bitte lesen Sie deren Datenschutzrichtlinien für weitere Details.
+        `,
+		accept: 'Erlauben',
+		acceptAll: '"Alle Erlauben',
+		acceptNone: 'Alle sperren',
+		optOut: 'erfordert Opt-out',
+		back: 'Passen Sie an, wie diese Unternehmen Daten von der vorherigen Seite verwenden',
+	},
+	features,
+	footer: {
+		message: `								
+			<h2>Wir schätzen Datenschutz</h2>							
+		`,
+		description: `								
+			<span>							
+				Um diese Website zu verbessern, zu personalisieren und zu erweitern						
+				ihre Erfahrung mit Inhalten, zu Werbezwecken und zur Analyse von						
+				unserem Traffic, wir und unsere Partner verwenden Technologien wie Cookies,						
+				Pixel und/oder Beacons, um bestimmte Daten zu sammeln. Indem						
+				Sie die Website weiterhin benutzen oder auf "OK" klicken, erklären Sie sich mit der						
+				Nutzung dieser Technologie und Sammlung der Daten einverstanden.						
+			</span>							
+		`,
+		privacyPolicy: `								
+			<span>							
+				Bitte besuchen Sie unsere						
+				<a target="_blank" href="http://system1.com/terms/privacy.html">						
+					Datenschutzerklärung					
+				</a>						
+				erfahren Sie mehr darüber, wie wir Daten sammeln und verwenden.						
+				Sie können Ihre Einstellungen jederzeit ändern, durch Klicken auf						
+			</span>							
+		`,
+		privacyPolicyButton: 'Datenschutz-Einstellungen verwalten',
 		consentLink: 'OK',
 	},
 };

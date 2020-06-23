@@ -2,7 +2,7 @@
 //  german / de translations
 
 const features = {
-	menu: 'Features',
+	menu: 'Funktionen',
 	feature1: {
 		name: 'Matching von Daten aus Offline-Quellen',
 		description: `Kombination von Daten aus Offline-Quellen, die ursprünglich in anderen Kontexten gesammelt wurden.`,

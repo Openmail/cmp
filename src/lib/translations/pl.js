@@ -4,7 +4,7 @@
  */
 
 const features = {
-	menu: 'Features',
+	menu: 'Funkcje',
 	feature1: {
 		name: 'Dopasowywanie danych do źródeł offline',
 		description: `łączenie danych ze źródeł offline, które początkowo były gromadzone w innych kontekstach.`,

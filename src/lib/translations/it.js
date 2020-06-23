@@ -4,7 +4,7 @@
  */
 
 const features = {
-	menu: 'Caratteristiche',
+	menu: 'Funzionalità',
 	feature1: {
 		name: 'Abbinamento dei dati a fonti offline',
 		description: `Combinazione di dati da fonti offline che erano inizialmente raccolte in altri contesti.`,

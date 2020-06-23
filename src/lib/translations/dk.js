@@ -1,8 +1,8 @@
 /* eslint-disable quotes */
-//  german / de translations
+//  Danish / DK translations
 
 const features = {
-	menu: 'Udstyret med',
+	menu: 'Funktioner',
 	feature1: {
 		name: 'Matching af data til offline kilder',
 		description: `Kombinering af data fra offline kilder, der oprindeligt blev indsamlet i andre sammenhænge.`,

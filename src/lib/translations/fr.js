@@ -4,7 +4,7 @@
  */
 
 const features = {
-	menu: 'Features',
+	menu: 'Fonctionnalités',
 	feature1: {
 		name: 'Correspondance des données avec des sources hors ligne',
 		description: `Combinaison des données provenant de sources hors ligne qui ont été initialement recueillies dans d'autres contextes.`,

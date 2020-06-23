@@ -4,7 +4,7 @@
  */
 
 const features = {
-	menu: 'Caracteristicas',
+	menu: 'Características',
 	feature1: {
 		name: 'Emparejar datos con fuentes fuera de línea',
 		description: `Combina datos de fuentes fuera de línea que se recogieron inicialmente en otros contextos`,

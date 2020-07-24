@@ -19,6 +19,9 @@ const pages = [
 	{
 		id: 'info-acs',
 	},
+	{
+		id: 'tcf-2.0',
+	},
 ];
 
 module.exports = [
@@ -26,12 +29,14 @@ module.exports = [
 	{
 		entry: {
 			cmp: './s1/cmp.js',
+			'tcf-2.0-loader': './s1/tcf-2.0-loader.js',
+			'tcf-2.0-cmp': './s1/tcf-2.0-cmp.js',
 		},
 		...commonConfig,
 		output: {
 			path: path.resolve(__dirname, '../', `dist/${version}`),
 			publicPath: './',
-			filename: 'cmp.js',
+			filename: '[name].js',
 		},
 		plugins: [
 			new webpack.DefinePlugin({

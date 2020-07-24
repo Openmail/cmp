@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Info.com Android Choice Screen CMP</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+	</head>
+	<body>
+		<!--//
+			version: <%= version %>
+			generated: <%= date %>
+		//-->
+        <script src="../tcf-2.0-cmp.js"></script>
+		<script>
+            const onReady = () => {
+                console.log('onReady');
+            }
+
+            const onEvent = (tcData, success) => {
+                console.log('onEvent', tcData, success)
+                if (!success || !tcData) {
+                    console.log('onEventError', tcData, success);
+                    return;
+                }
+
+                if (tcData.eventStatus === 'tcloaded') {
+                    onReady();
+                }
+            }
+            
+            __tcfapi('addEventListener', 2, onEvent);
+            __tcfapi('ping', 2, (pingReturn) => {
+                console.log('ping', pingReturn);
+            });
+		</script>
+
+        <div>
+            <button id="acceptBtn">Accept All</button>
+        </div>
+	</body>
+</html>

@@ -1,0 +1,246 @@
+@import '../../../style/variables.less';
+
+.banner {
+	position: fixed;
+	right: 0;
+	left: 0;
+	bottom: 0;
+	z-index: 99999;
+
+	color: @color-textLight;
+	background: white;
+	font-size: 16px;
+	max-height: 100%;
+	transition: bottom 0.5s ease-in-out, opacity 0.5s linear;
+
+	box-shadow: 0px 0px 5px @color-primary;
+	padding: 15px 30px;
+
+	@media @smartphone {
+		padding: 15px 20px;
+		overflow: auto;
+	}
+
+	&.hidden {
+		pointer-events: none;
+		transform: translateY(1000px);
+		opacity: 0;
+	}
+
+	&.bannerInline {
+		position: relative;
+		box-shadow: none;
+	}
+
+	&.bannerModal {
+		top: 0;
+		display: flex;
+		background: rgba(0, 0, 0, 0.2);
+		justify-content: center;
+		align-items: flex-start;
+		box-shadow: none;
+		padding-top: 110px;
+
+		@media @smartphone {
+			align-items: flex-start;
+			padding-top: 20%;
+		}
+
+		.content {
+			max-width: 100%;
+			max-height: calc(100% - 50px);
+			height: auto;
+			overflow: auto;
+			-webkit-overflow-scrolling: touch;
+			box-sizing: border-box;
+			background: #fff;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			flex-direction: column; /* fixes IE11 max-height with overflow */
+			position: relative;
+			padding: 2em;
+			box-shadow: 0px 10px 40px rgba(0, 0, 0, 0.5);
+			border: 1px solid #41afbb;
+			border-radius: 4px;
+		}
+	}
+
+	.content {
+		.message {
+			display: flex;
+			flex-wrap: wrap;
+
+			@media @smartphone {
+				display: block;
+			}
+
+			.info {
+				line-height: 24px;
+				max-width: 750px;
+
+				@media @smartphone {
+					font-size: 12px;
+					line-height: 20px;
+				}
+
+				.title {
+					font-size: 32px;
+					font-weight: bold;
+					color: @color-text;
+					padding: 15px 0;
+					margin-bottom: 10px;
+					line-height: 32px;
+
+					@media @smartphone {
+						font-size: 28px;
+						line-height: 28px;
+						font-weight: bold;
+					}
+				}
+
+				.options {
+					margin: 15px 0 0 0;
+					padding: 1em;
+					box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+
+					@media @smartphone {
+						margin: 10px 0;
+					}
+
+					.option {
+						margin: 0 20px 6px -2px;
+						list-style: none;
+
+						@media @smartphone {
+							margin: 0 20px 3px -2px;
+						}
+
+						.detailExpand {
+							color: @color-secondary;
+						}
+						a {
+							svg {
+								vertical-align: middle;
+								margin-right: 5px;
+								position: relative;
+								top: -1px;
+								transform: rotate(-90deg);
+								transition: 0.5s ease;
+								fill: @color-linkColor;
+							}
+						}
+
+						.optionDetails {
+							max-height: 0;
+							overflow: hidden;
+							transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+							transform: translateZ(0);
+
+							ul {
+								margin: 5px 0 5px 0;
+								padding: 0 0 0 36px;
+							}
+
+							@media @smartphone {
+								ul {
+									padding-left: 15px;
+								}
+							}
+						}
+
+						&.expanded {
+							transform: translateZ(0);
+
+							a {
+								svg {
+									transform: rotate(0deg);
+								}
+							}
+
+							.optionDetails {
+								margin-left: 21px;
+								max-height: 600px;
+								transition: max-height 1s ease-in-out;
+							}
+						}
+					}
+				}
+			}
+
+			.consent {
+				flex-basis: 100%;
+				text-align: left;
+				margin-top: 30px;
+				margin-bottom: 30px;
+				font-size: 20px;
+
+				@media @smartphone {
+					display: flex; /* primary flex container */
+					flex-direction: row; /* horizontal alignment of flex items (default value; can be omitted) */
+					align-items: stretch; /* will apply equal heights to flex items (default value; can be omitted) */
+					font-size: 1em;
+					line-height: 1.2em;
+					text-align: center;
+					margin-top: 20px;
+					margin-bottom: 20px;
+				}
+
+				a {
+					display: inline-block;
+					border: 1px solid @color-primary;
+					text-align: center;
+					transition-property: color, background-color;
+					transition-duration: 500ms;
+					transition-timing-function: ease-in-out;
+					padding: 1em;
+					border-radius: 4px;
+					box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1), 0 3px 5px rgba(0, 0, 0, 0.2);
+					transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+					@media @smartphone {
+						flex: 1;
+					}
+
+					&:hover {
+						box-shadow: 0 1px 1px rgba(0, 0, 0, 0.12), 0 1px 1px rgba(0, 0, 0, 0.24);
+					}
+
+					&.learnMore {
+						color: @color-primary;
+
+						&:hover {
+							color: @color-secondary;
+							border: 1px solid @color-secondary;
+							background: rgba(@color-primary, 0.2);
+						}
+					}
+
+					&.continue {
+						color: #fff;
+						background: @color-buttonSuccess;
+						border: 1px solid @color-primary;
+						margin-left: 1em;
+
+						&:hover {
+							color: #fff;
+							background: darken(@color-buttonSuccess, 10%);
+							border: 1px solid @color-buttonSuccess;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.infoExpanded {
+		padding: 0 0 30px 0;
+		min-height: 200px;
+
+		ul {
+			margin: 0;
+			padding: 0 0 0 20px;
+			list-style-type: square;
+		}
+	}
+}

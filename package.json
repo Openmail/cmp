@@ -102,9 +102,8 @@
 		"webpack-dev-server": "^2.4.4"
 	},
 	"dependencies": {
-		"@iabtcf/cmpapi": "^1.0.2-5",
-		"@iabtcf/core": "^1.0.2-5",
-		"@iabtcf/stub": "^1.0.2-5",
+		"@iabtcf/cmpapi": "1.1.0-1",
+		"@iabtcf/stub": "1.1.0-1",
 		"@s1/dpl": "2.3.1",
 		"classnames": "^2.2.5",
 		"codemirror": "^5.34.0",

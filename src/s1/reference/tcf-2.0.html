@@ -12,10 +12,10 @@
 		//-->
         <script src="../tcf-2.0-cmp.js"></script>
 		<script>
+            /*
             const onReady = () => {
                 console.log('onReady');
             }
-
             const onEvent = (tcData, success) => {
                 console.log('onEvent', tcData, success)
                 if (!success || !tcData) {
@@ -27,10 +27,14 @@
                     onReady();
                 }
             }
-            
             __tcfapi('addEventListener', 2, onEvent);
             __tcfapi('ping', 2, (pingReturn) => {
                 console.log('ping', pingReturn);
+            });
+            */
+
+            __tcfapi('init', 2, () => {
+                console.log('custom init call');
             });
 		</script>
 

@@ -76,6 +76,7 @@ const commonConfig = {
 				test: /\.(less|css)$/,
 				include: [
 					path.resolve(__dirname, '../', 'src/components'),
+					path.resolve(__dirname, '../', 'src/s1/components'),
 					path.resolve(__dirname, '../', 'src/docs/components'),
 				],
 				use: [

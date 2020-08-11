@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
 		<title>Info.com Android Choice Screen CMP</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui" />
 	</head>
 	<body>
 		<!--//
 			version: <%= version %>
 			generated: <%= date %>
 		//-->
-        <script src="../tcf-2.0-cmp.js"></script>
+
+		<script src="./tcf-2.0-loader.js"></script>
+		<!--//
+        <script src="./tcf-2.0-cmp.js"></script>
+        //-->
 		<script>
-            /*
+			/*
             const onReady = () => {
                 console.log('onReady');
             }
@@ -33,13 +37,23 @@
             });
             */
 
-            __tcfapi('init', 2, () => {
-                console.log('custom init call');
-            });
+			const config = {
+				gdprApplies: true,
+				logging: true,
+				scriptSrc: './tcf-2.0-cmp.js',
+			};
+
+			cmp('init', config, (store) => {
+				console.log('init complete', store);
+			});
+
+			// __tcfapi('init', 2, () => {
+			//    console.log('custom init call');
+			// });
 		</script>
 
-        <div>
-            <button id="acceptBtn">Accept All</button>
-        </div>
+		<div>
+			<button id="acceptBtn">Accept All</button>
+		</div>
 	</body>
 </html>

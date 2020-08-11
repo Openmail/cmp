@@ -1,8 +1,8 @@
 import { h, Component } from 'preact';
 import style from './banner.less';
 
+import PurposeList from './purposeList';
 import Label from '../label/label';
-import ChevronIcon from '../chevronicon/chevronicon';
 
 class LocalLabel extends Label {
 	static defaultProps = {
@@ -15,11 +15,20 @@ export default class Banner extends Component {
 		super(props);
 	}
 
+	handleAcceptAll(props, state) {
+		const { store } = this.props;
+		store.toggleAll();
+	}
+
 	render(props, state) {
 		let isShowing = true;
 		const { store } = props;
-		const { theme, gvl } = store;
-		const { purposes } = gvl;
+		const {
+			config: { theme },
+			gvl,
+			displayLayer1,
+		} = store;
+
 		const {
 			isBannerModal,
 			isBannerInline,
@@ -47,7 +56,6 @@ export default class Banner extends Component {
 				ref={(el) => (this.bannerRef = el)}
 				class={bannerClasses.join(' ')}
 				style={{
-					boxShadow: boxShadow || `0px 0px 5px ${primaryColor}`,
 					backgroundColor,
 					color: textLightColor,
 				}}
@@ -70,6 +78,7 @@ export default class Banner extends Component {
 								</a>
 								<a
 									class={style.continue}
+									onClick={this.handleAcceptAll.bind(this, props, state)}
 									style={{
 										backgroundColor: primaryColor,
 										borderColor: primaryColor,
@@ -79,26 +88,9 @@ export default class Banner extends Component {
 									<LocalLabel localizeKey="links.accept">Continue to site</LocalLabel>
 								</a>
 							</div>
-							{!purposes ? (
-								<h1>Loading</h1>
-							) : (
-								<ul class={style.options}>
-									{Object.keys(purposes).map((key) => {
-										const { name, description } = purposes[key];
-										return (
-											<li class={[style.option, style.expanded].join(' ')}>
-												<a class={style.detailExpand}>
-													<ChevronIcon color={textLinkColor} />
-													{name}
-												</a>
-												<div className={style.optionDetails} style={{ color: textLightColor }}>
-													{description}
-												</div>
-											</li>
-										);
-									})}
-								</ul>
-							)}
+							<div class={style.optionsContainer}>
+								{!displayLayer1 ? <h1>Loading</h1> : <PurposeList store={store} />}
+							</div>
 						</div>
 					</div>
 				</div>

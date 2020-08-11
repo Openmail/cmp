@@ -17,6 +17,8 @@
 		"build:s1": "cross-env NODE_ENV=production webpack --progress --config config/s1.webpack.config.babel.js",
 		"deploy:s1": "yarn build:s1 && yarn upload:s1",
 		"upload:s1": "cross-var s3-deploy './dist/$npm_package_version/**' --cwd './dist/$npm_package_version' --region us-west-2 --bucket s1-layout-cdn/cmp/$npm_package_version --gzip --preventUpdates --immutable",
+		"deploy:test": "yarn build:s1 && yarn upload:test",
+		"upload:test": "cross-var s3-deploy './dist/$npm_package_version/**' --cwd './dist/$npm_package_version' --region us-west-2 --bucket s1-layout-cdn/cmp/test --gzip --cache 1440 --distId E5JQ1CRXXPTKM --invalidate '/cmp/test/* /cmp/test/*.html'",
 		"prebuild": "npm run clean && mkdirp dist",
 		"test": "npm run -s lint && jest --coverage",
 		"test:watch": "npm run -s test -- --watch",
@@ -102,8 +104,8 @@
 		"webpack-dev-server": "^2.4.4"
 	},
 	"dependencies": {
-		"@iabtcf/cmpapi": "1.1.0-1",
-		"@iabtcf/stub": "1.1.0-1",
+		"@iabtcf/cmpapi": "1.1.0-2",
+		"@iabtcf/stub": "^1.1.0-2",
 		"@s1/dpl": "2.3.1",
 		"classnames": "^2.2.5",
 		"codemirror": "^5.34.0",

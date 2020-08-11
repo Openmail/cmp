@@ -21,29 +21,18 @@ export default class App extends Component {
 
 	render(props, state) {
 		const { store } = state;
-		const { theme, gvl = {}, tcData } = store;
+		const {
+			config: { theme },
+			gvl = {},
+			tcData,
+		} = store;
 		const { purposes } = gvl;
 
-		console.log('render: store', store);
+		console.log('app.js: render: store', store);
 
 		return (
 			<div class={style.gdpr}>
 				<Banner store={store} />
-				{!purposes ? (
-					<h1>Loading</h1>
-				) : (
-					<ul>
-						{Object.keys(purposes).map((key) => {
-							const { name, description } = purposes[key];
-							return (
-								<li>
-									<h1>{name}</h1>
-									<p>{description}</p>
-								</li>
-							);
-						})}
-					</ul>
-				)}
 			</div>
 		);
 	}

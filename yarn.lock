@@ -808,15 +808,15 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@iabtcf/cmpapi@1.1.0-1":
-  version "1.1.0-1"
-  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/cmpapi/-/cmpapi-1.1.0-1.tgz#466f49dd29a8920a3b5333eaaa03396375d5e072"
-  integrity sha1-Rm9J3Smokgo7UzPqqgM5Y3XV4HI=
+"@iabtcf/cmpapi@1.1.0-2":
+  version "1.1.0-2"
+  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/cmpapi/-/cmpapi-1.1.0-2.tgz#d46b2430da850817e0f17a3f9834f7f3e71efa25"
+  integrity sha1-1GskMNqFCBfg8Xo/mDT38+ce+iU=
 
-"@iabtcf/stub@1.1.0-1":
-  version "1.1.0-1"
-  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/stub/-/stub-1.1.0-1.tgz#05a56d636b1e29471f164661888968824fdf0863"
-  integrity sha1-BaVtY2seKUcfFkZhiIlogk/fCGM=
+"@iabtcf/stub@^1.1.0-2":
+  version "1.1.0-2"
+  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/stub/-/stub-1.1.0-2.tgz#ca392612d7b5158e644106f637a6de0df6714874"
+  integrity sha1-yjkmEte1FY5kQQb2N6beDfZxSHQ=
 
 "@jest/console@^24.7.1", "@jest/console@^24.9.0":
   version "24.9.0"

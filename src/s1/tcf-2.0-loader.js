@@ -23,7 +23,12 @@
 					window[cmp].call(this, command, parameter, callback);
 				};
 				var cmpToTcfMap = function (command, parameter, callback) {
-					window[__tcfapi].call(this, command, 2, callback, parameter);
+					console.log('cmpToTcfMap', {
+						command,
+						parameter,
+						callback,
+					});
+					window[__tcfapi].call(this, command, 2, callback || function () {}, parameter);
 				};
 
 				// remap tcfapi

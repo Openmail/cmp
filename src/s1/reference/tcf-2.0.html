@@ -10,11 +10,19 @@
 			version: <%= version %>
 			generated: <%= date %>
 		//-->
+		<div>
+			<button id="btnInit">cmp('init')</button>
+			<button id="btnSubscribe">cmp('subscribe', 'onConsentChanged')</button>
+			<button id="btnEmit">cmp('emit', 'onConsentChanged')</button>
+			<button id="btnUnsubscribe">cmp('unsubscribe', 'onConsentChanged')</button>
+			<button id="btnShowConsentTool">cmp('showConsentTool')</button>
+		</div>
 
 		<script src="./tcf-2.0-loader.js"></script>
 		<!--//
         <script src="./tcf-2.0-cmp.js"></script>
         //-->
+
 		<script>
 			/*
             const onReady = () => {
@@ -26,7 +34,7 @@
                     console.log('onEventError', tcData, success);
                     return;
                 }
-
+ 
                 if (tcData.eventStatus === 'tcloaded') {
                     onReady();
                 }
@@ -50,10 +58,26 @@
 			// __tcfapi('init', 2, () => {
 			//    console.log('custom init call');
 			// });
-		</script>
 
-		<div>
-			<button id="acceptBtn">Accept All</button>
-		</div>
+			document.querySelector('#btnShowConsentTool').addEventListener('click', () => {
+				cmp('showConsentTool', { someProp: 1 }, () => console.log(1));
+			});
+
+			document.querySelector('#btnSubscribe').addEventListener('click', () => {
+				cmp('subscribe', 'onConsentChanged', (tcData, success) => {
+					console.log('subscribe:onConsentChanged', tcData, success);
+				});
+			});
+
+			document.querySelector('#btnUnsubscribe').addEventListener('click', () => {
+				cmp('unsubscribe', 'onConsentChanged');
+			});
+
+			document.querySelector('#btnEmit').addEventListener('click', () => {
+				cmp('emit', 'onConsentChanged', {
+					a: 'b',
+				});
+			});
+		</script>
 	</body>
 </html>

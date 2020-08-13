@@ -1,4 +1,3 @@
-/* global __tcfapi */
 /* eslint-disable prefer-arrow-callback */
 /* eslint-disable no-var */
 /**
@@ -23,11 +22,7 @@
 					window[cmp].call(this, command, parameter, callback);
 				};
 				var cmpToTcfMap = function (command, parameter, callback) {
-					console.log('cmpToTcfMap', {
-						command,
-						parameter,
-						callback,
-					});
+					console.log('cmpToTcf', command, callback, parameter)
 					window[__tcfapi].call(this, command, 2, callback || function () {}, parameter);
 				};
 
@@ -44,53 +39,48 @@
 							return window[cmp].apply(this, arguments);
 						}
 
-						if (window[cmp]['processCommand'] && typeof window[cmp]['processCommand'] === 'function') {
-							console.log('2', command, parameter, callback);
-							window[cmp]['processCommand'].apply(this, arguments);
-						} else {
-							if (!command) {
-								return;
+						if (!command) {
+							return;
+						}
+
+						(window[cmp][commandQueue] = window[cmp][commandQueue] || []).push({
+							command,
+							parameter,
+							callback,
+						});
+
+						// if 'init', then we need to load the seed file
+						if (command === 'init') {
+							if (scriptEl) {
+								return log(parameter[logging], 'CMP Error: Only call init once.');
+							}
+							if (!parameter || !parameter[scriptSrc]) {
+								return log(
+									parameter[logging],
+									'CMP Error: Provide src to load CMP. cmp(\'init\', { scriptSrc: \'./cmp.js\'})'
+								);
+							}
+							if (!parameter[gdprApplies]) {
+								if (callback && typeof callback === 'function') {
+									callback.apply(this, [
+										{
+											hasConsented: false,
+											consentRequired: false,
+											gdprApplies: false,
+										},
+									]);
+								}
+								return log(parameter[logging], 'CMP: gdprApplies turned off so no CMP loaded.');
 							}
 
-							(window[cmp][commandQueue] = window[cmp][commandQueue] || []).push({
-								command,
-								parameter,
-								callback,
-							});
-
-							// if 'init', then we need to load the seed file
-							if (command === 'init') {
-								if (scriptEl) {
-									return log(parameter[logging], 'CMP Error: Only call init once.');
-								}
-								if (!parameter || !parameter[scriptSrc]) {
-									return log(
-										parameter[logging],
-										"CMP Error: Provide src to load CMP. cmp('init', { scriptSrc: './cmp.js'})"
-									);
-								}
-								if (!parameter[gdprApplies]) {
-									if (callback && typeof callback === 'function') {
-										callback.apply(this, [
-											{
-												hasConsented: false,
-												consentRequired: false,
-												gdprApplies: false,
-											},
-										]);
-									}
-									return log(parameter[logging], 'CMP: gdprApplies turned off so no CMP loaded.');
-								}
-
-								scriptEl = document.createElement(script);
-								scriptEl.async = 1;
-								scriptEl.src = parameter[scriptSrc];
-								scriptParentEl = document.getElementsByTagName(script)[0];
-								if (scriptParentEl && scriptParentEl.parentNode) {
-									scriptParentEl.parentNode.insertBefore(scriptEl, scriptParentEl);
-								} else {
-									document.body.appendChild(scriptEl);
-								}
+							scriptEl = document.createElement(script);
+							scriptEl.async = 1;
+							scriptEl.src = parameter[scriptSrc];
+							scriptParentEl = document.getElementsByTagName(script)[0];
+							if (scriptParentEl && scriptParentEl.parentNode) {
+								scriptParentEl.parentNode.insertBefore(scriptEl, scriptParentEl);
+							} else {
+								document.body.appendChild(scriptEl);
 							}
 						}
 					};

@@ -11,7 +11,12 @@ export default class App extends Component {
 	};
 
 	updateState(store) {
+		console.log('update store', store);
 		this.setState({ store });
+	}
+
+	componentDidCatch(error, errorInfo) {
+		console.log('componentCaughtError', error, errorInfo);
 	}
 
 	componentDidMount() {
@@ -21,15 +26,6 @@ export default class App extends Component {
 
 	render(props, state) {
 		const { store } = state;
-		const {
-			config: { theme },
-			gvl = {},
-			tcData,
-		} = store;
-		const { purposes } = gvl;
-
-		console.log('app.js: render: store', store);
-
 		return (
 			<div class={style.gdpr}>
 				<Banner store={store} />

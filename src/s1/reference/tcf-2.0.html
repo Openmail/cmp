@@ -4,78 +4,150 @@
 		<meta charset="utf-8" />
 		<title>Info.com Android Choice Screen CMP</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui" />
+		<style>
+			.reference ul {
+				margin: 0;
+				padding: 0;
+			}
+			.reference .p {
+				padding: 0.5rem 2rem;
+				margin: 0;
+			}
+			.reference li {
+				margin: 0;
+				padding: 0.5rem 2rem;
+				list-style-type:none;
+			}
+			.reference li:nth-child(2n) {
+				background:#f7f7f7;
+			}
+			.reference h3 {
+				margin: 0;
+				padding: 0;
+			}
+			.reference input {
+				background: #f2f2f0;
+				border: 1px solid grey;
+				padding: 5px;
+			}
+			.reference textarea {
+				background: #f2f2f0;
+				border: 1px solid grey;
+				padding: 5px;
+				width: 100%;
+				box-sizing: content-box;
+				height: auto;
+			}
+			.reference .horizontal {
+				display: flex;
+				border: 1px solid #c1c1c1;
+				box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2);
+				border-radius: 10px;
+				overflow: hidden;
+			}
+			.reference .horizontal li {
+				flex: 1 1 auto;
+				padding: 0.5rem;
+			}
+			pre {
+				font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
+				font-size: 12px;
+			}
+		</style>
 	</head>
 	<body>
 		<!--//
 			version: <%= version %>
 			generated: <%= date %>
 		//-->
-		<div>
-			<button id="btnInit">cmp('init')</button>
-			<button id="btnSubscribe">cmp('subscribe', 'onConsentChanged')</button>
-			<button id="btnEmit">cmp('emit', 'onConsentChanged')</button>
-			<button id="btnUnsubscribe">cmp('unsubscribe', 'onConsentChanged')</button>
-			<button id="btnShowConsentTool">cmp('showConsentTool')</button>
+		<div class="reference">
+			<h1 class="p">System1 CMP TCF2.0 Reference Page</h1>
+			<p class="p">This page is a CMP reference implementation. TCF 2.0 API changed the "__cmp" API to "__tcfapi". Below is a migration / integration guide for __tcfapi.</p>
+			<ul>
+				<li>
+					<h3>Has Consented All</h3>
+				<input readonly="true" id="domHasConsented"></input>
+				</li>
+				<li>
+					<h3>TCFString</h3>
+				<textarea readonly="true" id="domTcfString"></textarea>
+				</li>
+				<li>
+					<ul class="horizontal">
+						<li><button id="btnShowConsentTool">cmp('showConsentTool')</button></li>
+						<li>Language: 
+							<select>
+								<option>EN</option>
+								<option>FR</option>
+								<option>DE</option>
+							</select>
+						</li>
+						<li><a href="https://github.com/Openmail/system1-cmp">System1 CMP Github</a></li>
+						<li><a href="">__tcfapi docs</a></li>
+						<li><a href="">@iabtcf/core docs</a></li>
+						<li><a href="">@iabtcf/cmpapi docs</a></li>
+					</ul>
+				</li>
+				<li>
+					<h3>Integration</h3>
+					<pre>
+function onConsentUpdated(tcData, isSuccessful) {
+	var hasConsented = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
+	if (hasConsented) {
+		console.log('cmp:onConsentUpdated: all consent achieved', tcData);
+	} else {
+		console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
+	}
+};
+__tcfapi('addEventListener', 2, onConsentUpdated);
+__tcfapi('init', 2, function (store, error) {
+	console.log('initialization complete', store, error);
+}, config);
+					</pre>
+				</li>
+			</ul>
 		</div>
-
 		<script src="./tcf-2.0-loader.js"></script>
 		<!--//
         <script src="./tcf-2.0-cmp.js"></script>
         //-->
 
 		<script>
-			/*
-            const onReady = () => {
-                console.log('onReady');
-            }
-            const onEvent = (tcData, success) => {
-                console.log('onEvent', tcData, success)
-                if (!success || !tcData) {
-                    console.log('onEventError', tcData, success);
-                    return;
-                }
- 
-                if (tcData.eventStatus === 'tcloaded') {
-                    onReady();
-                }
-            }
-            __tcfapi('addEventListener', 2, onEvent);
-            __tcfapi('ping', 2, (pingReturn) => {
-                console.log('ping', pingReturn);
-            });
-            */
-
+			const btnShowConsentTool = document.querySelector('#btnShowConsentTool');
+			const domHasConsented = document.querySelector('#domHasConsented');
+			const domTcfString = document.querySelector('#domTcfString');
+			
 			const config = {
 				gdprApplies: true,
 				logging: true,
-				scriptSrc: './tcf-2.0-cmp.js',
+				baseUrl: './config/2.0',
+				// baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0'; // base url
+				versionedFilename: 'vendor-list.json', // vendor list json
+				scriptSrc: './tcf-2.0-cmp.js', // cmp SDK
+				publisherCountryCode: 'AA',
+				narrowedVendors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
 			};
 
-			cmp('init', config, (store) => {
-				console.log('init complete', store);
-			});
+			const onConsentUpdated = function (tcData, success) {
+				const hasConsented = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
+				domHasConsented.value = hasConsented;
+				domTcfString.value = (tcData && tcData.tcString) || 'N/A';
+				if (hasConsented) {
+					console.log('cmp:onConsentUpdated: all consent achieved', tcData);
+				} else {
+					console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
+				}
+			}
 
-			// __tcfapi('init', 2, () => {
-			//    console.log('custom init call');
-			// });
+			__tcfapi('addEventListener', 2, onConsentUpdated);
+			__tcfapi('init', 2, function (store, error) {
+				console.log('initialization complete', store, error);
+			}, config);
+			
 
-			document.querySelector('#btnShowConsentTool').addEventListener('click', () => {
-				cmp('showConsentTool', { someProp: 1 }, () => console.log(1));
-			});
-
-			document.querySelector('#btnSubscribe').addEventListener('click', () => {
-				cmp('subscribe', 'onConsentChanged', (tcData, success) => {
-					console.log('subscribe:onConsentChanged', tcData, success);
-				});
-			});
-
-			document.querySelector('#btnUnsubscribe').addEventListener('click', () => {
-				cmp('unsubscribe', 'onConsentChanged');
-			});
-
-			document.querySelector('#btnEmit').addEventListener('click', () => {
-				cmp('emit', 'onConsentChanged', {
-					a: 'b',
+			btnShowConsentTool.addEventListener('click', function () {
+				cmp('showConsentTool', { someProp: 1 }, function () {
+					console.log(1);
 				});
 			});
 		</script>

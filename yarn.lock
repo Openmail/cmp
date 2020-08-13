@@ -808,15 +808,15 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@iabtcf/cmpapi@1.1.0-2-s1-0":
-  version "1.1.0-2-s1-0"
-  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/cmpapi/-/@iabtcf/cmpapi-1.1.0-2-s1-0.tgz#fbd7e79348b70e9ee719541c45c0f13128ffdfa0"
-  integrity sha1-+9fnk0i3Dp7nGVQcRcDxMSj/36A=
+"@iabtcf/cmpapi@^1.1.0-3":
+  version "1.1.0-3"
+  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/cmpapi/-/cmpapi-1.1.0-3.tgz#6bbb0b75121b2e347060a09b49f11cbe9f541211"
+  integrity sha1-a7sLdRIbLjRwYKCbSfEcvp9UEhE=
 
-"@iabtcf/core@^1.1.0-2-s1-0":
-  version "1.1.0-2-s1-0"
-  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/core/-/@iabtcf/core-1.1.0-2-s1-0.tgz#fd1c8bce5ca40ca07caff358c1b887b8302b6912"
-  integrity sha1-/RyLzlykDKB8r/NYwbiHuDAraRI=
+"@iabtcf/core@^1.1.0-3":
+  version "1.1.0-3"
+  resolved "https://system1.jfrog.io/system1/api/npm/npm-virtual/@iabtcf/core/-/core-1.1.0-3.tgz#bdfa5e6f9852931d6a33d4df93388ee41f13e425"
+  integrity sha1-vfpeb5hSkx1qM9TfkziO5B8T5CU=
   dependencies:
     global "^4.4.0"
     typescript "3.7"

@@ -1,13 +1,8 @@
-import { TCModel } from '@iabtcf/core';
 import { h, Component } from 'preact';
 import style from './purposeList.less';
 
 import ChevronIcon from '../chevronicon/chevronicon';
 import Switch from '../switch/switch';
-
-const PURPOSE_TYPE = {
-	SPECIAL_FEATURE: 'specialFeature',
-};
 
 export default class PurposeList extends Component {
 	state = {
@@ -53,7 +48,13 @@ export default class PurposeList extends Component {
 						const isExpanded = expanded.has(displayId);
 
 						return (
-							<li className={[style.itemInteractive, isExpanded ? style.expanded : ''].join(' ')}>
+							<li
+								className={[
+									style.itemInteractive,
+									isExpanded ? style.expanded : '',
+									handleConsent ? style.canConsent : '',
+								].join(' ')}
+							>
 								<a
 									style={{ color: theme.textLinkColor }}
 									class={isExpanded ? style.detailExpand : ''}
@@ -86,7 +87,7 @@ export default class PurposeList extends Component {
 		return (
 			<li class={[style.item, isExpanded ? style.expanded : ''].join(' ')}>
 				{headline}
-				<div className={[style.itemInteractive, isExpanded ? style.expanded : ''].join(' ')}>
+				<div className={[style.itemInteractive, isExpanded ? style.expanded : '', style.canConsent].join(' ')}>
 					<a
 						style={{ color: theme.textLinkColor }}
 						class={isExpanded ? style.detailExpand : ''}
@@ -120,8 +121,13 @@ export default class PurposeList extends Component {
 		} = store;
 
 		const { stack: displayStack } = displayLayer1;
-		const { features, purposes, stacks, specialFeatures, specialPurposes } = gvl;
-
+		const { features = [], purposes = [], stacks = [], specialFeatures = [], specialPurposes = [] } = gvl;
+		const {
+			purposes: displayPurposes = [],
+			specialFeatures: displaySpecialFeatures = [],
+			specialPurposes: displaySpecialPurposes = [],
+			features: displayFeatures = [],
+		} = displayLayer1;
 		const { expanded } = state;
 
 		const displayPurposesDom = this.renderRow(props, state, {
@@ -134,8 +140,8 @@ export default class PurposeList extends Component {
 			expanded,
 			handleConsent: this.handleTogglePurpose,
 			optIns: tcModel.purposeConsents,
-			list: displayLayer1.purposes.map((key) => purposes[key]),
-			displayPrefix: `purpose-`,
+			list: displayPurposes.map((key) => purposes[key]),
+			displayPrefix: 'purpose-',
 		});
 
 		const stackDisplayId = `stack-${displayStack}`;
@@ -165,20 +171,20 @@ export default class PurposeList extends Component {
 			expanded,
 			handleConsent: this.handleToggleSpecialFeature,
 			optIns: tcModel.specialFeatureOptins,
-			list: displayLayer1.specialFeatures.map((key) => specialFeatures[key]),
-			displayPrefix: `special-feature-`,
+			list: displaySpecialFeatures.map((key) => specialFeatures[key]),
+			displayPrefix: 'special-feature-',
 		});
 
 		const displaySpecialPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					We need your consent for all the purpsoes above but we have a legitimate interest for these purposes:
+					We need your consent for all the purposes above but we have a legitimate interest for these purposes:
 				</h3>
 			),
 			theme,
 			expanded,
-			list: displayLayer1.specialPurposes.map((key) => specialPurposes[key]),
-			displayPrefix: `special-purpose-`,
+			list: displaySpecialPurposes.map((key) => specialPurposes[key]),
+			displayPrefix: 'special-purpose-',
 		});
 
 		const displayFeaturesDom = this.renderRow(props, state, {
@@ -189,8 +195,8 @@ export default class PurposeList extends Component {
 			),
 			theme,
 			expanded,
-			list: displayLayer1.features.map((key) => features[key]),
-			displayPrefix: `features-`,
+			list: displayFeatures.map((key) => features[key]),
+			displayPrefix: 'features-',
 		});
 
 		return (

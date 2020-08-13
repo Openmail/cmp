@@ -1,25 +1,40 @@
-/* global __VERSION__ */
+import 'core-js/fn/array/find-index';
+import 'core-js/fn/array/filter';
+import 'core-js/fn/array/from';
+import 'core-js/fn/array/find';
+import 'core-js/fn/array/map';
+import 'core-js/fn/array/includes';
+import 'core-js/fn/object/keys';
+import 'core-js/fn/object/assign';
+import 'core-js/fn/promise';
+import 'core-js/fn/array/find-index';
+import 'core-js/fn/symbol';
+import 'core-js/fn/number/is-integer';
+import 'core-js/fn/set';
+import 'core-js/fn/string/repeat';
+import 'core-js/fn/map';
 
 import { CmpApi } from '@iabtcf/cmpapi';
-import { GVL, TCModel, TCString, Vector } from '@iabtcf/core';
+import { GVL, Vector } from '@iabtcf/core';
 import { h, render } from 'preact';
 
 import App from './components/app';
 import Store from './lib/store';
 import debug from './lib/debug';
-import listenable from './lib/listenable';
-import { CUSTOM_EVENTS, CMP_GLOBAL_NAME, VERSION } from './constants';
+import { CMP_GLOBAL_NAME, CUSTOM_API } from './constants';
+
+const {INIT} = CUSTOM_API;
 
 debug.isEnabled = true;
+let errorMessage = '';
 
 export const setup = (configOpt) => {
 	const config = {
 		theme: {},
-		narrowedVendors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+		narrowedVendors: [],
 		cmpId: 38,
 		cmpVersion: 3,
 		publisherCountryCode: 'AA',
-		// baseUrl: './config/2.0', // 'https://s.flocdn.com/cmp/test/config/2.0';
 		baseUrl: './config/2.0', // 'https://s.flocdn.com/cmp/test/config/2.0';
 		versionedFilename: 'vendor-list.json',
 		...configOpt,
@@ -29,7 +44,6 @@ export const setup = (configOpt) => {
 	GVL.versionedFilename = config.versionedFilename;
 
 	// gvl.changeLanguage('fr'); // Change language
-
 	// 1. customize the CMP API
 	const cmpApi = new CmpApi(config.cmpId, 3, false, {
 		// Custom commands that overlap with API are treated like middleware. Cool!
@@ -46,31 +60,18 @@ export const setup = (configOpt) => {
 			next(tcData);
 		},
 
-		subscribe: (callback, eventStr) => {
-			if (CUSTOM_EVENTS[eventStr]) {
-				listenable.on(eventStr, callback);
-			} else {
-				console.err;
-			}
-		},
-
-		unsubscribe: (callback, eventStr) => {
-			listenable.off(eventStr, callback);
-		},
-
-		emit: (eventStr, payload) => {
-			listenable.emit(eventStr, payload);
-		},
-
 		showConsentTool: (callback, other) => {
 			console.log('custom: showConsentTool: callback', callback, other);
 		},
 
 		// Custom init function maps to 1.1 integration
-		init: (callback, config) => {
-			console.log('custom: init', callback, config);
-			// you hoisted this config up for the `setup` step, so you dont need it again
-			callback(init());
+		[INIT]: (callback) => {
+			if (!store || !init) {
+				callback(store, new Error(`CMP: error initializing: ${errorMessage}`));
+			} else {
+				// you hoisted this config up for the `setup` step, so you dont need it again
+				callback(init());
+			}
 		},
 	});
 
@@ -78,7 +79,7 @@ export const setup = (configOpt) => {
 	const store = new Store({
 		gvl: new GVL(),
 		cmpApi,
-		tcfApi: __tcfapi,
+		tcfApi: global.__tcfapi,
 		config,
 	});
 
@@ -95,14 +96,26 @@ export const setup = (configOpt) => {
 };
 
 // 2. Process Anything in the Queue
-const processCommandQueue = (() => {
+export const processCommandQueue = (() => {
+	global.onerror = (message, file, line) => {
+		console.log('onError', message, file, line);
+	};
 	const { commandQueue = [] } = window[CMP_GLOBAL_NAME] || {};
-	console.log('processCommandQueue', commandQueue);
-	commandQueue.forEach(({ command, callback, parameter }) => {
+	const initIndex = commandQueue.findIndex(({command}) => command === INIT);
+	const initCommandFirst = (initIndex >= 0) ? commandQueue.splice(initIndex, 1).concat(commandQueue) : commandQueue;
+
+	console.log('commandQueue', commandQueue, initCommandFirst, initIndex);
+
+	initCommandFirst.forEach(({ command, callback, parameter }) => {
 		if (command === 'init') {
 			// shove the config into GVL creation
-			setup(parameter);
+			try {
+				setup(parameter);
+			} catch (e) {
+				errorMessage = e;
+			}
 		}
+		console.log('call', command);
 		window[CMP_GLOBAL_NAME].call(this, command, parameter, callback);
 	});
 	window[CMP_GLOBAL_NAME].commandQueue = [];

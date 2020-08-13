@@ -2,6 +2,17 @@ import { TCModel, TCString } from '@iabtcf/core';
 import cookie from './cookie';
 import debug from './debug';
 
+export const mock = {
+	config: {
+		theme: {},
+	},
+	displayLayer1: {},
+	gvl: {},
+	tcModel: {},
+	tcData: {},
+	subscribe: () => undefined,
+};
+
 export default class Store {
 	config = {
 		theme: {
@@ -16,28 +27,22 @@ export default class Store {
 	};
 
 	displayLayer1;
-
 	isModalShowing = false;
-
 	gvl;
-
 	gvlPromises;
-
 	cmpApi;
-
 	tcfApi;
-
+	tcModel;
+	tcData;
 	listeners = new Set();
 
 	constructor(options) {
 		Object.assign(this, {
 			...options,
 		});
-
 		const { tcfApi, gvl } = options;
 		const { readyPromise } = gvl;
 		readyPromise.then(this.onReady.bind(this));
-
 		tcfApi('addEventListener', 2, this.onEvent.bind(this));
 	}
 
@@ -93,7 +98,6 @@ export default class Store {
 	}
 
 	onReady() {
-		console.log('onReady');
 		const { narrowedVendors, cmpId, cmpVersion, publisherCountryCode } = this.config;
 		const { vendors } = this.gvl;
 
@@ -105,9 +109,7 @@ export default class Store {
 		let encodedTCString = cookie.readVendorConsentCookie();
 
 		const tcModel = new TCModel(this.gvl);
-
 		const persistedTcModel = encodedTCString && TCString.decode(encodedTCString);
-
 		// Merge persisted model into new model in memory
 		Object.assign(
 			tcModel,
@@ -118,7 +120,6 @@ export default class Store {
 			},
 			persistedTcModel || {}
 		);
-
 		// Auto consent interests that aren't interactive
 		if (!encodedTCString) {
 			tcModel.setAllVendorLegitimateInterests();
@@ -135,6 +136,11 @@ export default class Store {
 	}
 
 	onEvent(tcData, success) {
+		if (!success) {
+			console.log('onEvent error', success);
+			return;
+		}
+
 		debug('store: onEvent', tcData, success);
 		const { tcString } = tcData;
 		const { cookieDomain } = this.config;
@@ -147,10 +153,8 @@ export default class Store {
 		// not all consented if you find 1 key missing
 		const { vendorIds } = this.gvl;
 		const { vendorConsents } = this.tcModel;
-		console.log('vendorIds', vendorIds, vendorConsents);
 		const hasConsentedAll = ![...vendorIds].find((key) => !vendorConsents.has(key));
-		console.log('hasConsentedAll', hasConsentedAll);
-		cookie.writeConsentedAllCookie(hasConsentedAll, cookieDomain);
+		cookie.writeConsentedAllCookie(hasConsentedAll ? 1 : 0, cookieDomain);
 	}
 
 	subscribe = (callback) => {

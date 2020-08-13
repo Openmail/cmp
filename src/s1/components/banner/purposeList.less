@@ -10,6 +10,12 @@
 		margin: 0;
 		margin-bottom: 0.1rem;
 		font-size: 1rem;
+
+		@media @smartphone {
+			margin-bottom: 0.25rem;
+			font-size: 0.9rem;
+			line-height: 1.1rem;
+		}
 	}
 
 	.item {
@@ -25,6 +31,11 @@
 		background-color: #fafcfb;
 		transform: translateZ(0);
 		width: 100%;
+
+		@media @smartphone {
+			padding: 0.75rem;
+		}
+
 
 		.detailExpand {
 			color: @color-secondary;
@@ -47,12 +58,19 @@
 			justify-content: center;
 			border-top-right-radius: 20px;
 			border-bottom-right-radius: 20px;
-			background: linear-gradient(150deg, rgba(0, 0, 0, 0), rgba(@color-secondary, 0.05));
+			background: linear-gradient(130deg, rgba(0, 0, 0, 0) 20%, rgba(@color-secondary, 0.075));
+
+			@media @smartphone {
+				padding-left: 0rem;
+				padding-right: 0.5rem;
+			}
 		}
 
 		a {
-			flex: 1;
-
+			flex-basis: 50%;
+			flex-grow: 1;
+			flex-shrink: 1;
+			
 			span {
 				width: calc(100% - 30px);
 				vertical-align: middle;
@@ -80,18 +98,33 @@
 			overflow: hidden;
 			transform: translateZ(0);
 			align-items: center;
-			padding-left: 30px;
-			padding-right: 30px;
 			max-height: 0px;
 
 			p {
 				flex: 1;
 				margin: 0;
-				padding-right: 3rem;
-				padding-left: 0;
 				padding-top: 10px;
+				padding-left: 21px;
+				padding-right: 20px;
 				padding-bottom: 10px;
-				margin: 0;
+
+				@media @smartphone {
+					padding-top: 5px;
+					padding-right: 20px;
+					padding-bottom: 0px;
+				}
+			}
+		}
+
+		.canConsent {
+			.itemDetails {
+				p {
+					padding-right: 60px;
+
+					@media @smartphone {
+						padding-right: 20px;
+					}
+				}
 			}
 		}
 

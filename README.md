@@ -9,16 +9,17 @@ TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of vali
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-- [system1-cmp](#system1-cmp)
-  - [Installation / Use](#installation--use)
-  - [API](#api)
-    - [Customized API](#customized-api)
-      - [init](#init)
-    - [showConsentTool](#showconsenttool)
-    - [changeLanguage](#changelanguage)
-  - [Background and Resources](#background-and-resources)
-  - [TODO](#todo)
-  - [Support Matrix](#support-matrix)
+
+- [Installation / Use](#installation--use)
+- [API](#api)
+  - [Customized API](#customized-api)
+    - [init](#init)
+  - [showConsentTool](#showconsenttool)
+  - [changeLanguage](#changelanguage)
+- [Background and Resources](#background-and-resources)
+- [TODO](#todo)
+- [Support Matrix](#support-matrix)
+- [Contributing](#contributing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -163,3 +164,13 @@ Following Google's [Additional Consent Mode](https://support.google.com/admanage
 | Android Chrome  | ✔ Latest        | ✢ Latest - 2         |           |                   |
 | Android Browser |                 |                      |           | ✘ Default Browser |
 | Opera           |                 |                      |           | ✘                 |
+
+## Contributing
+
+For now the TCF 1.1 and TCF 2.0 CMPs both live in this repository. We will deprecate and remove TCF 1.1 and update all tests against the new 2.0 package. To contribute, make updates to the files in `src/s1`.
+
+```
+yarn
+yarn dev
+# browse to http://localhost:8080/tcf-2.0.html
+```

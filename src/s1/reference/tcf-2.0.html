@@ -114,23 +114,6 @@
 						<li><a href="https://github.com/Openmail/system1-cmp/tree/potench/tcf-2.0-v.0" target="_github">System1 CMP Github</a></li>
 					</ul>
 				</li>
-				<li>
-					<h3>Integration</h3>
-					<pre>
-function onConsentUpdated(tcData, isSuccessful) {
-	var hasConsented = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
-	if (hasConsented) {
-		console.log('cmp:onConsentUpdated: all consent achieved', tcData);
-	} else {
-		console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
-	}
-};
-__tcfapi('addEventListener', 2, onConsentUpdated);
-__tcfapi('init', 2, function (store, error) {
-	console.log('initialization complete', store, error);
-}, config);
-					</pre>
-				</li>
 			</ul>
 		</div>
 		<script src="./tcf-2.0-loader.js"></script>

@@ -2,13 +2,12 @@
 
 # system1-cmp
 
-TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of validating this CMP, we will update this repo once it passes TCF 2.0 validation. Use at your own risk.
+TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of validating this CMP, we will update this repo once it passes TCF 2.0 validation.
 
 [Reference Page and Demo](https://s.flocdn.com/cmp/test/tcf-2.0.html)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
 
 - [Installation / Use](#installation--use)
 - [API](#api)

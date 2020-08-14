@@ -1,8 +1,8 @@
-## [1.5.6](https://github.com/openmail/system1-cmp/compare/v1.5.5...v1.5.6) (2020-06-23)
+## [2.0.0](https://github.com/openmail/system1-cmp/compare/v1.5.6...v2.0.0) (2020-08-14)
 
-### Translations
+### Refactor
 
-- [x] Update translations for fr, pl
+- [x] Introduce new CMP based on TCF 2.0 framework
 
 ## [1.5.5](https://github.com/openmail/system1-cmp/compare/v1.5.4...v1.5.5) (2020-06-09)
 

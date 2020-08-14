@@ -1,6 +1,6 @@
 {
 	"name": "system1-cmp",
-	"version": "1.5.6",
+	"version": "2.0.0",
 	"description": "System1 Consent Management Platform for TCF 1.1 GDPR Compliance",
 	"scripts": {
 		"clean": "rimraf ./dist",
@@ -28,7 +28,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/appnexus/cmp.git"
+		"url": "https://github.com/Openmail/system1-cmp.git"
 	},
 	"license": "Apache-2.0",
 	"author": "AppNexus",

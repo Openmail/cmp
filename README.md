@@ -1,3 +1,11 @@
+<img align="right" width="50" src="https://s.flocdn.com/@s1/ads-coordinator/reference/fa9924f562bd5be7831df8ca2d285b1f.gif" />
+
+# system1-cmp
+
+TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of validating this CMP, we will update this repo once it passes TCF 2.0 validation. Use at your own risk.
+
+[Reference Page and Demo](https://s.flocdn.com/cmp/test/tcf-2.0.html)
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
@@ -13,12 +21,6 @@
   - [Support Matrix](#support-matrix)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# system1-cmp
-
-TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of validating this CMP, we will update this repo once it passes TCF 2.0 validation. Use at your own risk.
-
-[Reference Page and Demo](https://s.flocdn.com/cmp/test/tcf-2.0.html)
 
 ## Installation / Use
 

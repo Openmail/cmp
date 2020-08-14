@@ -1,7 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents** _generated with [DocToc](https://github.com/thlorenz/doctoc)_
 
 - [system1-cmp](#system1-cmp)
   - [Installation / Use](#installation--use)
@@ -11,6 +10,8 @@
     - [showConsentTool](#showconsenttool)
     - [changeLanguage](#changelanguage)
   - [Background and Resources](#background-and-resources)
+  - [TODO](#todo)
+  - [Support Matrix](#support-matrix)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 

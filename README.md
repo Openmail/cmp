@@ -1,7 +1,6 @@
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [system1-cmp](#system1-cmp)
   - [Installation / Use](#installation--use)
   - [API](#api)
@@ -142,6 +141,7 @@ Following Google's [Additional Consent Mode](https://support.google.com/admanage
 - [ ] Auto-consent using [TC-string-passing](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#full-tc-string-passing)
 - [ ] non-personalized performance and monitoring analytics
 - [ ] Validate using the [TCF 2.0 validator extension](https://cmp-validator.consensu.org/chrome-extension/latest/IAB-Europe-CMP-Validator-User-Guide.pdf)
+- [ ] Separate polyfill bundle, use babelrc instead of manually importing from core-js
 
 ## Support Matrix
 

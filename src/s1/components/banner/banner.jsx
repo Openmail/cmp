@@ -97,9 +97,8 @@ export default class Banner extends Component {
 										class={style.save}
 										onClick={this.handleSave}
 										style={{
-											backgroundColor: primaryColor,
+											color: primaryColor,
 											borderColor: primaryColor,
-											color: primaryTextColor,
 										}}
 									>
 										<LocalLabel localizeKey="links.save">Save</LocalLabel>

@@ -57,7 +57,7 @@
 							if (!parameter || !parameter[scriptSrc]) {
 								return log(
 									parameter[logging],
-									'CMP Error: Provide src to load CMP. cmp(\'init\', { scriptSrc: \'./cmp.js\'})'
+									"CMP Error: Provide src to load CMP. cmp('init', { scriptSrc: './cmp.js'})"
 								);
 							}
 							if (!parameter[gdprApplies]) {

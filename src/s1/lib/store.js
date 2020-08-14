@@ -293,9 +293,9 @@ export default class Store {
 	}
 
 	toggleShowModal(shouldShowModal) {
-		if (this.tcModel) {
-			this.updateCmp(this.tcModel, shouldShowModal);
-		}
+		this.setState({
+			isModalShowing: shouldShowModal,
+		});
 	}
 
 	toggleStackConsent(id) {

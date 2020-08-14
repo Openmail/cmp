@@ -16,28 +16,50 @@
 
 # system1-cmp
 
-TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of validating this CMP, we will update this repo once it passes TCF 2.0 validation.
+TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of validating this CMP, we will update this repo once it passes TCF 2.0 validation. Use at your own risk.
+
+[Reference Page and Demo](https://s.flocdn.com/cmp/test/tcf-2.0.html)
 
 ## Installation / Use
 
-```js
-function onConsentUpdated(tcData, isSuccessful) {
-	var hasConsentedAll = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
-	if (hasConsentedAll) {
-		console.log('cmp:onConsentUpdated: all consent achieved', tcData);
-	} else {
-		console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
+API signatures have changed from the CMP TCF 1.1, but we've tried to keep the configuration process very similar. See a [working example in codepen](https://codepen.io/potench/pen/GRZZprw).
+
+```html
+<script src="https://s.flocdn.com/cmp/test/tcf-2.0-loader.js"></script>
+<script>
+	function onConsentUpdated(tcData, isSuccessful) {
+		var hasConsentedAll = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
+		if (hasConsentedAll) {
+			console.log('cmp:onConsentUpdated: all consent achieved', tcData);
+		} else {
+			console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
+		}
 	}
-}
-__tcfapi('addEventListener', 2, onConsentUpdated);
-__tcfapi(
-	'init',
-	2,
-	function (store, error) {
-		console.log('initialization complete', store, error);
-	},
-	config
-);
+	__tcfapi('addEventListener', 2, onConsentUpdated);
+	__tcfapi(
+		'init',
+		2,
+		function (store, error) {
+			console.log('initialization complete', store, error);
+		},
+		{
+			gdprApplies: true,
+			logging: true, // console logs
+			baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url for vendor-lists
+			versionedFilename: 'vendor-list.json', // vendor list json
+			scriptSrc: 'https://s.flocdn.com/cmp/test/tcf-2.0-cmp.js', // cmp SDK
+			publisherCountryCode: 'AA',
+			narrowedVendors: [], // ex [1,2,3,4],
+			theme: {
+				primaryColor: '#0099ff',
+				textLinkColor: '#0099ff',
+				boxShadow: 'none',
+				secondaryColor: '#869cc0',
+				featuresColor: '#d0d3d7',
+			},
+		}
+	);
+</script>
 ```
 
 ## API
@@ -106,3 +128,35 @@ This CMP leverages the [core](https://github.com/InteractiveAdvertisingBureau/ia
 The component library was forked and edited from the original [TCF 1.0 CMP](https://github.com/appnexus/cmp) by AppNexus.
 
 Following Google's [Additional Consent Mode](https://support.google.com/admanager/answer/9681920?hl=en&ref_topic=9760861) and [Interoperability guidance for vendors](https://support.google.com/admanager/answer/9461778?hl=en) this CMP provides cached versions of the [vendor-list-test-google](https://vendorlist.consensu.org/v2/vendor-list-test-google.json) and standard [vendor-list](https://vendorlist.consensu.org/v2/vendor-list.json) vendor list.
+
+## TODO
+
+- [ ] Write Unit Tests and Integration Tests
+- [ ] Docs
+- [ ] Internal Localization
+- [ ] Layer 2 Purposes
+- [ ] Layer 3 Purpose Details
+- [ ] Layer 2 Vendors
+- [ ] Theming
+- [ ] Auto-consent using [TC-string-passing](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20Consent%20string%20and%20vendor%20list%20formats%20v2.md#full-tc-string-passing)
+- [ ] non-personalized performance and monitoring analytics
+- [ ] Validate using the [TCF 2.0 validator extension](https://cmp-validator.consensu.org/chrome-extension/latest/IAB-Europe-CMP-Validator-User-Guide.pdf)
+
+## Support Matrix
+
+- `✔ Level 1`: Tested and fully supported, all functional and visual bugs should be fixed.
+- `✢ Level 2`: Untested or Partially tested, functional bugs reported are fixed, visual appearance may differ.
+- `✳ Level 3`: A separate solution or codebase exists to support this browser
+- `✘ Not Supported`: Untested tested, functional bugs expected and not fixed.
+
+| Browser         | ✔ Level 1       | ✢ Level 2            | ✳ Level 3 | ✘ Not Supported   |
+| :-------------- | :-------------- | :------------------- | --------- | ----------------- |
+| Chrome          | ✔ Latest        | ✢ Latest - 2         |           |                   |
+| Safari          | ✔ Latest        | ✢ Latest - 2         |           |                   |
+| Edge            | ✔ Latest        | ✢ Latest - 2 (Win10) |           |                   |
+| IE              | ✔ IE11 (Win8.1) | ✢ IE11(Win7 / Metro) |           | ✘ IE10, IE9,...   |
+| Firefox         | ✔ Latest        | ✢ Latest - 2         |           |                   |
+| iOS Safari      | ✔ Latest        | ✢ Latest - 2         |           |                   |
+| Android Chrome  | ✔ Latest        | ✢ Latest - 2         |           |                   |
+| Android Browser |                 |                      |           | ✘ Default Browser |
+| Opera           |                 |                      |           | ✘                 |

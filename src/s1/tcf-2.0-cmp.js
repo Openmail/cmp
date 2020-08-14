@@ -23,7 +23,7 @@ import Store from './lib/store';
 import debug from './lib/debug';
 import { CMP_GLOBAL_NAME, CUSTOM_API } from './constants';
 
-const {INIT} = CUSTOM_API;
+const { INIT } = CUSTOM_API;
 
 debug.isEnabled = true;
 let errorMessage = '';
@@ -60,8 +60,15 @@ export const setup = (configOpt) => {
 			next(tcData);
 		},
 
-		showConsentTool: (callback, other) => {
-			console.log('custom: showConsentTool: callback', callback, other);
+		showConsentTool: (callback) => {
+			store.toggleShowModal(true);
+			callback(store, true);
+		},
+
+		changeLanguage: (callback, language) => {
+			store.toggleLanguage(language).finally((result) => {
+				callback(store, result);
+			});
 		},
 
 		// Custom init function maps to 1.1 integration
@@ -101,10 +108,8 @@ export const processCommandQueue = (() => {
 		console.log('onError', message, file, line);
 	};
 	const { commandQueue = [] } = window[CMP_GLOBAL_NAME] || {};
-	const initIndex = commandQueue.findIndex(({command}) => command === INIT);
-	const initCommandFirst = (initIndex >= 0) ? commandQueue.splice(initIndex, 1).concat(commandQueue) : commandQueue;
-
-	console.log('commandQueue', commandQueue, initCommandFirst, initIndex);
+	const initIndex = commandQueue.findIndex(({ command }) => command === INIT);
+	const initCommandFirst = initIndex >= 0 ? commandQueue.splice(initIndex, 1).concat(commandQueue) : commandQueue;
 
 	initCommandFirst.forEach(({ command, callback, parameter }) => {
 		if (command === 'init') {
@@ -115,7 +120,6 @@ export const processCommandQueue = (() => {
 				errorMessage = e;
 			}
 		}
-		console.log('call', command);
 		window[CMP_GLOBAL_NAME].call(this, command, parameter, callback);
 	});
 	window[CMP_GLOBAL_NAME].commandQueue = [];

@@ -1,6 +1,7 @@
 import { TCModel, TCString } from '@iabtcf/core';
 import cookie from './cookie';
 import debug from './debug';
+import { LANGUAGES } from '../constants';
 
 export const mock = {
 	config: {
@@ -27,13 +28,16 @@ export default class Store {
 	};
 
 	displayLayer1;
+
 	isModalShowing = false;
+	hasConsentedAll;
 	gvl;
 	gvlPromises;
 	cmpApi;
 	tcfApi;
 	tcModel;
 	tcData;
+	LANGUAGES = LANGUAGES;
 	listeners = new Set();
 
 	constructor(options) {
@@ -106,10 +110,16 @@ export default class Store {
 			this.gvl.narrowVendorsTo(filteredNarrowedVendors);
 		}
 
+		const tcModel = new TCModel(this.gvl);
+		let persistedTcModel;
 		let encodedTCString = cookie.readVendorConsentCookie();
 
-		const tcModel = new TCModel(this.gvl);
-		const persistedTcModel = encodedTCString && TCString.decode(encodedTCString);
+		try {
+			persistedTcModel = encodedTCString && TCString.decode(encodedTCString);
+		} catch (e) {
+			console.error('unable to decode tcstring');
+		}
+
 		// Merge persisted model into new model in memory
 		Object.assign(
 			tcModel,
@@ -120,19 +130,25 @@ export default class Store {
 			},
 			persistedTcModel || {}
 		);
-		// Auto consent interests that aren't interactive
-		if (!encodedTCString) {
+
+		// Handle a return user with persistedConsent vs a user that has not saved preferences
+		if (!persistedTcModel) {
 			tcModel.setAllVendorLegitimateInterests();
 			tcModel.setAllPurposeLegitimateInterests();
 			// tcModel.setAllPurposeConsents();
 			// tcModel.setAllVendorConsents();
 			// tcModel.setAllSpecialFeatureOptins();
 			// tcModel.setAll();
-			encodedTCString = TCString.encode(tcModel);
+
+			// persist the model but dont update the CMP until a user selects an option
+			this.tcModel = tcModel;
+			this.setState({
+				isModalShowing: true,
+			});
+		} else {
+			this.updateCmp(tcModel, false);
 		}
-		this.tcModel = tcModel;
 		this.setDisplayLayer1();
-		this.cmpApi.update(encodedTCString, false);
 	}
 
 	onEvent(tcData, success) {
@@ -144,17 +160,19 @@ export default class Store {
 		debug('store: onEvent', tcData, success);
 		const { tcString } = tcData;
 		const { cookieDomain } = this.config;
-		this.setState({
-			tcData,
-		});
 
 		cookie.writeVendorConsentCookie(tcString, cookieDomain);
 
 		// not all consented if you find 1 key missing
-		const { vendorIds } = this.gvl;
+		const { vendors } = this.gvl;
 		const { vendorConsents } = this.tcModel;
-		const hasConsentedAll = ![...vendorIds].find((key) => !vendorConsents.has(key));
+		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(key));
 		cookie.writeConsentedAllCookie(hasConsentedAll ? 1 : 0, cookieDomain);
+
+		this.setState({
+			tcData,
+			hasConsentedAll,
+		});
 	}
 
 	subscribe = (callback) => {
@@ -165,14 +183,22 @@ export default class Store {
 		this.listeners.delete(callback);
 	};
 
-	updateCmp = (tcModelOpt) => {
+	updateCmp = (tcModelOpt, shouldShowModal) => {
 		const tcModel = this.autoToggleVendorConsents(tcModelOpt);
+		const isModalShowing = shouldShowModal !== undefined ? shouldShowModal : this.isModalShowing;
 		const encodedTCString = TCString.encode(tcModel);
 		this.tcModel = tcModel;
-		this.cmpApi.update(encodedTCString, false);
+
+		this.cmpApi.update(encodedTCString, isModalShowing);
+
+		if (isModalShowing !== this.isModalShowing) {
+			this.setState({
+				isModalShowing,
+			});
+		}
 	};
 
-	setState = (state) => {
+	setState = (state = {}) => {
 		Object.assign(this, {
 			...state,
 		});
@@ -199,7 +225,7 @@ export default class Store {
 	toggleAll() {
 		const tcModel = this.tcModel.clone();
 		tcModel.setAll();
-		this.updateCmp(tcModel);
+		this.updateCmp(tcModel, false);
 		return tcModel;
 	}
 
@@ -243,40 +269,49 @@ export default class Store {
 	autoToggleVendorConsents(tcModelOpt) {
 		const tcModel = tcModelOpt || this.tcModel.clone();
 		// NOTE: vendorIds are numbers, vendors[key] is a string *
-		const { vendorIds, vendors } = this.gvl;
+		const { vendors } = this.gvl;
 		const { purposeConsents, specialFeatureOptins } = tcModel;
 
 		// if purposes and special features are consented for this vendor, then consent the vendor
-		vendorIds.forEach((key) => {
-			const vendor = vendors['' + key]; // number to string coersion
-			const { purposes, specialFeatures } = vendor;
+		Object.keys(vendors).forEach((key) => {
+			const vendor = vendors[key]; // number to string coersion
+			if (vendor) {
+				const { purposes, specialFeatures } = vendor;
 
-			const isMissingPurposesConsent = purposes.length && purposes.find((purpose) => !purposeConsents.has(purpose));
-			const isMissingSpecialFeaturesConsent =
-				specialFeatures.length && specialFeatures.find((specialFeature) => !specialFeatureOptins.has(specialFeature));
+				const isMissingPurposesConsent = purposes.length && purposes.find((purpose) => !purposeConsents.has(purpose));
+				const isMissingSpecialFeaturesConsent =
+					specialFeatures.length && specialFeatures.find((specialFeature) => !specialFeatureOptins.has(specialFeature));
 
-			if (isMissingPurposesConsent || isMissingSpecialFeaturesConsent) {
-				tcModel.vendorConsents.unset(key); // number
-			} else {
-				tcModel.vendorConsents.set(key); // number
+				if (isMissingPurposesConsent || isMissingSpecialFeaturesConsent) {
+					tcModel.vendorConsents.unset(key); // number
+				} else {
+					tcModel.vendorConsents.set(key); // number
+				}
 			}
 		});
 		return tcModel;
 	}
 
+	toggleShowModal(shouldShowModal) {
+		if (this.tcModel) {
+			this.updateCmp(this.tcModel, shouldShowModal);
+		}
+	}
+
 	toggleStackConsent(id) {
-		const tcModel = this.tcModel.clone();
 		const { stacks } = this.gvl;
 		const stack = stacks[id];
 		if (stack) {
 			const shouldConsent = !this.getStackOptin(id);
 			const { purposes, specialFeatures } = stack;
-
 			let tcModel = this.tcModel.clone();
-
 			tcModel = this.togglePurposeConsents([...purposes], shouldConsent, tcModel);
 			this.toggleSpecialFeatureOptins([...specialFeatures], shouldConsent, tcModel);
 			this.updateCmp(tcModel);
 		}
+	}
+
+	toggleLanguage(language) {
+		return this.gvl.changeLanguage(language).then(this.setState);
 	}
 }

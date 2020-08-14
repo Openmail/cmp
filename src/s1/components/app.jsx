@@ -26,9 +26,11 @@ export default class App extends Component {
 
 	render(props, state) {
 		const { store } = state;
+		const { isModalShowing } = store;
+
 		return (
 			<div class={style.gdpr}>
-				<Banner store={store} />
+				<Banner store={store} isShowing={isModalShowing} />
 			</div>
 		);
 	}

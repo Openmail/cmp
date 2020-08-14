@@ -7,6 +7,7 @@ import Label from '../label/label';
 class LocalLabel extends Label {
 	static defaultProps = {
 		prefix: 'banner',
+		isShowing: false,
 	};
 }
 
@@ -15,30 +16,34 @@ export default class Banner extends Component {
 		super(props);
 	}
 
-	handleAcceptAll(props, state) {
+	handleAcceptAll = () => {
 		const { store } = this.props;
 		store.toggleAll();
-	}
+	};
 
-	render(props, state) {
-		let isShowing = true;
-		const { store } = props;
+	handleSave = () => {
+		const { store } = this.props;
+		store.toggleShowModal(false);
+	};
+
+	render(props) {
+		const { isShowing, store } = props;
 		const {
 			config: { theme },
-			gvl,
 			displayLayer1,
+			tcData,
 		} = store;
+
+		const canSaveChanges = !!tcData; // show save button if the user has made some customizations
 
 		const {
 			isBannerModal,
 			isBannerInline,
-			boxShadow,
 			primaryColor,
 			primaryTextColor,
 			backgroundColor,
 			textColor,
 			textLightColor,
-			textLinkColor,
 		} = theme;
 
 		const bannerClasses = [style.banner];
@@ -78,7 +83,7 @@ export default class Banner extends Component {
 								</a>
 								<a
 									class={style.continue}
-									onClick={this.handleAcceptAll.bind(this, props, state)}
+									onClick={this.handleAcceptAll}
 									style={{
 										backgroundColor: primaryColor,
 										borderColor: primaryColor,
@@ -87,6 +92,19 @@ export default class Banner extends Component {
 								>
 									<LocalLabel localizeKey="links.accept">Continue to site</LocalLabel>
 								</a>
+								{!!canSaveChanges && (
+									<a
+										class={style.save}
+										onClick={this.handleSave}
+										style={{
+											backgroundColor: primaryColor,
+											borderColor: primaryColor,
+											color: primaryTextColor,
+										}}
+									>
+										<LocalLabel localizeKey="links.save">Save</LocalLabel>
+									</a>
+								)}
 							</div>
 							<div class={style.optionsContainer}>
 								{!displayLayer1 ? <h1>Loading</h1> : <PurposeList store={store} />}

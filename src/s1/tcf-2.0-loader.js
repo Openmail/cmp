@@ -22,7 +22,7 @@
 					window[cmp].call(this, command, parameter, callback);
 				};
 				var cmpToTcfMap = function (command, parameter, callback) {
-					console.log('cmpToTcf', command, callback, parameter)
+					console.log('cmpToTcf', command, callback, parameter);
 					window[__tcfapi].call(this, command, 2, callback || function () {}, parameter);
 				};
 

@@ -2,9 +2,30 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Info.com Android Choice Screen CMP</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui" />
 		<style>
+			html {
+				font-family: Geneva, ‘Lucida Sans’, ‘Lucida Grande’, ‘Lucida Sans Unicode’, Verdana, sans-serif;	
+				font-size: 16px;
+			}
+			select {
+				cursor: pointer;
+			}
+			button {
+				cursor: pointer;
+				background: #4dbecf;
+				border-radius: 3px;
+				box-shadow: 0 15px 30px rgba(black,.1);
+				border: 0;
+				padding: 10px;
+				font-size: 14px;
+				color: #fff;
+			}
+			pre {
+				overflow: auto;
+			}
 			.reference ul {
 				margin: 0;
 				padding: 0;
@@ -40,6 +61,7 @@
 			}
 			.reference .horizontal {
 				display: flex;
+				flex-wrap: wrap;
 				border: 1px solid #c1c1c1;
 				box-shadow: 0 5px 5px -3px rgba(0,0,0,0.2);
 				border-radius: 10px;
@@ -52,6 +74,16 @@
 			pre {
 				font-family: Consolas,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New;
 				font-size: 12px;
+			}
+
+			@media only screen and (max-width: 768px) {
+				html {
+					font-size: 12px;
+				}
+				.reference .p {
+					padding: 0.75rem 0rem;
+				}
+				
 			}
 		</style>
 	</head>
@@ -74,13 +106,9 @@
 				</li>
 				<li>
 					<ul class="horizontal">
-						<li><button id="btnShowConsentTool">cmp('showConsentTool')</button></li>
+						<li><button id="btnShowConsentTool">Show Consent Tool</button></li>
 						<li>Language: 
-							<select>
-								<option>EN</option>
-								<option>FR</option>
-								<option>DE</option>
-							</select>
+							<select id="selectLanguage"><option>Loading...</option></select>
 						</li>
 						<li><a href="https://github.com/Openmail/system1-cmp">System1 CMP Github</a></li>
 						<li><a href="">__tcfapi docs</a></li>
@@ -116,7 +144,22 @@ __tcfapi('init', 2, function (store, error) {
 			const btnShowConsentTool = document.querySelector('#btnShowConsentTool');
 			const domHasConsented = document.querySelector('#domHasConsented');
 			const domTcfString = document.querySelector('#domTcfString');
-			
+			const selectLanguage = document.querySelector('#selectLanguage');
+			const selectVendors = document.querySelector('#selectVendors');
+
+			const setupQaTools = function (store) {
+				const LANGUAGES = store.LANGUAGES;
+				selectLanguage.innerHtml = '';
+				for(var i in LANGUAGES) {
+					const optionDom = document.createElement('option');
+					optionDom.value = LANGUAGES[i].code;
+					optionDom.innerText = LANGUAGES[i].display;
+					selectLanguage.appendChild(optionDom);
+				};
+				const currentLanguage = navigator.language.split('-')[0];
+				selectLanguage.value = currentLanguage.toLowerCase();
+			}
+
 			const config = {
 				gdprApplies: true,
 				logging: true,
@@ -125,7 +168,7 @@ __tcfapi('init', 2, function (store, error) {
 				versionedFilename: 'vendor-list.json', // vendor list json
 				scriptSrc: './tcf-2.0-cmp.js', // cmp SDK
 				publisherCountryCode: 'AA',
-				narrowedVendors: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+				narrowedVendors: [],
 			};
 
 			const onConsentUpdated = function (tcData, success) {
@@ -142,14 +185,25 @@ __tcfapi('init', 2, function (store, error) {
 			__tcfapi('addEventListener', 2, onConsentUpdated);
 			__tcfapi('init', 2, function (store, error) {
 				console.log('initialization complete', store, error);
+				setupQaTools(store);
+
 			}, config);
 			
 
 			btnShowConsentTool.addEventListener('click', function () {
-				cmp('showConsentTool', { someProp: 1 }, function () {
-					console.log(1);
+				__tcfapi('showConsentTool', 2, function () {
+					console.log('on complete show consent tool');
 				});
 			});
+
+			selectLanguage.addEventListener('change', function () {
+				__tcfapi('showConsentTool', 2, function () {
+					console.log('why do we need callbacks?');
+				});
+				__tcfapi('changeLanguage', 2, function() {
+					console.log('changed language to', selectLanguage.value);
+				}, selectLanguage.value)
+			})
 		</script>
 	</body>
 </html>

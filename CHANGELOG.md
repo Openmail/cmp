@@ -4,6 +4,20 @@
 
 - [x] Introduce new CMP based on TCF 2.0 framework
 
+## [1.5.7](https://github.com/openmail/system1-cmp/compare/v1.5.6...v1.5.7) (2020-08-17)
+
+### Fix
+
+- [x] Default to hosted vendorlist since IAB removed their global v1 vendorlist
+- [x] Check for IAB global vendor list location and remove if manually set
+- [x] Add SameSite;secure cookie props for http and https
+
+## [1.5.6](https://github.com/openmail/system1-cmp/compare/v1.5.5...v1.5.6) (2020-06-23)
+
+### Translations
+
+- [x] Update translations for fr, pl
+
 ## [1.5.5](https://github.com/openmail/system1-cmp/compare/v1.5.4...v1.5.5) (2020-06-09)
 
 ### Translations

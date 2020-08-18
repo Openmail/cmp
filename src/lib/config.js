@@ -31,6 +31,10 @@ class Config {
 	}
 
 	update = (updates) => {
+		if (updates && updates.globalVendorListLocation === 'https://vendorlist.consensu.org/vendorlist.json') {
+			delete updates.globalVendorListLocation;
+		}
+
 		if (updates && typeof updates === 'object') {
 			const validKeys = Object.keys(defaultConfig);
 			const { validUpdates, invalidKeys } = Object.keys(updates).reduce(

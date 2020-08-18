@@ -21,12 +21,14 @@ import { h, render } from 'preact';
 import App from './components/app';
 import Store from './lib/store';
 import debug from './lib/debug';
+import logger, { EVENTS } from './lib/logger';
 import { CMP_GLOBAL_NAME, CUSTOM_API } from './constants';
 
 const { INIT } = CUSTOM_API;
 
-debug.isEnabled = true;
 let errorMessage = '';
+
+let performanceTimer = new Date();
 
 export const setup = (configOpt) => {
 	const config = {
@@ -37,11 +39,21 @@ export const setup = (configOpt) => {
 		publisherCountryCode: 'AA',
 		baseUrl: './config/2.0', // 'https://s.flocdn.com/cmp/test/config/2.0';
 		versionedFilename: 'vendor-list.json',
+		canLog: false, // pixel logs for monitoring
+		canDebug: false, // console.logs
+		shouldAutoConsent: false, // deprecated feature
 		...configOpt,
 	};
 
+	debug.isEnabled = config.canDebug;
+	logger.isEnabled = config.canLog;
+
 	GVL.baseUrl = config.baseUrl;
 	GVL.versionedFilename = config.versionedFilename;
+
+	logger(EVENTS.CMPSetup, {
+		shouldAutoConsent: config.shouldAutoConsent, // delete me
+	});
 
 	// gvl.changeLanguage('fr'); // Change language
 	// 1. customize the CMP API
@@ -74,10 +86,26 @@ export const setup = (configOpt) => {
 		// Custom init function maps to 1.1 integration
 		[INIT]: (callback) => {
 			if (!store || !init) {
-				callback(store, new Error(`CMP: error initializing: ${errorMessage}`));
+				logger(EVENTS.CMPError, {
+					errorMessage: `initError: ${errorMessage}`,
+				});
+				callback(store, new Error(`CMP: initError: ${errorMessage}`));
 			} else {
+				// could be loading gvl (readyPromise)
+				// could be updating CMP ()
 				// you hoisted this config up for the `setup` step, so you dont need it again
-				callback(init());
+				const { readyPromise } = store;
+				readyPromise
+					.then(() => {
+						console.log('init ready', store);
+						callback(store);
+					})
+					.catch((e) => {
+						logger(EVENTS.CMPError, {
+							errorMessage: `initError: ${e}`,
+						});
+						callback(store);
+					});
 			}
 		},
 	});

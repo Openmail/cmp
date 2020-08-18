@@ -23,6 +23,8 @@ export default class Store {
 			secondaryColor: '#869cc0',
 			featuresColor: '#d0d3d7',
 		},
+		canLog: true,
+		canDebug: false,
 		narrowedVendors: [],
 		cookieDomain: '',
 	};

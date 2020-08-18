@@ -11,8 +11,7 @@
 	};
 
 	var cmpLoader = (function (cmp, __tcfapi) {
-		var gdprApplies = 'gdprApplies',
-			logging = 'logging',
+		var logging = 'logging',
 			scriptSrc = 'scriptSrc';
 
 		return function () {
@@ -22,7 +21,6 @@
 					window[cmp].call(this, command, parameter, callback);
 				};
 				var cmpToTcfMap = function (command, parameter, callback) {
-					console.log('cmpToTcf', command, callback, parameter);
 					window[__tcfapi].call(this, command, 2, callback || function () {}, parameter);
 				};
 
@@ -57,22 +55,10 @@
 							if (!parameter || !parameter[scriptSrc]) {
 								return log(
 									parameter[logging],
+									// eslint-disable-next-line quotes
 									"CMP Error: Provide src to load CMP. cmp('init', { scriptSrc: './cmp.js'})"
 								);
 							}
-							if (!parameter[gdprApplies]) {
-								if (callback && typeof callback === 'function') {
-									callback.apply(this, [
-										{
-											hasConsented: false,
-											consentRequired: false,
-											gdprApplies: false,
-										},
-									]);
-								}
-								return log(parameter[logging], 'CMP: gdprApplies turned off so no CMP loaded.');
-							}
-
 							scriptEl = document.createElement(script);
 							scriptEl.async = 1;
 							scriptEl.src = parameter[scriptSrc];

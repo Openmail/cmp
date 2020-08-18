@@ -1,3 +1,9 @@
+## [1.5.7](https://github.com/openmail/system1-cmp/compare/v1.5.6...v1.5.7) (2020-08-17)
+
+### Refactor
+
+- [x] Default to hosted vendorlist since IAB removed their global v1 vendorlist
+
 ## [1.5.6](https://github.com/openmail/system1-cmp/compare/v1.5.5...v1.5.6) (2020-06-23)
 
 ### Translations

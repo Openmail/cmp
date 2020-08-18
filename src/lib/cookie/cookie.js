@@ -208,7 +208,8 @@ function writeCookie(name, value, maxAgeSeconds, path = '/') {
 	const expires =
 		maxAgeSeconds === null ? '' : ';expires=' + new Date(new Date() * 1 + maxAgeSeconds * 1000).toUTCString();
 	// System1:start getCookieDomain customized to work as *.somedomain by default
-	const cookie = `${name}=${value}${getCookieDomain()};path=${path}${maxAge}${expires};SameSite=None;secure`;
+	const secure = global.location && global.location.protocol === 'http:' ? ';SameSite=Lax' : ';SameSite=None;secure';
+	const cookie = `${name}=${value}${getCookieDomain()};path=${path}${maxAge}${expires}${secure}`;
 	document.cookie = cookie;
 	return cookie;
 	// System1:end

@@ -182,9 +182,25 @@
 					&.save {
 						margin-right: 0;
 						margin-left: auto;
+						opacity: 1;
+						transform: perspective(1px) scale(1);
+						transition-property: all, transform;
+						transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1), cubic-bezier(0.25, 1, 0.5, 1);
+						transition-duration: 250ms, 200ms;
+						backface-visibility: hidden;
+
+						&.hidden {
+							opacity: 0;
+							transform: perspective(1px) scale(0.9);
+							pointer-events: none;
+						}
 
 						&:hover {
 							background: rgba(@color-primary, 0.2);
+						}
+
+						&:active {
+							transform: perspective(1px) scale(1.1);
 						}
 					}
 				}

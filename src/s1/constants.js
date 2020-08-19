@@ -1,9 +1,11 @@
 /* global __VERSION__ */
 
 export const CUSTOM_API = {
+	CHANGE_LANGUAGE: 'changeLanguage',
 	INIT: 'init',
-	ON_CONSENT_CHANGED: 'onConsentAllChanged',
 	OFF_CONSENT_CHANGED: 'offConsentAllChanged',
+	ON_CONSENT_CHANGED: 'onConsentAllChanged',
+	SHOW_CONSENT_TOOL: 'showConsentTool',
 };
 
 export const CUSTOM_EVENTS = {

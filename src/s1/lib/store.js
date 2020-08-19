@@ -31,6 +31,7 @@ export default class Store {
 
 	displayLayer1;
 	isModalShowing = false;
+	isSaveShowing = false;
 	hasConsentedAll;
 	gvl;
 	cmpApi;
@@ -149,11 +150,11 @@ export default class Store {
 			// tcModel.setAllSpecialFeatureOptins();
 			// tcModel.setAll();
 
-			// persist the model but dont update the CMP until a user selects an option
-			this.updateCmp(tcModel, true);
+			// update internal models, show ui, dont save to cookie
+			this.updateCmp({ tcModel, shouldShowModal: true });
 		} else {
-			// model is already persisted
-			this.updateCmp(tcModel, false);
+			// update internal models, dont show the ui, dont save to cookie
+			this.updateCmp({ tcModel });
 		}
 		this.setDisplayLayer1();
 	}
@@ -184,22 +185,28 @@ export default class Store {
 		this.listeners.delete(callback);
 	};
 
-	updateCmp = (tcModelOpt, shouldShowModal, shouldSaveCookie) => {
-		console.log('updateCmp: ', tcModelOpt, shouldShowModal, shouldSaveCookie);
-		const tcModel = this.autoToggleVendorConsents(tcModelOpt);
+	/**
+	 * @oaram tcModelOpt - optional ModelObject, updates to the tcModel
+	 * @param shouldShowModal - optional boolean, displays UI if true
+	 * @param shouldSaveCookie - optional boolean, sets gdpr_opt_in and stores tcData.consentString too cookie if true
+	 */
+	updateCmp = ({ tcModel, shouldShowModal, shouldSaveCookie, shouldShowSave }) => {
+		const tcModelNew = this.autoToggleVendorConsents(tcModel);
 		const isModalShowing = shouldShowModal !== undefined ? shouldShowModal : this.isModalShowing;
-		const encodedTCString = TCString.encode(tcModel);
+		const isSaveShowing = shouldShowSave !== undefined ? shouldShowSave : this.isSaveShowing;
+		const encodedTCString = TCString.encode(tcModelNew);
 
-		const { vendorConsents } = tcModel;
+		const { vendorConsents } = tcModelNew;
 		const { vendors } = this.gvl;
 		// not all consented if you find 1 key missing
 		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(key));
 
 		this.setState(
 			{
-				tcModel,
+				tcModel: tcModelNew,
 				isModalShowing,
 				hasConsentedAll,
+				isSaveShowing,
 			},
 			true
 		);
@@ -210,10 +217,8 @@ export default class Store {
 			const { cookieDomain } = this.config;
 			const hasConsentedAllCookie = cookie.readConsentedAllCookie();
 			const normalizeHasConsentedAll = hasConsentedAll ? '1' : '0';
-			console.log('hasConsentedAllCookie', hasConsentedAllCookie, typeof hasConsentedAllCookie);
 			cookie.writeVendorConsentCookie(encodedTCString, cookieDomain);
 			cookie.writeConsentedAllCookie(hasConsentedAll ? '1' : '0', cookieDomain);
-			console.log('should dispatchEvent?!', hasConsentedAllCookie, hasConsentedAll);
 			if (hasConsentedAllCookie !== normalizeHasConsentedAll) {
 				global.dispatchEvent(
 					new MessageEvent(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, {
@@ -256,13 +261,19 @@ export default class Store {
 
 	save() {
 		// close the cmp and persist settings
-		this.updateCmp(null, false, true);
+		this.updateCmp({ shouldShowModal: false, shouldSaveCookie: true, shouldShowSave: false });
 	}
 
 	toggleAll() {
 		const tcModel = this.tcModel.clone();
 		tcModel.setAll();
-		this.updateCmp(tcModel, false, true);
+		// save and close
+		this.updateCmp({
+			tcModel,
+			shouldShowModal: false,
+			shouldSaveCooke: true,
+			shouldShowSave: false,
+		});
 		return tcModel;
 	}
 
@@ -278,7 +289,10 @@ export default class Store {
 		});
 
 		if (!tcModelOpt) {
-			this.updateCmp(tcModel);
+			this.updateCmp({
+				tcModel,
+				shouldShowSave: true,
+			});
 		}
 		return tcModel;
 	}
@@ -295,7 +309,10 @@ export default class Store {
 		});
 
 		if (!tcModelOpt) {
-			this.updateCmp(tcModel);
+			this.updateCmp({
+				tcModel,
+				shouldShowSave: true,
+			});
 		}
 		return tcModel;
 	}
@@ -330,8 +347,13 @@ export default class Store {
 	}
 
 	toggleShowModal(shouldShowModal) {
-		console.log('toggleShowModal', shouldShowModal);
-		this.updateCmp(null, true);
+		if (!this.tcModel) {
+			return;
+		}
+
+		this.updateCmp({
+			shouldShowModal,
+		});
 	}
 
 	toggleStackConsent(id) {
@@ -343,17 +365,27 @@ export default class Store {
 			let tcModel = this.tcModel.clone();
 			tcModel = this.togglePurposeConsents([...purposes], shouldConsent, tcModel);
 			this.toggleSpecialFeatureOptins([...specialFeatures], shouldConsent, tcModel);
-			this.updateCmp(tcModel);
+			this.updateCmp({
+				tcModel,
+				shouldShowSave: true,
+			});
 		}
 	}
 
 	toggleLanguage(language) {
+		if (!this.gvl) {
+			return;
+		}
+
 		return this.gvl.changeLanguage(language).then(() => {
 			const { language } = this.gvl;
 			console.log('language', language);
 			const tcModel = this.tcModel.clone();
 			tcModel.consentLanguage = language;
-			this.updateCmp(tcModel, true);
+			this.updateCmp({
+				tcModel,
+				shouldShowModal: true,
+			});
 		});
 	}
 }

@@ -11,7 +11,6 @@ export default class App extends Component {
 	};
 
 	updateState(store) {
-		console.log('update store', store);
 		this.setState({ store });
 	}
 

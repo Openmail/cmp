@@ -29,15 +29,15 @@ API signatures have changed from the CMP TCF 1.1, but we've tried to keep the co
 ```html
 <script src="https://s.flocdn.com/cmp/test/tcf-2.0-loader.js"></script>
 <script>
-	function onConsentUpdated(tcData, isSuccessful) {
-		var hasConsentedAll = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
-		if (hasConsentedAll) {
-			console.log('cmp:onConsentUpdated: all consent achieved', tcData);
+	__tcfapi('onConsentAllChanged', 2, function (store) {
+		const hasConsented = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
+		if (hasConsented) {
+			console.log('cmp:onConsentAllChanged: all consent achieved', store.tcData.tcString);
 		} else {
-			console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
+			console.log('cmp:onConsentAllChanged: only some consent achieved', store.tcData.tcString);
 		}
-	}
-	__tcfapi('addEventListener', 2, onConsentUpdated);
+	});
+
 	__tcfapi(
 		'init',
 		2,
@@ -46,7 +46,8 @@ API signatures have changed from the CMP TCF 1.1, but we've tried to keep the co
 		},
 		{
 			gdprApplies: true,
-			logging: true, // console logs
+			debugging: true, // console logs
+			logging: true, // pixel logs for monitoring
 			baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url for vendor-lists
 			versionedFilename: 'vendor-list.json', // vendor list json
 			scriptSrc: 'https://s.flocdn.com/cmp/test/tcf-2.0-cmp.js', // cmp SDK
@@ -59,6 +60,9 @@ API signatures have changed from the CMP TCF 1.1, but we've tried to keep the co
 				secondaryColor: '#869cc0',
 				featuresColor: '#d0d3d7',
 			},
+			ccpaApplies: true,
+			gdprApplies: true,
+			consentRequired: true,
 		}
 	);
 </script>
@@ -76,6 +80,8 @@ Read more about [\_\_tcfapi built-in API](https://github.com/InteractiveAdvertis
 ### Customized API
 
 - [init](#init)
+- [onConsentAllChanged](#onConsentAllChanged)
+- [offConsentAllChanged](#offConsentAllChanged)
 - [showConsentTool](#showConsentTool)
 - [changeLanguage](#changeLanguage)
 
@@ -91,8 +97,40 @@ Calling `__tcfapi('init', 2, (store) => {})` will trigger the seed-file or loade
  * @param apiVersion // required number, 2, version of api in use,
  * @param callback // required function, called when init completes, called with `store`
  * @param configurationOptions // optional object, used customize the CMP
+ * @return void
  */
 __tcfapi('init', apiVersion, callback, configurationOptions);
+```
+
+### onConsentAllChanged
+
+Calling `__tcfapi('onConsentAllChanged', 2, (store) => {})` triggers the callback whenever the `gdpr_opt_in` cookie changes.
+We track an all-or-nothing `hasConsentedAll` mode so you can more easily toggle an anonymous mode on your website.
+
+```js
+/**
+ * @param 'onConsentAllChanged' // required string command
+ * @param apiVersion // required number, 2, version of api in use,
+ * @param callback // required function, called when gdpr_opt_in value changes from undefined (no consent yet), 1 (contented all), 0 (declined anything)
+ * @return cachedListener // cache the callback if you need to remove this listener later
+ */
+const cachedListener = __tcfapi('onConsentAllChanged', apiVersion, callback);
+```
+
+### offConsentAllChanged
+
+Calling `__tcfapi('offConsentAllChanged', 2, cachedListener)` removes the listener setup in `__tcfapi('onConsentAllChanged')`.
+
+```js
+/**
+ * @param 'onConsentAllChanged' // required string command
+ * @param apiVersion // required number, 2, version of api in use,
+ * @param cachedListener // optional function, include to remove a specific listener that was setup with `onConsentAllChanged`
+ * @return void
+ */
+const cachedListener = __tcfapi('onConsentAllChanged', apiVersion, callback);
+__tcfapi('offConsentAllChanged', apiVersion, cachedListener); // remove a specific event listener
+__tcfapi('offConsentAllChanged', apiVersion); // remove all `onConsentAllChanged` event listeners
 ```
 
 ### showConsentTool

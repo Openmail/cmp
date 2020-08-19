@@ -1,7 +1,7 @@
 import { TCModel, TCString } from '@iabtcf/core';
 import cookie from './cookie';
 import debug from './debug';
-import { LANGUAGES } from '../constants';
+import { LANGUAGES, CUSTOM_EVENTS } from '../constants';
 
 export const mock = {
 	config: {
@@ -30,11 +30,9 @@ export default class Store {
 	};
 
 	displayLayer1;
-
 	isModalShowing = false;
 	hasConsentedAll;
 	gvl;
-	gvlPromises;
 	cmpApi;
 	tcfApi;
 	tcModel;
@@ -103,6 +101,15 @@ export default class Store {
 		});
 	}
 
+	isReady = false;
+	readyPromise = new Promise((resolve, reject) => {
+		this.onReadyResolve = () => {
+			this.isReady = true;
+			resolve();
+		};
+		this.onReadyReject = reject;
+	}); // fired after gvl.readyPromise and tcData updated if persisted
+
 	onReady() {
 		const { narrowedVendors, cmpId, cmpVersion, publisherCountryCode } = this.config;
 		const { vendors } = this.gvl;
@@ -143,11 +150,9 @@ export default class Store {
 			// tcModel.setAll();
 
 			// persist the model but dont update the CMP until a user selects an option
-			this.tcModel = tcModel;
-			this.setState({
-				isModalShowing: true,
-			});
+			this.updateCmp(tcModel, true);
 		} else {
+			// model is already persisted
 			this.updateCmp(tcModel, false);
 		}
 		this.setDisplayLayer1();
@@ -156,25 +161,19 @@ export default class Store {
 	onEvent(tcData, success) {
 		if (!success) {
 			console.log('onEvent error', success);
+			if (!this.isReady) {
+				this.onReadyReject(new Error('store: initialzation error'));
+			}
 			return;
 		}
 
-		debug('store: onEvent', tcData, success);
-		const { tcString } = tcData;
-		const { cookieDomain } = this.config;
-
-		cookie.writeVendorConsentCookie(tcString, cookieDomain);
-
-		// not all consented if you find 1 key missing
-		const { vendors } = this.gvl;
-		const { vendorConsents } = this.tcModel;
-		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(key));
-		cookie.writeConsentedAllCookie(hasConsentedAll ? 1 : 0, cookieDomain);
-
 		this.setState({
 			tcData,
-			hasConsentedAll,
 		});
+
+		if (!this.isReady) {
+			this.onReadyResolve(this);
+		}
 	}
 
 	subscribe = (callback) => {
@@ -185,27 +184,58 @@ export default class Store {
 		this.listeners.delete(callback);
 	};
 
-	updateCmp = (tcModelOpt, shouldShowModal) => {
+	updateCmp = (tcModelOpt, shouldShowModal, shouldSaveCookie) => {
+		console.log('updateCmp: ', tcModelOpt, shouldShowModal, shouldSaveCookie);
 		const tcModel = this.autoToggleVendorConsents(tcModelOpt);
 		const isModalShowing = shouldShowModal !== undefined ? shouldShowModal : this.isModalShowing;
 		const encodedTCString = TCString.encode(tcModel);
-		this.tcModel = tcModel;
+
+		const { vendorConsents } = tcModel;
+		const { vendors } = this.gvl;
+		// not all consented if you find 1 key missing
+		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(key));
+
+		this.setState(
+			{
+				tcModel,
+				isModalShowing,
+				hasConsentedAll,
+			},
+			true
+		);
 
 		this.cmpApi.update(encodedTCString, isModalShowing);
 
-		if (isModalShowing !== this.isModalShowing) {
-			this.setState({
-				isModalShowing,
-			});
+		if (shouldSaveCookie) {
+			const { cookieDomain } = this.config;
+			const hasConsentedAllCookie = cookie.readConsentedAllCookie();
+			const normalizeHasConsentedAll = hasConsentedAll ? '1' : '0';
+			console.log('hasConsentedAllCookie', hasConsentedAllCookie, typeof hasConsentedAllCookie);
+			cookie.writeVendorConsentCookie(encodedTCString, cookieDomain);
+			cookie.writeConsentedAllCookie(hasConsentedAll ? '1' : '0', cookieDomain);
+			console.log('should dispatchEvent?!', hasConsentedAllCookie, hasConsentedAll);
+			if (hasConsentedAllCookie !== normalizeHasConsentedAll) {
+				global.dispatchEvent(
+					new MessageEvent(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, {
+						data: {
+							store: {
+								...this.store,
+							},
+						},
+					})
+				);
+			}
 		}
 	};
 
-	setState = (state = {}) => {
+	setState = (state = {}, isQuiet = false) => {
 		Object.assign(this, {
 			...state,
 		});
 
-		this.listeners.forEach((callback) => callback(this));
+		if (!isQuiet) {
+			this.listeners.forEach((callback) => callback(this));
+		}
 	};
 
 	getStackOptin(id) {
@@ -224,10 +254,15 @@ export default class Store {
 		return isOptedIn;
 	}
 
+	save() {
+		// close the cmp and persist settings
+		this.updateCmp(null, false, true);
+	}
+
 	toggleAll() {
 		const tcModel = this.tcModel.clone();
 		tcModel.setAll();
-		this.updateCmp(tcModel, false);
+		this.updateCmp(tcModel, false, true);
 		return tcModel;
 	}
 
@@ -295,9 +330,8 @@ export default class Store {
 	}
 
 	toggleShowModal(shouldShowModal) {
-		this.setState({
-			isModalShowing: shouldShowModal,
-		});
+		console.log('toggleShowModal', shouldShowModal);
+		this.updateCmp(null, true);
 	}
 
 	toggleStackConsent(id) {
@@ -314,6 +348,12 @@ export default class Store {
 	}
 
 	toggleLanguage(language) {
-		return this.gvl.changeLanguage(language).then(this.setState);
+		return this.gvl.changeLanguage(language).then(() => {
+			const { language } = this.gvl;
+			console.log('language', language);
+			const tcModel = this.tcModel.clone();
+			tcModel.consentLanguage = language;
+			this.updateCmp(tcModel, true);
+		});
 	}
 }

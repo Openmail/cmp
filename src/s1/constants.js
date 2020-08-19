@@ -2,6 +2,13 @@
 
 export const CUSTOM_API = {
 	INIT: 'init',
+	ON_CONSENT_CHANGED: 'onConsentAllChanged',
+	OFF_CONSENT_CHANGED: 'offConsentAllChanged',
+};
+
+export const CUSTOM_EVENTS = {
+	CONSENT_ALL_CHANGED: 'cmpConsentAllChanged',
+	ERROR: 'cmpError',
 };
 
 export const CMP_GLOBAL_NAME = 'cmp';

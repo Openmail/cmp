@@ -24,7 +24,7 @@ import debug from './lib/debug';
 import logger, { EVENTS as LOG_EVENTS } from './lib/logger';
 import { CMP_GLOBAL_NAME, CUSTOM_API, CUSTOM_EVENTS } from './constants';
 
-const { INIT, ON_CONSENT_CHANGED, OFF_CONSENT_CHANGED } = CUSTOM_API;
+const { CHANGE_LANGUAGE, INIT, ON_CONSENT_CHANGED, OFF_CONSENT_CHANGED, SHOW_CONSENT_TOOL } = CUSTOM_API;
 
 let errorMessage = '';
 
@@ -64,26 +64,12 @@ export const setup = (configOpt) => {
 	// gvl.changeLanguage('fr'); // Change language
 	// 1. customize the CMP API
 	const cmpApi = new CmpApi(config.cmpId, 3, false, {
-		// Custom commands that overlap with API are treated like middleware. Cool!
-		getTCData: (next, tcData) => {
-			// Custom Consent Vectors, not stored in tcModel
-			const customVendors = new Vector();
-			customVendors.set([1, 2]);
-
-			tcData.customVendors = [2, 3].reduce((booleanVector, obj) => {
-				booleanVector[obj + ''] = customVendors.has(+obj);
-				return booleanVector;
-			}, {});
-			console.log('custom: getTCData', tcData);
-			next(tcData);
-		},
-
-		showConsentTool: (callback) => {
+		[SHOW_CONSENT_TOOL]: (callback) => {
 			store.toggleShowModal(true);
 			callback(store, true);
 		},
 
-		changeLanguage: (callback, language) => {
+		[CHANGE_LANGUAGE]: (callback, language) => {
 			store.toggleLanguage(language).finally((result) => {
 				callback(store, result);
 			});
@@ -113,7 +99,6 @@ export const setup = (configOpt) => {
 				// could be updating CMP ()
 				// you hoisted this config up for the `setup` step, so you dont need it again
 				// need to wait for promise and for tcData to get current state of cmp
-				console.log('INIT', store);
 				const { readyPromise } = store;
 				readyPromise
 					.catch((e) => {

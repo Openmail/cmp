@@ -31,10 +31,8 @@ export default class Banner extends Component {
 		const {
 			config: { theme },
 			displayLayer1,
-			tcData,
+			isSaveShowing,
 		} = store;
-
-		const canSaveChanges = !!tcData; // show save button if the user has made some customizations
 
 		const {
 			isBannerModal,
@@ -92,18 +90,16 @@ export default class Banner extends Component {
 								>
 									<LocalLabel localizeKey="links.accept">Continue to site</LocalLabel>
 								</a>
-								{!!canSaveChanges && (
-									<a
-										class={style.save}
-										onClick={this.handleSave}
-										style={{
-											color: primaryColor,
-											borderColor: primaryColor,
-										}}
-									>
-										<LocalLabel localizeKey="links.save">Save</LocalLabel>
-									</a>
-								)}
+								<a
+									class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
+									onClick={this.handleSave}
+									style={{
+										color: primaryColor,
+										borderColor: primaryColor,
+									}}
+								>
+									<LocalLabel localizeKey="links.save">Save</LocalLabel>
+								</a>
 							</div>
 							<div class={style.optionsContainer}>
 								{!displayLayer1 ? <h1>Loading</h1> : <PurposeList store={store} />}

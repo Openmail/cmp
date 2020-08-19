@@ -70,11 +70,13 @@ API signatures have changed from the CMP TCF 1.1, but we've tried to keep the co
 
 ## API
 
-Read more about [\_\_tcfapi built-in API](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/CMP%20JS%20API%20v1.1%20Final.md#what-api-will-need-to-be-provided-by-the-cmp-)
+Read more about [\_\_tcfapi built-in API](https://github.com/InteractiveAdvertisingBureau/GDPR-Transparency-and-Consent-Framework/blob/master/TCFv2/IAB%20Tech%20Lab%20-%20CMP%20API%20v2.md#cmp-api-v20)
 
 - ping
 - addEventListener
+- removeEventListener
 - getTCData
+- getInAppTCData
 - getVendorList
 
 ### Customized API
@@ -148,15 +150,16 @@ __tcfapi('showConsentTool', 2, (store) => {});
 
 ### changeLanguage
 
-Calling `__tcfapi('changeLanguage', 2, () => {})` will use cached version or load language dependencies and re-render the application in the desired language
+Calling `__tcfapi('changeLanguage', 2, () => {}, language)` will use cached version or load language dependencies and re-render the application in the desired language
 
 ```js
 /**
  * @param 'changeLanguage' // required string command
  * @param apiVersion // required number 2
  * @param callback // required function, called when changeLanguage completes, called with `store` and result
+ * @param language // required string, 2-letter language-code en,bg,ca,cs,da,de... etc. See constants.js file for supported languages
  */
-__tcfapi('changeLanguage', 2, (store) => {});
+__tcfapi('changeLanguage', 2, (store) => {}, 'pt'); // changes to Portuguese
 ```
 
 ## Background and Resources

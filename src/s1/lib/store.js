@@ -271,7 +271,7 @@ export default class Store {
 		this.updateCmp({
 			tcModel,
 			shouldShowModal: false,
-			shouldSaveCooke: true,
+			shouldSaveCookie: true,
 			shouldShowSave: false,
 		});
 		return tcModel;
@@ -379,7 +379,6 @@ export default class Store {
 
 		return this.gvl.changeLanguage(language).then(() => {
 			const { language } = this.gvl;
-			console.log('language', language);
 			const tcModel = this.tcModel.clone();
 			tcModel.consentLanguage = language;
 			this.updateCmp({

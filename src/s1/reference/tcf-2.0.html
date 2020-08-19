@@ -158,7 +158,7 @@
 			};
 			
 			__tcfapi('addEventListener', 2, function (tcData, success) {
-				console.log('onTcDataChanged', tcData, success);
+				console.log('cmp: onTcDataChanged', tcData, success);
 			});
 
 			__tcfapi('init', 2, function (store, error) {
@@ -181,14 +181,12 @@
 			
 
 			btnShowConsentTool.addEventListener('click', function () {
-				__tcfapi('showConsentTool', 2, function () {
-					console.log('reference: click: showConsentTool success');
-				});
+				__tcfapi('showConsentTool', 2, function () {});
 			});
 
 			selectLanguage.addEventListener('change', function () {
 				__tcfapi('changeLanguage', 2, function() {
-					console.log('changed language to', selectLanguage.value);
+					console.log('cmp:changeLanguage', selectLanguage.value);
 				}, selectLanguage.value)
 			})
 		</script>

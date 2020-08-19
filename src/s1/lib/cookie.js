@@ -29,7 +29,8 @@ function writeCookie({ name, value, maxAgeSeconds, path = '/', domain }) {
 	const maxAge = maxAgeSeconds === null ? '' : `;max-age=${maxAgeSeconds}`;
 	const expires =
 		maxAgeSeconds === null ? '' : ';expires=' + new Date(new Date() * 1 + maxAgeSeconds * 1000).toUTCString();
-	const cookie = `${name}=${value}${getCookieDomain(domain)};path=${path}${maxAge}${expires};SameSite=Strict`;
+	const secure = global.location && global.location.protocol === 'http:' ? ';SameSite=Lax' : ';SameSite=None;secure';
+	const cookie = `${name}=${value}${getCookieDomain(domain)};path=${path}${maxAge}${expires}${secure}`;
 	document.cookie = cookie;
 	return cookie;
 }
@@ -84,8 +85,8 @@ function writeVendorConsentCookie(value, domain) {
 	return writeLocalVendorConsentCookie(value, domain);
 }
 
-function readConsentedAllCookie(value, domain) {
-	readCookie(HAS_CONTENED_ALL_MAX_AGE);
+function readConsentedAllCookie() {
+	return readCookie(HAS_CONTENED_ALL);
 }
 
 function writeConsentedAllCookie(value, domain) {

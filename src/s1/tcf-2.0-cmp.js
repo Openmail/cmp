@@ -21,10 +21,10 @@ import { h, render } from 'preact';
 import App from './components/app';
 import Store from './lib/store';
 import debug from './lib/debug';
-import logger, { EVENTS } from './lib/logger';
-import { CMP_GLOBAL_NAME, CUSTOM_API } from './constants';
+import logger, { EVENTS as LOG_EVENTS } from './lib/logger';
+import { CMP_GLOBAL_NAME, CUSTOM_API, CUSTOM_EVENTS } from './constants';
 
-const { INIT } = CUSTOM_API;
+const { INIT, ON_CONSENT_CHANGED, OFF_CONSENT_CHANGED } = CUSTOM_API;
 
 let errorMessage = '';
 
@@ -42,6 +42,9 @@ export const setup = (configOpt) => {
 		canLog: false, // pixel logs for monitoring
 		canDebug: false, // console.logs
 		shouldAutoConsent: false, // deprecated feature
+		ccpaApplies: false,
+		gdprApplies: false,
+		consentRequired: false,
 		...configOpt,
 	};
 
@@ -51,8 +54,11 @@ export const setup = (configOpt) => {
 	GVL.baseUrl = config.baseUrl;
 	GVL.versionedFilename = config.versionedFilename;
 
-	logger(EVENTS.CMPSetup, {
+	logger(LOG_EVENTS.CMPSetup || 'CMPSetup', {
 		shouldAutoConsent: config.shouldAutoConsent, // delete me
+		ccpaApplies: config.ccpaApplies,
+		gdprApplies: config.gdprApplies,
+		consentRequired: config.consentRequired,
 	});
 
 	// gvl.changeLanguage('fr'); // Change language
@@ -83,10 +89,22 @@ export const setup = (configOpt) => {
 			});
 		},
 
+		[ON_CONSENT_CHANGED]: (callback) => {
+			const onConsentChanged = () => {
+				callback(store);
+			};
+			global.addEventListener(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, onConsentChanged);
+			return onConsentChanged;
+		},
+
+		[OFF_CONSENT_CHANGED]: (callback) => {
+			global.addEventListener(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, callback);
+		},
+
 		// Custom init function maps to 1.1 integration
 		[INIT]: (callback) => {
 			if (!store || !init) {
-				logger(EVENTS.CMPError, {
+				logger(LOG_EVENTS.CMPError, {
 					errorMessage: `initError: ${errorMessage}`,
 				});
 				callback(store, new Error(`CMP: initError: ${errorMessage}`));
@@ -94,17 +112,18 @@ export const setup = (configOpt) => {
 				// could be loading gvl (readyPromise)
 				// could be updating CMP ()
 				// you hoisted this config up for the `setup` step, so you dont need it again
+				// need to wait for promise and for tcData to get current state of cmp
+				console.log('INIT', store);
 				const { readyPromise } = store;
 				readyPromise
-					.then(() => {
-						console.log('init ready', store);
-						callback(store);
-					})
 					.catch((e) => {
-						logger(EVENTS.CMPError, {
+						logger(LOG_EVENTS.CMPError, {
 							errorMessage: `initError: ${e}`,
 						});
-						callback(store);
+					})
+					.finally(() => {
+						console.log('LOGGER TRACK INIT DONE', store);
+						callback(init()); // display a cmp error?
 					});
 			}
 		},

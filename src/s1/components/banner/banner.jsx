@@ -23,7 +23,7 @@ export default class Banner extends Component {
 
 	handleSave = () => {
 		const { store } = this.props;
-		store.toggleShowModal(false);
+		store.save();
 	};
 
 	render(props) {

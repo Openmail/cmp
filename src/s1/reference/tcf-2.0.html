@@ -139,49 +139,54 @@
 				};
 				const currentLanguage = navigator.language.split('-')[0];
 				selectLanguage.value = currentLanguage.toLowerCase();
+
+				const hasConsented = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
+				domHasConsented.value = hasConsented;
+				domTcfString.value = (store.tcData && store.tcData.tcString) || 'N/A';
 			}
 
 			const config = {
 				gdprApplies: true,
 				canLog: false,
 				canDebug: true, 
-				baseUrl: './config/2.0',
-				// baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0'; // base url
+				// baseUrl: './config/2.0',
+				baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url
 				versionedFilename: 'vendor-list.json', // vendor list json
 				scriptSrc: './tcf-2.0-cmp.js', // cmp SDK
 				publisherCountryCode: 'AA',
 				narrowedVendors: []
 			};
+			
+			__tcfapi('addEventListener', 2, function (tcData, success) {
+				console.log('onTcDataChanged', tcData, success);
+			});
 
-			const onConsentUpdated = function (tcData, success) {
+			__tcfapi('init', 2, function (store, error) {
+				setupQaTools(store);
+				console.log('cmp: onInitComplete', store, error);
+			}, config);
+
+			const unsub = __tcfapi('onConsentAllChanged', 2, function (store) {
 				const hasConsented = document.cookie.indexOf('gdpr_opt_in=1') >= 0;
 				domHasConsented.value = hasConsented;
-				domTcfString.value = (tcData && tcData.tcString) || 'N/A';
+				domTcfString.value = (store && store.tcData && store.tcData.tcString) || 'N/A';
 				if (hasConsented) {
-					console.log('cmp:onConsentUpdated: all consent achieved', tcData);
+					console.log('cmp:onConsentAllChanged: all consent achieved', store.tcData);
 				} else {
-					console.log('cmp:onConsentUpdated: only some consent achieved', tcData);
+					console.log('cmp:onConsentAllChanged: only some consent achieved', store.tcData);
 				}
-			}
-
-			__tcfapi('addEventListener', 2, onConsentUpdated);
-			__tcfapi('init', 2, function (store, error) {
-				console.log('initialization complete', store, error);
-				setupQaTools(store);
-
-			}, config);
+			});
+			
+			// __tcfapi('offConsentAllChanged', 2, unsub);
 			
 
 			btnShowConsentTool.addEventListener('click', function () {
 				__tcfapi('showConsentTool', 2, function () {
-					console.log('on complete show consent tool');
+					console.log('reference: click: showConsentTool success');
 				});
 			});
 
 			selectLanguage.addEventListener('change', function () {
-				__tcfapi('showConsentTool', 2, function () {
-					console.log('why do we need callbacks?');
-				});
 				__tcfapi('changeLanguage', 2, function() {
 					console.log('changed language to', selectLanguage.value);
 				}, selectLanguage.value)

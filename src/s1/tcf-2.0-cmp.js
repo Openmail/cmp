@@ -15,53 +15,44 @@ import 'core-js/fn/string/repeat';
 import 'core-js/fn/map';
 
 import { CmpApi } from '@iabtcf/cmpapi';
-import { GVL, Vector } from '@iabtcf/core';
+import { GVL } from '@iabtcf/core';
 import { h, render } from 'preact';
 
 import App from './components/app';
 import Store from './lib/store';
 import debug from './lib/debug';
+import defaultConfig from './lib/config';
 import logger, { EVENTS as LOG_EVENTS } from './lib/logger';
-import { CMP_GLOBAL_NAME, CUSTOM_API, CUSTOM_EVENTS } from './constants';
+
+import { CMP_GLOBAL_NAME, CUSTOM_API, CUSTOM_EVENTS, VERSION } from './constants';
 
 const { CHANGE_LANGUAGE, INIT, ON_CONSENT_CHANGED, OFF_CONSENT_CHANGED, SHOW_CONSENT_TOOL } = CUSTOM_API;
 
 let errorMessage = '';
 
-let performanceTimer = new Date();
-
 export const setup = (configOpt) => {
 	const config = {
-		theme: {},
-		narrowedVendors: [],
-		cmpId: 38,
-		cmpVersion: 3,
-		publisherCountryCode: 'AA',
-		baseUrl: './config/2.0', // 'https://s.flocdn.com/cmp/test/config/2.0';
-		versionedFilename: 'vendor-list.json',
-		canLog: false, // pixel logs for monitoring
-		canDebug: false, // console.logs
-		shouldAutoConsent: false, // deprecated feature
-		ccpaApplies: false,
-		gdprApplies: false,
-		consentRequired: false,
+		...defaultConfig,
 		...configOpt,
 	};
 
 	debug.isEnabled = config.canDebug;
+
 	logger.isEnabled = config.canLog;
+	logger.session = {
+		version: VERSION,
+		url: global && global.location && global.location.href ? global.location.href.split('?')[0] : 'unknown',
+		experimentId: config.experimentId,
+		business: config.business,
+		ccpaApplies: config.ccpaApplies,
+		gdprApplies: config.gdprApplies,
+	};
+
+	logger(LOG_EVENTS.CMPSetupStart || 'CMPSetupStart');
 
 	GVL.baseUrl = config.baseUrl;
 	GVL.versionedFilename = config.versionedFilename;
 
-	logger(LOG_EVENTS.CMPSetup || 'CMPSetup', {
-		shouldAutoConsent: config.shouldAutoConsent, // delete me
-		ccpaApplies: config.ccpaApplies,
-		gdprApplies: config.gdprApplies,
-		consentRequired: config.consentRequired,
-	});
-
-	// gvl.changeLanguage('fr'); // Change language
 	// 1. customize the CMP API
 	const cmpApi = new CmpApi(config.cmpId, 3, false, {
 		[SHOW_CONSENT_TOOL]: (callback) => {
@@ -93,7 +84,7 @@ export const setup = (configOpt) => {
 				logger(LOG_EVENTS.CMPError, {
 					errorMessage: `initError: ${errorMessage}`,
 				});
-				callback(store, new Error(`CMP: initError: ${errorMessage}`));
+				callback(init(store), new Error(`CMP: initError: ${errorMessage}`));
 			} else {
 				// could be loading gvl (readyPromise)
 				// could be updating CMP ()
@@ -103,12 +94,27 @@ export const setup = (configOpt) => {
 				readyPromise
 					.catch((e) => {
 						logger(LOG_EVENTS.CMPError, {
-							errorMessage: `initError: ${e}`,
+							errorMessage: `gvlInitError: ${e}`,
 						});
 					})
 					.finally(() => {
-						console.log('LOGGER TRACK INIT DONE', store);
-						callback(init()); // display a cmp error?
+						// complete undefined, consented, not consented
+						const {
+							hasConsentedAll,
+							hasSession,
+							isModalShowing,
+							gvl: { vendorListVersion },
+						} = store;
+
+						logger(LOG_EVENTS.CMPSetupComplete, {
+							timingMs: logger.mark,
+							hasConsentedAll,
+							isModalShowing,
+							hasSession,
+							vendorListVersion,
+						});
+
+						callback(init());
 					});
 			}
 		},

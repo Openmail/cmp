@@ -2,10 +2,11 @@
  * Optional logger for monitoring/alerting
  */
 import { cmp as DPL } from '@s1/dpl';
-import { VERSION } from '../constants';
 import debug from './debug';
 
 let isLoggerEnabled = false;
+let sessionConfig;
+let performanceMark = new Date();
 
 export const EVENTS = {
 	...DPL.events.adsCoordinator,
@@ -13,10 +14,8 @@ export const EVENTS = {
 
 export const logger = (eventName, payload) => {
 	const logger = DPL.events.cmp[eventName];
-	const url = window.location.href.split('?')[0]; // only want domain + path
 	const loggerPayload = {
-		version: VERSION,
-		url,
+		...sessionConfig,
 		...payload,
 	};
 
@@ -27,15 +26,36 @@ export const logger = (eventName, payload) => {
 	}
 };
 
-Object.defineProperty(logger, 'isEnabled', {
-	get: function isEnabled() {
-		return isLoggerEnabled;
+Object.defineProperties(logger, {
+	isEnabled: {
+		get: function isEnabled() {
+			return isLoggerEnabled;
+		},
+		set: function isEnabled(isEnabled) {
+			isLoggerEnabled = isEnabled;
+		},
 	},
-	set: function isEnabled(isEnabled) {
-		isLoggerEnabled = isEnabled;
+	session: {
+		get: function session() {
+			return sessionConfig;
+		},
+		set: function session(config) {
+			sessionConfig = config;
+		},
+	},
+	EVENTS: {
+		value: EVENTS,
+	},
+	mark: {
+		get: function mark() {
+			const previousPerformanceMark = performanceMark;
+			performanceMark = new Date();
+			return performanceMark - previousPerformanceMark;
+		},
+		set: function mark(now) {
+			performanceMark = now;
+		},
 	},
 });
-
-logger.prototype.EVENTS = EVENTS;
 
 export default logger;

@@ -4,6 +4,8 @@ import style from './banner.less';
 import PurposeList from './purposeList';
 import Label from '../label/label';
 
+import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
+
 class LocalLabel extends Label {
 	static defaultProps = {
 		prefix: 'banner',
@@ -19,11 +21,23 @@ export default class Banner extends Component {
 	handleAcceptAll = () => {
 		const { store } = this.props;
 		store.toggleAll();
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'screen1',
+			label: 'acceptAll',
+		});
 	};
 
 	handleSave = () => {
 		const { store } = this.props;
 		store.save();
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'screen1',
+			label: 'save',
+		});
 	};
 
 	render(props) {
@@ -37,6 +51,7 @@ export default class Banner extends Component {
 		const {
 			isBannerModal,
 			isBannerInline,
+			maxHeightModal,
 			primaryColor,
 			primaryTextColor,
 			backgroundColor,
@@ -63,7 +78,12 @@ export default class Banner extends Component {
 					color: textLightColor,
 				}}
 			>
-				<div class={style.content}>
+				<div
+					class={style.content}
+					style={{
+						...(maxHeightModal ? { maxHeight: maxHeightModal } : {}),
+					}}
+				>
 					<div class={style.message} ref={(el) => (this.messageRef = el)}>
 						<div class={style.info}>
 							<div class={style.title} style={{ color: textColor }}>

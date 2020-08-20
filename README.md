@@ -162,6 +162,33 @@ Calling `__tcfapi('changeLanguage', 2, () => {}, language)` will use cached vers
 __tcfapi('changeLanguage', 2, (store) => {}, 'pt'); // changes to Portuguese
 ```
 
+## Configuration / Config
+
+Set configuration for your CMP during the `init` phase.
+
+```js
+__tcfapi('init', 2, () => {}, {
+	theme: {
+		maxHeightModal: '50vh',
+		primaryColor: '#0099ff',
+	},
+	canLog: true, // pixel logging for monitoring and alerting
+	canDebug: false, // console.logs for dev debugging
+	narrowedVendors: [1, 2, 3, 4, 5], // only show a select numuber of vendors
+	cookieDomain: '', // which domain to set the euconsent and gdpr_opt_in cookie on
+});
+```
+
+### theme
+
+Override styling choices using the following properties:
+
+- maxHeightModal: '50vh'
+- primaryColor: '#0099ff'
+- textLinkColor: '#0099ff'
+- secondaryColor: '#869cc0'
+- featuresColor: '#d0d3d7'
+
 ## Background and Resources
 
 The UI layer is inspired by this [IAB TCF CMP UI Webinar presentation](https://iabeurope.eu/wp-content/uploads/2020/01/2020-01-21-TCF-v2.0-CMP-UI-Webinar.pdf).

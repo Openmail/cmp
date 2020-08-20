@@ -1,12 +1,12 @@
 import { TCModel, TCString } from '@iabtcf/core';
 import cookie from './cookie';
+import config from './config';
 import debug from './debug';
+import logger, { EVENTS as LOG_EVENTS } from './logger';
 import { LANGUAGES, CUSTOM_EVENTS } from '../constants';
 
 export const mock = {
-	config: {
-		theme: {},
-	},
+	config,
 	displayLayer1: {},
 	gvl: {},
 	tcModel: {},
@@ -15,23 +15,11 @@ export const mock = {
 };
 
 export default class Store {
-	config = {
-		theme: {
-			primaryColor: '#0099ff',
-			textLinkColor: '#0099ff',
-			boxShadow: 'none',
-			secondaryColor: '#869cc0',
-			featuresColor: '#d0d3d7',
-		},
-		canLog: true,
-		canDebug: false,
-		narrowedVendors: [],
-		cookieDomain: '',
-	};
-
+	config = config;
 	displayLayer1;
 	isModalShowing = false;
 	isSaveShowing = false;
+	hasSession = false;
 	hasConsentedAll;
 	gvl;
 	cmpApi;
@@ -42,8 +30,14 @@ export default class Store {
 	listeners = new Set();
 
 	constructor(options) {
+		const { theme } = this.config;
+
 		Object.assign(this, {
 			...options,
+			theme: {
+				...theme,
+				...options.theme,
+			},
 		});
 		const { tcfApi, gvl } = options;
 		const { readyPromise } = gvl;
@@ -175,6 +169,8 @@ export default class Store {
 		if (!this.isReady) {
 			this.onReadyResolve(this);
 		}
+
+		debug('store: onEvent', this);
 	}
 
 	subscribe = (callback) => {
@@ -200,6 +196,8 @@ export default class Store {
 		const { vendors } = this.gvl;
 		// not all consented if you find 1 key missing
 		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(key));
+		const hasConsentedAllCookie = cookie.readConsentedAllCookie();
+		const hasSession = hasConsentedAllCookie !== undefined;
 
 		this.setState(
 			{
@@ -207,6 +205,7 @@ export default class Store {
 				isModalShowing,
 				hasConsentedAll,
 				isSaveShowing,
+				hasSession,
 			},
 			true
 		);
@@ -215,7 +214,6 @@ export default class Store {
 
 		if (shouldSaveCookie) {
 			const { cookieDomain } = this.config;
-			const hasConsentedAllCookie = cookie.readConsentedAllCookie();
 			const normalizeHasConsentedAll = hasConsentedAll ? '1' : '0';
 			cookie.writeVendorConsentCookie(encodedTCString, cookieDomain);
 			cookie.writeConsentedAllCookie(hasConsentedAll ? '1' : '0', cookieDomain);
@@ -230,6 +228,18 @@ export default class Store {
 					})
 				);
 			}
+
+			const { consentScreen, purposeConsents, specialFeatureOptins } = tcModelNew;
+			const { stack, purposes, specialFeatures } = this.displayLayer1;
+			const declinedPurposes = purposes.filter((id) => !purposeConsents.has(id));
+			const declinedSpecialFeatures = specialFeatures.filter((id) => !specialFeatureOptins.has(id));
+			logger(LOG_EVENTS.CMPSave, {
+				consentScreen,
+				hasConsentedAll,
+				declinedStack: this.getStackOptin(stack) ? '' : stack,
+				declinedPurposes: declinedPurposes.join(','),
+				declinedSpecialFeatures: declinedSpecialFeatures.join(','),
+			});
 		}
 	};
 

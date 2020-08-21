@@ -9,12 +9,17 @@ TCF 2.0 Consent Management Platform (CMP) UI tool. We are in the process of vali
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
+
 - [Installation / Use](#installation--use)
 - [API](#api)
   - [Customized API](#customized-api)
     - [init](#init)
+  - [onConsentAllChanged](#onconsentallchanged)
+  - [offConsentAllChanged](#offconsentallchanged)
   - [showConsentTool](#showconsenttool)
   - [changeLanguage](#changelanguage)
+- [Configuration / Config](#configuration--config)
+  - [theme](#theme)
 - [Background and Resources](#background-and-resources)
 - [TODO](#todo)
 - [Support Matrix](#support-matrix)
@@ -179,15 +184,28 @@ __tcfapi('init', 2, () => {}, {
 });
 ```
 
+| Config Property     | Type             | Default                 | Detail                                                                                                         |
+| ------------------- | ---------------- | ----------------------- | -------------------------------------------------------------------------------------------------------------- |
+| `canLog`            | optional boolean | `false`                 | true enables DPL logging for health monitoring. Add `#s1&debug=true` to URL for easy DPL debugging             |
+| `canDebug`          | optional boolean | `false`                 | true enables internal console logging for debugging                                                            |
+| `baseUrl`           | optional string  | `./config/2.0`          | relative or absolute url to load the global vendor list. Combines with `versionedFilename` to load vendorlist. |
+| `versionedFilename` | optional string  | `vendor-list.json`      | file name of the global vendor list.                                                                           |
+| `cookieDomain`      | optional string  | empty                   | manage consent across subdomains. Example `.mysite.com`                                                        |
+| `gdprApplies`       | optional boolean | `false`                 | Please pass `true` if being used on EU traffic where active consent is required                                |
+| `ccpaApplies`       | optional boolean | `false`                 | Please pass `true` if being used on USA:CA traffic where "Do Not Sell" initiates CMP passively                 |
+| `experimentId`      | optional string  | `control`               | use to indicate changes / upgrades in your CMP implementation for reporting / monitoring purposes.             |
+| `business`          | optional string  | `dev`                   | used to correlate CMP events for monitoring across a businessline.                                             |
+| `theme`             | optional object  | [details below](#theme) | Override styling choices using the following properties.                                                       |
+
 ### theme
 
 Override styling choices using the following properties:
 
-- maxHeightModal: '50vh'
-- primaryColor: '#0099ff'
-- textLinkColor: '#0099ff'
-- secondaryColor: '#869cc0'
-- featuresColor: '#d0d3d7'
+- `maxHeightModal`: '50vh'
+- `primaryColor`: '#0099ff'
+- `textLinkColor`: '#0099ff'
+- `secondaryColor`: '#869cc0'
+- `featuresColor`: '#d0d3d7'
 
 ## Background and Resources
 

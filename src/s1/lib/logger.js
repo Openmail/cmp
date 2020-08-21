@@ -9,16 +9,14 @@ let sessionConfig;
 let performanceMark = new Date();
 
 export const EVENTS = {
-	...DPL.events.adsCoordinator,
+	...DPL.events.cmp,
 };
 
-export const logger = (eventName, payload) => {
-	const logger = DPL.events.cmp[eventName];
+export const logger = (logger, payload) => {
 	const loggerPayload = {
 		...sessionConfig,
 		...payload,
 	};
-
 	if (logger && isLoggerEnabled) {
 		logger.log(loggerPayload);
 	} else {

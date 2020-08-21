@@ -131,6 +131,7 @@ export default class Store {
 				cmpId,
 				cmpVersion,
 				publisherCountryCode,
+				consentScreen: 1,
 			},
 			persistedTcModel || {}
 		);
@@ -155,7 +156,6 @@ export default class Store {
 
 	onEvent(tcData, success) {
 		if (!success) {
-			console.log('onEvent error', success);
 			if (!this.isReady) {
 				this.onReadyReject(new Error('store: initialzation error'));
 			}
@@ -364,6 +364,11 @@ export default class Store {
 		this.updateCmp({
 			shouldShowModal,
 		});
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'showUi',
+			label: '',
+		});
 	}
 
 	toggleStackConsent(id) {
@@ -394,6 +399,12 @@ export default class Store {
 			this.updateCmp({
 				tcModel,
 				shouldShowModal: true,
+			});
+
+			logger(LOG_EVENTS.CMPClick, {
+				action: 'click',
+				category: 'toggleLanguage',
+				label: language,
 			});
 		});
 	}

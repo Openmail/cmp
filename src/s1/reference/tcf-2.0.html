@@ -146,8 +146,12 @@
 			}
 
 			const config = {
+				theme: {
+					maxHeightModal: '40vh'
+				},
 				gdprApplies: true,
-				canLog: false,
+				ccpaApplies: false,
+				canLog: true,
 				canDebug: true, 
 				// baseUrl: './config/2.0',
 				baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url
@@ -155,9 +159,6 @@
 				scriptSrc: './tcf-2.0-cmp.js', // cmp SDK
 				publisherCountryCode: 'AA',
 				narrowedVendors: [],
-				theme: {
-					maxHeightModal: '40vh'
-				}
 			};
 			
 			__tcfapi('addEventListener', 2, function (tcData, success) {

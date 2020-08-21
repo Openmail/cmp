@@ -106,7 +106,7 @@
 	"dependencies": {
 		"@iabtcf/cmpapi": "^1.1.0-3",
 		"@iabtcf/core": "^1.1.0-3",
-		"@s1/dpl": "3.0.14",
+		"@s1/dpl": "3.0.15",
 		"classnames": "^2.2.5",
 		"codemirror": "^5.34.0",
 		"core-js": "^2.5.3",

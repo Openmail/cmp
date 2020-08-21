@@ -20,23 +20,32 @@ export default class Banner extends Component {
 
 	handleAcceptAll = () => {
 		const { store } = this.props;
-		store.toggleAll();
+		const {
+			tcModel: { consentScreen },
+		} = store;
 
 		logger(LOG_EVENTS.CMPClick, {
 			action: 'click',
-			category: 'screen1',
-			label: 'acceptAll',
+			category: 'acceptAll',
+			label: `screen${consentScreen}`,
 		});
+
+		store.toggleAll();
 	};
 
 	handleSave = () => {
 		const { store } = this.props;
+
 		store.save();
+
+		const {
+			tcModel: { consentScreen },
+		} = store;
 
 		logger(LOG_EVENTS.CMPClick, {
 			action: 'click',
-			category: 'screen1',
-			label: 'save',
+			category: 'save',
+			label: `screen${consentScreen}`,
 		});
 	};
 

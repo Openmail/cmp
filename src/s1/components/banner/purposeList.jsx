@@ -171,7 +171,7 @@ export default class PurposeList extends Component {
 		const displayPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					(Purposes) We and{' '}
+					We and{' '}
 					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
 						our partners
 					</a>
@@ -190,7 +190,7 @@ export default class PurposeList extends Component {
 			? this.renderStack(props, state, {
 					headline: (
 						<h3 class={style.rowTitle}>
-							(Stacks) We and{' '}
+							We and{' '}
 							<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
 								our partners
 							</a>{' '}
@@ -208,7 +208,7 @@ export default class PurposeList extends Component {
 		const displaySpecialFeaturesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					(Special Features) For some of the purposes above we and{' '}
+					For some of the purposes above we and{' '}
 					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
 						our partners
 					</a>
@@ -226,8 +226,7 @@ export default class PurposeList extends Component {
 		const displaySpecialPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					(Special Purposes) We need your consent for all the purposes above but we have a legitimate interest for these
-					purposes:
+					We need your consent for all the purposes above but we have a legitimate interest for these purposes:
 				</h3>
 			),
 			theme,
@@ -239,7 +238,7 @@ export default class PurposeList extends Component {
 		const displayFeaturesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					(Features) For some of the purposes above we and{' '}
+					For some of the purposes above we and{' '}
 					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
 						our partners
 					</a>

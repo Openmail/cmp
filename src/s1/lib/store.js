@@ -202,7 +202,7 @@ export default class Store {
 		const { vendorConsents } = tcModelNew;
 		const { vendors } = this.gvl;
 		// not all consented if you find 1 key missing
-		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(key));
+		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(parseInt(key, 10)));
 		const hasConsentedAllCookie = cookie.readConsentedAllCookie();
 		const hasSession = hasConsentedAllCookie !== undefined;
 
@@ -238,11 +238,10 @@ export default class Store {
 
 			const { consentScreen, purposeConsents, specialFeatureOptins, vendorConsents } = tcModelNew;
 			const { stack, purposes, specialFeatures } = this.displayLayer1;
-			const { vendorIds } = this.gvl;
 			const declinedPurposes = purposes.filter((id) => !purposeConsents.has(id));
 			const declinedSpecialFeatures = specialFeatures.filter((id) => !specialFeatureOptins.has(id));
 
-			const declinedVendors = [...vendorIds].filter((id) => !vendorConsents.has(id));
+			const declinedVendors = Object.keys(vendors).filter((id) => !vendorConsents.has(parseInt(id, 10)));
 
 			logger(LOG_EVENTS.CMPSave, {
 				consentScreen,
@@ -367,13 +366,13 @@ export default class Store {
 	autoToggleVendorConsents(tcModelOpt) {
 		const tcModel = tcModelOpt || this.tcModel.clone();
 		// NOTE: vendorIds are numbers, vendors[key] is a string *
-		const { vendorIds, vendors } = this.gvl;
+		const { vendors } = this.gvl;
 		const { purposeConsents, specialFeatureOptins } = tcModel;
 
 		// if purposes and special features are consented for this vendor, then consent the vendor
-		vendorIds.forEach((key) => {
-			const vendor = vendors[key]; // number to string coersion
-			if (vendor && !this.manualVendorConsents.has(key)) {
+		Object.keys(vendors).forEach((key) => {
+			const vendor = vendors[key];
+			if (vendor && !this.manualVendorConsents.has(vendor.id)) {
 				const { purposes, specialFeatures } = vendor;
 
 				const isMissingPurposesConsent = purposes.length && purposes.find((purpose) => !purposeConsents.has(purpose));
@@ -385,7 +384,7 @@ export default class Store {
 					// auto consent in to a vendor, but don't auto unconsent - just leave blank
 					// tcModel.vendorConsents.unset(key);
 				} else {
-					tcModel.vendorConsents.set(key); // number
+					tcModel.vendorConsents.set(vendor.id); // number
 				}
 			}
 		});

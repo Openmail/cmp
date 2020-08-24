@@ -148,11 +148,10 @@ export default class Store {
 		} else {
 			// update the manually managed vendor consent model set since it's primarily automatically managed
 			// this is a list of vendor consents that were likely manually revoked by the user
-			// const { vendorIds } = this.gvl;
 			// const { vendorConsents } = tcModel;
-			// vendorIds.forEach((key) => {
-			// 	if (!vendorConsents.has(key)) { // likely revoked manually
-			// 		this.manualVendorConsents.add(key);
+			// Object.keys(vendors).forEach((key) => {
+			// 	if (!vendorConsents.has(parseInt(key, 10))) { // likely revoked manually
+			// 		this.manualVendorConsents.add(parseInt(key, 10));
 			// 	}
 			// });
 			// update internal models, dont show the ui, dont save to cookie
@@ -199,12 +198,18 @@ export default class Store {
 		const isSaveShowing = shouldShowSave !== undefined ? shouldShowSave : this.isSaveShowing;
 		const encodedTCString = TCString.encode(tcModelNew);
 
-		const { vendorConsents } = tcModelNew;
-		const { vendors } = this.gvl;
+		const { vendorConsents, purposeConsents, specialFeatureOptins } = tcModelNew;
+		const { purposes, specialFeatures, vendors } = this.gvl;
 		// not all consented if you find 1 key missing
-		const hasConsentedAll = !Object.keys(vendors).find((key) => !vendorConsents.has(parseInt(key, 10)));
+		const hasConsentedAllVendors = !Object.keys(vendors).find((key) => !vendorConsents.has(parseInt(key, 10)));
+		const hasConsentedAllPurposes = !Object.keys(purposes).find((key) => !purposeConsents.has(parseInt(key, 10)));
+		const hasConsentedAllSpecialFeatures = !Object.keys(specialFeatures).find(
+			(key) => !specialFeatureOptins.has(parseInt(key, 10))
+		);
 		const hasConsentedAllCookie = cookie.readConsentedAllCookie();
 		const hasSession = hasConsentedAllCookie !== undefined;
+
+		const hasConsentedAll = hasConsentedAllVendors && hasConsentedAllPurposes && hasConsentedAllSpecialFeatures;
 
 		this.setState(
 			{

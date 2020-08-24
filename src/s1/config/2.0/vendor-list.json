@@ -1,8 +1,8 @@
 {
 	"gvlSpecificationVersion": 2,
-	"vendorListVersion": 51,
+	"vendorListVersion": 52,
 	"tcfPolicyVersion": 2,
-	"lastUpdated": "2020-08-13T16:05:23Z",
+	"lastUpdated": "2020-08-20T16:05:24Z",
 	"purposes": {
 		"1": {
 			"id": 1,
@@ -911,6 +911,17 @@
 			"specialFeatures": [1],
 			"policyUrl": "https://lifestreet.com/privacy/"
 		},
+		"459": {
+			"id": 459,
+			"name": "uppr GmbH",
+			"purposes": [1],
+			"legIntPurposes": [],
+			"flexiblePurposes": [],
+			"specialPurposes": [1, 2],
+			"features": [3],
+			"specialFeatures": [],
+			"policyUrl": "https://netzwerk.uppr.de/privacy-policy.do"
+		},
 		"68": {
 			"id": 68,
 			"name": "Sizmek by Amazon",
@@ -1313,6 +1324,17 @@
 			"policyUrl": "https://madvertise.com/en/gdpr/",
 			"overflow": { "httpGetLimit": 128 }
 		},
+		"159": {
+			"id": 159,
+			"name": "Underdog Media LLC ",
+			"purposes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [],
+			"specialPurposes": [1, 2],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://underdogmedia.com/privacy-policy/"
+		},
 		"157": {
 			"id": 157,
 			"name": "Seedtag Advertising S.L",
@@ -1584,7 +1606,7 @@
 			"name": "Media.net Advertising FZ-LLC",
 			"purposes": [1, 3, 4],
 			"legIntPurposes": [2, 5, 6, 7, 8, 9, 10],
-			"flexiblePurposes": [5, 6, 8],
+			"flexiblePurposes": [2, 5, 6, 7, 8, 9],
 			"specialPurposes": [1, 2],
 			"features": [3],
 			"specialFeatures": [],
@@ -1636,14 +1658,14 @@
 		},
 		"65": {
 			"id": 65,
-			"name": "Location Sciences AI Ltd",
+			"name": "Location Sciences AI Ltd.",
 			"purposes": [1, 7, 8, 9, 10],
 			"legIntPurposes": [],
-			"flexiblePurposes": [7, 8],
+			"flexiblePurposes": [],
 			"specialPurposes": [1],
 			"features": [],
 			"specialFeatures": [1],
-			"policyUrl": "https://www.locationsciences.ai/privacy-policy/"
+			"policyUrl": "https://www.locationsciencesgroup.ai/privacy-policy/"
 		},
 		"210": {
 			"id": 210,
@@ -1981,8 +2003,8 @@
 		"273": {
 			"id": 273,
 			"name": "Bannerflow AB",
-			"purposes": [1, 4],
-			"legIntPurposes": [2, 7],
+			"purposes": [1],
+			"legIntPurposes": [7],
 			"flexiblePurposes": [],
 			"specialPurposes": [1, 2],
 			"features": [],
@@ -2375,7 +2397,7 @@
 			"purposes": [1, 2, 3, 4, 6, 7, 9],
 			"legIntPurposes": [],
 			"flexiblePurposes": [],
-			"specialPurposes": [2],
+			"specialPurposes": [],
 			"features": [],
 			"specialFeatures": [1],
 			"policyUrl": "https://www.adux.com/donnees-personelles/"
@@ -2712,6 +2734,17 @@
 			"specialFeatures": [],
 			"policyUrl": "http://static.orion-semantics.com/privacy.html"
 		},
+		"261": {
+			"id": 261,
+			"name": "Signal Digital Inc.",
+			"purposes": [1],
+			"legIntPurposes": [3, 5, 7, 8],
+			"flexiblePurposes": [3],
+			"specialPurposes": [1, 2],
+			"features": [1, 2],
+			"specialFeatures": [],
+			"policyUrl": "https://www.signal.co/privacy-policy/"
+		},
 		"83": {
 			"id": 83,
 			"name": "Visarity Technologies GmbH",
@@ -2890,6 +2923,17 @@
 			"features": [],
 			"specialFeatures": [],
 			"policyUrl": "http://vidoomy.com/privacy-policy.html"
+		},
+		"378": {
+			"id": 378,
+			"name": "communicationAds GmbH &amp; Co. KG",
+			"purposes": [1],
+			"legIntPurposes": [7],
+			"flexiblePurposes": [],
+			"specialPurposes": [],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://www.communicationads.net/aboutus/privacy/"
 		},
 		"184": {
 			"id": 184,
@@ -3194,13 +3238,14 @@
 		"409": {
 			"id": 409,
 			"name": "Arrivalist Co.",
-			"purposes": [1, 9],
-			"legIntPurposes": [7, 8],
-			"flexiblePurposes": [],
+			"purposes": [1, 7, 8, 9],
+			"legIntPurposes": [],
+			"flexiblePurposes": [7, 8],
 			"specialPurposes": [],
 			"features": [1, 2, 3],
 			"specialFeatures": [1, 2],
-			"policyUrl": "https://www.arrivalist.com/privacy"
+			"policyUrl": "https://www.arrivalist.com/privacy",
+			"deletedDate": "2020-08-18T00:00:00Z"
 		},
 		"436": {
 			"id": 436,
@@ -3234,6 +3279,17 @@
 			"features": [1, 2, 3],
 			"specialFeatures": [1, 2],
 			"policyUrl": "https://signalsdata.com/platform-cookie-policy/"
+		},
+		"335": {
+			"id": 335,
+			"name": "Beachfront Media LLC",
+			"purposes": [1],
+			"legIntPurposes": [2, 3, 4, 7, 8, 9],
+			"flexiblePurposes": [2, 3, 4, 7, 8, 9],
+			"specialPurposes": [1, 2],
+			"features": [1, 3],
+			"specialFeatures": [1],
+			"policyUrl": "http://beachfront.com/privacy-policy/"
 		},
 		"374": {
 			"id": 374,
@@ -3368,6 +3424,17 @@
 			"specialFeatures": [1],
 			"policyUrl": "https://www.stroeer.de/fileadmin/de/Konvergenz_und_Konzepte/Daten_und_Technologien/Stroeer_SSP/Downloads/Datenschutz_Stroeer_SSP.pdf"
 		},
+		"462": {
+			"id": 462,
+			"name": "Bidstack Limited",
+			"purposes": [2, 3, 4, 5, 6, 7, 8, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [2, 3, 4, 5, 6, 7, 8, 10],
+			"specialPurposes": [],
+			"features": [2],
+			"specialFeatures": [],
+			"policyUrl": "https://www.bidstack.com/privacy-policy/"
+		},
 		"466": {
 			"id": 466,
 			"name": "TACTIC\u2122 Real-Time Marketing AS",
@@ -3479,6 +3546,17 @@
 			"features": [1, 2],
 			"specialFeatures": [],
 			"policyUrl": "https://www.home.neustar/privacy"
+		},
+		"458": {
+			"id": 458,
+			"name": "AdColony, Inc.",
+			"purposes": [1, 3, 4],
+			"legIntPurposes": [2, 7, 9, 10],
+			"flexiblePurposes": [2, 3, 4, 7, 9, 10],
+			"specialPurposes": [1, 2],
+			"features": [3],
+			"specialFeatures": [],
+			"policyUrl": "adcolony.com/privacy-policy/"
 		},
 		"293": {
 			"id": 293,
@@ -3803,6 +3881,17 @@
 			"specialFeatures": [],
 			"policyUrl": "https://www.alliancegravity.com/politiquedeprotectiondesdonneespersonnelles"
 		},
+		"519": {
+			"id": 519,
+			"name": "Newsroom AI Ltd",
+			"purposes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [],
+			"specialPurposes": [],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://studio.nws.ai/privacy"
+		},
 		"531": {
 			"id": 531,
 			"name": "Smartclip Hispania SL",
@@ -3847,6 +3936,17 @@
 			"specialFeatures": [],
 			"policyUrl": "https://www.makethunder.com/privacy"
 		},
+		"547": {
+			"id": 547,
+			"name": "Reach Media GmbH",
+			"purposes": [1, 2, 3, 4, 7],
+			"legIntPurposes": [],
+			"flexiblePurposes": [],
+			"specialPurposes": [1, 2],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://www.videoreach.com/about/privacy-policy/"
+		},
 		"546": {
 			"id": 546,
 			"name": "Smart Traffik",
@@ -3857,6 +3957,17 @@
 			"features": [1, 2, 3],
 			"specialFeatures": [1, 2],
 			"policyUrl": "https://okube-attribution.com/politique-de-confidentialite/"
+		},
+		"541": {
+			"id": 541,
+			"name": "DeepIntent, Inc.",
+			"purposes": [1],
+			"legIntPurposes": [2, 3, 4, 7, 9, 10],
+			"flexiblePurposes": [2, 3, 4, 7, 9, 10],
+			"specialPurposes": [1, 2],
+			"features": [1, 2, 3],
+			"specialFeatures": [],
+			"policyUrl": "https://www.deepintent.com/platform-privacy-policy/"
 		},
 		"545": {
 			"id": 545,
@@ -3937,7 +4048,7 @@
 		},
 		"565": {
 			"id": 565,
-			"name": "Adobe Audience Manager",
+			"name": "Adobe Audience Manager, Adobe Experience Platform",
 			"purposes": [1, 10],
 			"legIntPurposes": [],
 			"flexiblePurposes": [],
@@ -4707,7 +4818,7 @@
 			"legIntPurposes": [],
 			"flexiblePurposes": [],
 			"specialPurposes": [],
-			"features": [1, 2],
+			"features": [1, 2, 3],
 			"specialFeatures": [],
 			"policyUrl": "https://www.themediagrid.com/privacy-policy/"
 		},
@@ -4990,6 +5101,17 @@
 			"features": [1],
 			"specialFeatures": [],
 			"policyUrl": "https://www.engageya.com/privacy"
+		},
+		"724": {
+			"id": 724,
+			"name": "Between Exchange",
+			"purposes": [1],
+			"legIntPurposes": [7],
+			"flexiblePurposes": [],
+			"specialPurposes": [1, 2],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://en.betweenx.com/pdata.pdf"
 		},
 		"728": {
 			"id": 728,
@@ -5337,6 +5459,17 @@
 			"specialFeatures": [],
 			"policyUrl": "http://www.distroscale.com/privacy-policy/"
 		},
+		"756": {
+			"id": 756,
+			"name": "Fandom, Inc.",
+			"purposes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [2, 3, 4, 5, 6, 7, 8, 9, 10],
+			"specialPurposes": [1, 2],
+			"features": [1, 2, 3],
+			"specialFeatures": [1, 2],
+			"policyUrl": "https://www.fandom.com/privacy-policy"
+		},
 		"757": {
 			"id": 757,
 			"name": "UAB Meazy",
@@ -5673,9 +5806,9 @@
 		"787": {
 			"id": 787,
 			"name": "Resolution Media M\u00fcnchen GmbH",
-			"purposes": [1],
+			"purposes": [1, 7],
 			"legIntPurposes": [],
-			"flexiblePurposes": [],
+			"flexiblePurposes": [7],
 			"specialPurposes": [1, 2],
 			"features": [],
 			"specialFeatures": [],
@@ -5904,6 +6037,17 @@
 			"specialFeatures": [],
 			"policyUrl": "http://adnanny.com/en/privacy/"
 		},
+		"810": {
+			"id": 810,
+			"name": "lead alliance GmbH",
+			"purposes": [1],
+			"legIntPurposes": [7],
+			"flexiblePurposes": [7],
+			"specialPurposes": [1, 2],
+			"features": [3],
+			"specialFeatures": [],
+			"policyUrl": "https://www.lead-alliance.net/dataprotection2"
+		},
 		"811": {
 			"id": 811,
 			"name": "iPROM",
@@ -5925,6 +6069,61 @@
 			"features": [],
 			"specialFeatures": [],
 			"policyUrl": "https://www.amazon.co.uk/gp/help/customer/display.html?nodeId=201909010"
+		},
+		"813": {
+			"id": 813,
+			"name": "Adjust GmbH",
+			"purposes": [1, 7, 8, 9, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [7, 8, 9, 10],
+			"specialPurposes": [1],
+			"features": [2, 3],
+			"specialFeatures": [2],
+			"policyUrl": "https://www.adjust.com/terms/privacy-policy/"
+		},
+		"814": {
+			"id": 814,
+			"name": "UAB Aktyvus sektorius - Eskimi",
+			"purposes": [1, 3, 4],
+			"legIntPurposes": [2, 7, 10],
+			"flexiblePurposes": [2, 7, 10],
+			"specialPurposes": [1, 2],
+			"features": [1, 2],
+			"specialFeatures": [1],
+			"policyUrl": "https://business.eskimi.com/privacypolicy/"
+		},
+		"815": {
+			"id": 815,
+			"name": "Blockthrough, Inc.",
+			"purposes": [],
+			"legIntPurposes": [7],
+			"flexiblePurposes": [],
+			"specialPurposes": [2],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://blockthrough.com/privacy-policy/"
+		},
+		"816": {
+			"id": 816,
+			"name": "NoBid, Inc.",
+			"purposes": [1, 2, 3, 5, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [],
+			"specialPurposes": [2],
+			"features": [],
+			"specialFeatures": [],
+			"policyUrl": "https://www.nobid.io/privacy-policy/"
+		},
+		"817": {
+			"id": 817,
+			"name": "Miaozhen Information Technology Co. Ltd",
+			"purposes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+			"legIntPurposes": [],
+			"flexiblePurposes": [],
+			"specialPurposes": [],
+			"features": [2],
+			"specialFeatures": [],
+			"policyUrl": "https://www.miaozhen.com/en/privacy"
 		}
 	}
 }

@@ -4,6 +4,9 @@ import style from './purposeList.less';
 import ChevronIcon from '../chevronicon/chevronicon';
 import Switch from '../switch/switch';
 
+import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
+import { CONSENT_SCREENS } from '../../constants';
+
 export default class PurposeList extends Component {
 	state = {
 		expanded: new Set(),
@@ -22,19 +25,52 @@ export default class PurposeList extends Component {
 		});
 	}
 
+	handleVendorsClick = () => {
+		const { store } = this.props;
+		const {
+			tcModel: { consentScreen },
+		} = store;
+
+		store.toggleConsentScreen(CONSENT_SCREENS.VENDORS_LAYER3);
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'vendorsList',
+			label: `screen${consentScreen}`,
+		});
+	};
+
 	handleToggleSpecialFeature(props, state, { id }) {
 		const { store } = props;
 		store.toggleSpecialFeatureOptins([id]);
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'toggleSpecialFeatures',
+			label: id,
+		});
 	}
 
 	handleTogglePurpose(props, state, { id }) {
 		const { store } = props;
 		store.togglePurposeConsents([id]);
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'togglePurpose',
+			label: id,
+		});
 	}
 
 	handleToggleStack(props, state, { id }) {
 		const { store } = props;
 		store.toggleStackConsent(id);
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'toggleStack',
+			label: id,
+		});
 	}
 
 	renderRow(props, state, { headline, expanded, theme, list, displayPrefix, handleConsent, optIns }) {
@@ -61,7 +97,9 @@ export default class PurposeList extends Component {
 									onClick={this.expandPurposeRow.bind(this, displayId)}
 								>
 									<ChevronIcon color={theme.textLinkColor} />
-									<span>{name}</span>
+									<span>
+										{id}. {name}
+									</span>
 								</a>
 								{handleConsent ? (
 									<Switch
@@ -133,7 +171,10 @@ export default class PurposeList extends Component {
 		const displayPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					We and <a style={{ color: theme.textLinkColor }}>our partners</a>:
+					(Purposes) We and{' '}
+					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+						our partners
+					</a>
 				</h3>
 			),
 			theme,
@@ -149,8 +190,11 @@ export default class PurposeList extends Component {
 			? this.renderStack(props, state, {
 					headline: (
 						<h3 class={style.rowTitle}>
-							We and <a style={{ color: theme.textLinkColor }}>our partners</a> process personal data such as IP
-							address, unique ID, browsing data for:
+							(Stacks) We and{' '}
+							<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+								our partners
+							</a>{' '}
+							process personal data such as IP address, unique ID, browsing data for:
 						</h3>
 					),
 					theme,
@@ -164,7 +208,11 @@ export default class PurposeList extends Component {
 		const displaySpecialFeaturesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					For some of the purposes above we and <a style={{ color: theme.textLinkColor }}>our partners</a>:
+					(Special Features) For some of the purposes above we and{' '}
+					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+						our partners
+					</a>
+					:
 				</h3>
 			),
 			theme,
@@ -178,7 +226,8 @@ export default class PurposeList extends Component {
 		const displaySpecialPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					We need your consent for all the purposes above but we have a legitimate interest for these purposes:
+					(Special Purposes) We need your consent for all the purposes above but we have a legitimate interest for these
+					purposes:
 				</h3>
 			),
 			theme,
@@ -190,7 +239,11 @@ export default class PurposeList extends Component {
 		const displayFeaturesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					For some of the purposes above we and <a style={{ color: theme.textLinkColor }}>our partners</a>:
+					(Features) For some of the purposes above we and{' '}
+					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+						our partners
+					</a>
+					:
 				</h3>
 			),
 			theme,

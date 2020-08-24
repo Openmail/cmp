@@ -5,6 +5,7 @@ import PurposeList from './purposeList';
 import Label from '../label/label';
 
 import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
+import { CONSENT_SCREENS } from '../../constants';
 
 class LocalLabel extends Label {
 	static defaultProps = {
@@ -13,7 +14,7 @@ class LocalLabel extends Label {
 	};
 }
 
-export default class Banner extends Component {
+export default class BannerStacks extends Component {
 	constructor(props) {
 		super(props);
 	}
@@ -31,6 +32,21 @@ export default class Banner extends Component {
 		});
 
 		store.toggleAll();
+	};
+
+	handleLearnMore = () => {
+		const { store } = this.props;
+		const {
+			tcModel: { consentScreen },
+		} = store;
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'learnMore',
+			label: `screen${consentScreen}`,
+		});
+
+		store.toggleConsentScreen(CONSENT_SCREENS.VENDORS_LAYER3);
 	};
 
 	handleSave = () => {
@@ -105,7 +121,11 @@ export default class Banner extends Component {
 								</LocalLabel>
 							</div>
 							<div class={style.consent}>
-								<a class={style.learnMore} style={{ color: primaryColor, borderColor: primaryColor }}>
+								<a
+									class={style.learnMore}
+									onClick={this.handleLearnMore}
+									style={{ color: primaryColor, borderColor: primaryColor }}
+								>
 									<LocalLabel localizeKey="links.manage">Manage Your Choices</LocalLabel>
 								</a>
 								<a

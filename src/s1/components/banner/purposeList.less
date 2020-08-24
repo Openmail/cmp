@@ -36,7 +36,6 @@
 			padding: 0.75rem;
 		}
 
-
 		.detailExpand {
 			color: @color-secondary;
 			display: block;
@@ -70,7 +69,7 @@
 			flex-basis: 50%;
 			flex-grow: 1;
 			flex-shrink: 1;
-			
+
 			span {
 				width: calc(100% - 30px);
 				vertical-align: middle;
@@ -100,19 +99,34 @@
 			align-items: center;
 			max-height: 0px;
 
-			p {
-				flex: 1;
+			&.vendorDetails {
 				margin: 0;
-				padding-top: 10px;
 				padding-left: 21px;
 				padding-right: 20px;
 				padding-bottom: 10px;
 
 				@media @smartphone {
-					padding-top: 5px;
 					padding-right: 20px;
 					padding-bottom: 0px;
 				}
+			}
+			h4 {
+				margin: 0;
+				font-size: 0.9rem;
+				padding-top: 1rem;
+			}
+
+			ul {
+				margin: 0;
+			}
+
+			p {
+				padding-top: 1rem;
+				margin: 0;
+			}
+
+			.reference {
+				font-size: 0.8rem;
 			}
 		}
 

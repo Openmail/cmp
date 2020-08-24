@@ -3,7 +3,7 @@ import cookie from './cookie';
 import config from './config';
 import debug from './debug';
 import logger, { EVENTS as LOG_EVENTS } from './logger';
-import { LANGUAGES, CUSTOM_EVENTS } from '../constants';
+import { CONSENT_SCREENS, CUSTOM_EVENTS, LANGUAGES } from '../constants';
 
 export const mock = {
 	config,
@@ -16,7 +16,8 @@ export const mock = {
 
 export default class Store {
 	config = config;
-	displayLayer1;
+	displayLayer1; // stacks
+	manualVendorConsents = new Set(); // vendor-consent management partially automatic and partially manual depending on the consent screen
 	isModalShowing = false;
 	isSaveShowing = false;
 	hasSession = false;
@@ -88,10 +89,10 @@ export default class Store {
 		this.setState({
 			displayLayer1: {
 				stack: bestMatchingStackId,
-				purposes: filteredPurposes,
-				specialFeatures: [...allSpecialFeatures],
-				specialPurposes: [...allSpecialPurposes],
-				features: [...allFeatures],
+				purposes: filteredPurposes.sort(),
+				specialFeatures: [...allSpecialFeatures].sort(),
+				specialPurposes: [...allSpecialPurposes].sort(),
+				features: [...allFeatures].sort(),
 			},
 		});
 	}
@@ -125,16 +126,13 @@ export default class Store {
 		}
 
 		// Merge persisted model into new model in memory
-		Object.assign(
-			tcModel,
-			{
-				cmpId,
-				cmpVersion,
-				publisherCountryCode,
-				consentScreen: 1,
-			},
-			persistedTcModel || {}
-		);
+		Object.assign(tcModel, {
+			...(persistedTcModel ? persistedTcModel : {}),
+			cmpId,
+			cmpVersion,
+			publisherCountryCode,
+			consentScreen: CONSENT_SCREENS.STACKS_LAYER1,
+		});
 
 		// Handle a return user with persistedConsent vs a user that has not saved preferences
 		if (!persistedTcModel) {
@@ -148,6 +146,15 @@ export default class Store {
 			// update internal models, show ui, dont save to cookie
 			this.updateCmp({ tcModel, shouldShowModal: true });
 		} else {
+			// update the manually managed vendor consent model set since it's primarily automatically managed
+			// this is a list of vendor consents that were likely manually revoked by the user
+			// const { vendorIds } = this.gvl;
+			// const { vendorConsents } = tcModel;
+			// vendorIds.forEach((key) => {
+			// 	if (!vendorConsents.has(key)) { // likely revoked manually
+			// 		this.manualVendorConsents.add(key);
+			// 	}
+			// });
 			// update internal models, dont show the ui, dont save to cookie
 			this.updateCmp({ tcModel });
 		}
@@ -229,16 +236,21 @@ export default class Store {
 				);
 			}
 
-			const { consentScreen, purposeConsents, specialFeatureOptins } = tcModelNew;
+			const { consentScreen, purposeConsents, specialFeatureOptins, vendorConsents } = tcModelNew;
 			const { stack, purposes, specialFeatures } = this.displayLayer1;
+			const { vendorIds } = this.gvl;
 			const declinedPurposes = purposes.filter((id) => !purposeConsents.has(id));
 			const declinedSpecialFeatures = specialFeatures.filter((id) => !specialFeatureOptins.has(id));
+
+			const declinedVendors = [...vendorIds].filter((id) => !vendorConsents.has(id));
+
 			logger(LOG_EVENTS.CMPSave, {
 				consentScreen,
 				hasConsentedAll,
 				declinedStack: this.getStackOptin(stack) ? '' : stack,
 				declinedPurposes: declinedPurposes.join(','),
 				declinedSpecialFeatures: declinedSpecialFeatures.join(','),
+				declinedVendors: declinedVendors.join(','),
 			});
 		}
 	};
@@ -276,6 +288,7 @@ export default class Store {
 
 	toggleAll() {
 		const tcModel = this.tcModel.clone();
+		this.manualVendorConsents.clear();
 		tcModel.setAll();
 		// save and close
 		this.updateCmp({
@@ -310,7 +323,7 @@ export default class Store {
 	toggleSpecialFeatureOptins(ids, shouldConsent, tcModelOpt) {
 		const tcModel = tcModelOpt || this.tcModel.clone();
 		const { specialFeatureOptins } = tcModel;
-		ids.map((id) => {
+		ids.forEach((id) => {
 			if (!shouldConsent && (specialFeatureOptins.has(id) || shouldConsent === false)) {
 				specialFeatureOptins.unset(id);
 			} else {
@@ -327,19 +340,40 @@ export default class Store {
 		return tcModel;
 	}
 
+	toggleVendorConsents(ids, shouldConsent) {
+		const tcModel = this.tcModel.clone();
+		const { vendorConsents } = tcModel;
+
+		ids.forEach((id) => {
+			this.manualVendorConsents.add(id);
+			if (!shouldConsent && (vendorConsents.has(id) || shouldConsent === false)) {
+				vendorConsents.unset(id);
+			} else {
+				vendorConsents.set(id);
+			}
+		});
+
+		this.updateCmp({
+			tcModel,
+			shouldShowSave: true,
+		});
+
+		return tcModel;
+	}
+
 	/**
 	 * TODO: double check this, are we supposed to optIn for a vendor based on purposes/features opt-ins?
 	 */
 	autoToggleVendorConsents(tcModelOpt) {
 		const tcModel = tcModelOpt || this.tcModel.clone();
 		// NOTE: vendorIds are numbers, vendors[key] is a string *
-		const { vendors } = this.gvl;
+		const { vendorIds, vendors } = this.gvl;
 		const { purposeConsents, specialFeatureOptins } = tcModel;
 
 		// if purposes and special features are consented for this vendor, then consent the vendor
-		Object.keys(vendors).forEach((key) => {
+		vendorIds.forEach((key) => {
 			const vendor = vendors[key]; // number to string coersion
-			if (vendor) {
+			if (vendor && !this.manualVendorConsents.has(key)) {
 				const { purposes, specialFeatures } = vendor;
 
 				const isMissingPurposesConsent = purposes.length && purposes.find((purpose) => !purposeConsents.has(purpose));
@@ -347,7 +381,9 @@ export default class Store {
 					specialFeatures.length && specialFeatures.find((specialFeature) => !specialFeatureOptins.has(specialFeature));
 
 				if (isMissingPurposesConsent || isMissingSpecialFeaturesConsent) {
-					tcModel.vendorConsents.unset(key); // number
+					// number
+					// auto consent in to a vendor, but don't auto unconsent - just leave blank
+					// tcModel.vendorConsents.unset(key);
 				} else {
 					tcModel.vendorConsents.set(key); // number
 				}
@@ -356,18 +392,31 @@ export default class Store {
 		return tcModel;
 	}
 
+	toggleConsentScreen(consentScreen) {
+		let tcModel = this.tcModel.clone();
+		tcModel.consentScreen = consentScreen;
+		this.updateCmp({
+			tcModel,
+		});
+	}
+
 	toggleShowModal(shouldShowModal) {
 		if (!this.tcModel) {
 			return;
 		}
 
+		let tcModel = this.tcModel.clone();
+		tcModel.consentScreen = CONSENT_SCREENS.STACKS_LAYER1;
+
 		this.updateCmp({
 			shouldShowModal,
+			tcModel,
 		});
+
 		logger(LOG_EVENTS.CMPClick, {
 			action: 'click',
 			category: 'showUi',
-			label: '',
+			label: `screen${tcModel.consentScreen}`,
 		});
 	}
 

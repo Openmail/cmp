@@ -4,7 +4,7 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>System1 CMP TCF2.0 Reference Page</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimal-ui" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="shortcut icon" href="https://s.flocdn.com/@s1/ads-coordinator/reference/fa9924f562bd5be7831df8ca2d285b1f.gif">
 		<style>
 			html {
@@ -147,18 +147,20 @@
 
 			const config = {
 				theme: {
-					maxHeightModal: '40vh'
+					maxHeightModal: '60vh'
 				},
 				business: 'reference',
 				gdprApplies: true,
 				ccpaApplies: false,
 				canLog: false,
 				canDebug: true, 
-				// baseUrl: './config/2.0',
-				baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url
+				baseUrl: './config/2.0',
+				// baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url
 				versionedFilename: 'vendor-list.json', // vendor list json
 				scriptSrc: './tcf-2.0-cmp.js', // cmp SDK
+				polyfillSrc: './polyfills.js',
 				publisherCountryCode: 'US',
+				language: 'en', // default
 				narrowedVendors: [],
 			};
 			

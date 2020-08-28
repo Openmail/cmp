@@ -3,9 +3,17 @@ import style from './purposeList.less';
 
 import ChevronIcon from '../chevronicon/chevronicon';
 import Switch from '../switch/switch';
+import Label from '../label/label';
 
 import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
 import { CONSENT_SCREENS } from '../../constants';
+
+class LocalLabel extends Label {
+	static defaultProps = {
+		prefix: 'layer1Stacks',
+		isShowing: false,
+	};
+}
 
 export default class PurposeList extends Component {
 	state = {
@@ -93,13 +101,11 @@ export default class PurposeList extends Component {
 							>
 								<a
 									style={{ color: theme.textLinkColor }}
-									class={isExpanded ? style.detailExpand : ''}
+									class={[style.itemInteractiveAnchor, isExpanded ? style.detailExpand : ''].join(' ')}
 									onClick={this.expandPurposeRow.bind(this, displayId)}
 								>
 									<ChevronIcon color={theme.textLinkColor} />
-									<span>
-										{id}. {name}
-									</span>
+									<span style={style.purposeName}>{name}</span>
 								</a>
 								{handleConsent ? (
 									<Switch
@@ -128,11 +134,11 @@ export default class PurposeList extends Component {
 				<div className={[style.itemInteractive, isExpanded ? style.expanded : '', style.canConsent].join(' ')}>
 					<a
 						style={{ color: theme.textLinkColor }}
-						class={isExpanded ? style.detailExpand : ''}
+						class={[style.itemInteractiveAnchor, isExpanded ? style.detailExpand : ''].join(' ')}
 						onClick={this.expandPurposeRow.bind(this, displayId)}
 					>
 						<ChevronIcon color={theme.textLinkColor} />
-						<span>{name}</span>
+						<span class={style.purposeName}>{name}</span>
 					</a>
 					<Switch
 						color={theme.primaryColor}
@@ -156,6 +162,7 @@ export default class PurposeList extends Component {
 			displayLayer1,
 			config: { theme },
 			tcModel,
+			translations,
 		} = store;
 
 		const { stack: displayStack } = displayLayer1;
@@ -171,10 +178,12 @@ export default class PurposeList extends Component {
 		const displayPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					We and{' '}
-					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
-						our partners
-					</a>
+					<LocalLabel localizeKey="purposesTitle" translations={translations} onClick={this.handleVendorsClick}>
+						We and{' '}
+						<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+							our partners:
+						</a>
+					</LocalLabel>
 				</h3>
 			),
 			theme,
@@ -190,11 +199,13 @@ export default class PurposeList extends Component {
 			? this.renderStack(props, state, {
 					headline: (
 						<h3 class={style.rowTitle}>
-							We and{' '}
-							<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
-								our partners
-							</a>{' '}
-							process personal data such as IP address, unique ID, browsing data for:
+							<LocalLabel localizeKey="stacksTitle" translations={translations} onClick={this.handleVendorsClick}>
+								We and{' '}
+								<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+									our partners
+								</a>{' '}
+								process personal data such as IP address, unique ID, browsing data for:
+							</LocalLabel>
 						</h3>
 					),
 					theme,
@@ -208,11 +219,13 @@ export default class PurposeList extends Component {
 		const displaySpecialFeaturesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					For some of the purposes above we and{' '}
-					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
-						our partners
-					</a>
-					:
+					<LocalLabel localizeKey="stacksTitle" translations={translations} onClick={this.handleVendorsClick}>
+						For some of the purposes above we and{' '}
+						<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+							our partners
+						</a>
+						:
+					</LocalLabel>
 				</h3>
 			),
 			theme,
@@ -226,7 +239,9 @@ export default class PurposeList extends Component {
 		const displaySpecialPurposesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					We need your consent for all the purposes above but we have a legitimate interest for these purposes:
+					<LocalLabel localizeKey="specialPurposesTitle" translations={translations}>
+						We need your consent for all the purposes above but we have a legitimate interest for these purposes:
+					</LocalLabel>
 				</h3>
 			),
 			theme,
@@ -238,11 +253,13 @@ export default class PurposeList extends Component {
 		const displayFeaturesDom = this.renderRow(props, state, {
 			headline: (
 				<h3 class={style.rowTitle}>
-					For some of the purposes above we and{' '}
-					<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
-						our partners
-					</a>
-					:
+					<LocalLabel localizeKey="featuresTitle" translations={translations} onClick={this.handleVendorsClick}>
+						For some of the purposes above we and{' '}
+						<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+							our partners
+						</a>
+						:
+					</LocalLabel>
 				</h3>
 			),
 			theme,

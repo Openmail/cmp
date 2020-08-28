@@ -18,6 +18,10 @@ export const logger = (logger, payload) => {
 		...payload,
 	};
 	if (logger && isLoggerEnabled) {
+		if (logger === EVENTS.CMPError) {
+			// emit the error to the console
+			console.error(payload.message);
+		}
 		logger.log(loggerPayload);
 	} else {
 		debug('logger (isDisabled)', loggerPayload);

@@ -2,6 +2,7 @@ import { TCModel, TCString } from '@iabtcf/core';
 import cookie from './cookie';
 import config from './config';
 import debug from './debug';
+import localize from './localize';
 import logger, { EVENTS as LOG_EVENTS } from './logger';
 import { CONSENT_SCREENS, CUSTOM_EVENTS, LANGUAGES } from '../constants';
 
@@ -27,12 +28,12 @@ export default class Store {
 	tcfApi;
 	tcModel;
 	tcData;
+	translations = {};
 	LANGUAGES = LANGUAGES;
 	listeners = new Set();
 
 	constructor(options) {
-		const { theme } = this.config;
-
+		const { theme, language } = this.config;
 		Object.assign(this, {
 			...options,
 			theme: {
@@ -42,7 +43,22 @@ export default class Store {
 		});
 		const { tcfApi, gvl } = options;
 		const { readyPromise } = gvl;
-		readyPromise.then(this.onReady.bind(this));
+
+		const localizePromise = localize(language);
+		localizePromise.then((translations) => {
+			this.setState({
+				translations,
+			});
+		});
+
+		Promise.all([readyPromise, localizePromise])
+			.then(this.onReady.bind(this))
+			.catch((e) => {
+				logger(LOG_EVENTS.CMPError, {
+					errorMessage: `storeReadyError: ${e}`,
+				});
+			});
+
 		tcfApi('addEventListener', 2, this.onEvent.bind(this));
 	}
 

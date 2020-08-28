@@ -4,8 +4,18 @@ import style from './purposeList.less';
 import ChevronIcon from '../chevronicon/chevronicon';
 import Switch from '../switch/switch';
 import ExternalLinkIcon from '../externallinkicon/externallinkicon';
+import Label from '../label/label';
+import { lookup } from '../../lib/localize';
 
 import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
+
+const LOCAL_PREFIX = 'layer3Vendors';
+class LocalLabel extends Label {
+	static defaultProps = {
+		prefix: LOCAL_PREFIX,
+		isShowing: false,
+	};
+}
 
 export default class VendorList extends Component {
 	state = {
@@ -38,7 +48,7 @@ export default class VendorList extends Component {
 
 	renderRow(props, state, { headline, expanded, theme, list, displayPrefix, handleConsent, optIns }) {
 		const { store } = this.props;
-		const { gvl } = store;
+		const { gvl, translations } = store;
 		const {
 			purposes: globalPurposes,
 			specialPurposes: globalSpecialPurposes,
@@ -79,7 +89,7 @@ export default class VendorList extends Component {
 									onClick={this.expandRow.bind(this, displayId)}
 								>
 									<ChevronIcon color={theme.textLinkColor} />
-									<span>
+									<span className={style.detailName}>
 										{name} <small class={style.reference}>(#{id})</small>
 									</span>
 								</a>
@@ -101,7 +111,14 @@ export default class VendorList extends Component {
 									>
 										{purposes.length > 0 && (
 											<div>
-												<h4>Purposes (Consent)</h4>
+												<h4>
+													{lookup({
+														label: 'Purposes (Consent)',
+														prefix: LOCAL_PREFIX,
+														localizeKey: 'purposesConsent',
+														translations,
+													})}
+												</h4>
 												<ul>
 													{purposes
 														.filter((key) => !legIntPurposes.includes(key))
@@ -163,7 +180,10 @@ export default class VendorList extends Component {
 
 										<p>
 											<a href={policyUrl} target="_blank" title={`Privacy Policy for ${name}`}>
-												Privacy Policy: {policyUrl} <ExternalLinkIcon color={theme.textLinkColor} />
+												<LocalLabel localizeKey="privacy" translations={translations}>
+													Privacy Policy:
+												</LocalLabel>{' '}
+												{policyUrl} <ExternalLinkIcon color={theme.textLinkColor} />
 											</a>
 										</p>
 									</div>
@@ -182,6 +202,7 @@ export default class VendorList extends Component {
 			config: { theme },
 			tcModel,
 			gvl,
+			translations,
 		} = store;
 
 		const { vendorConsents } = tcModel;
@@ -191,7 +212,13 @@ export default class VendorList extends Component {
 		const { expanded } = state;
 
 		const displayVendorsDom = this.renderRow(props, state, {
-			headline: <h3 class={style.rowTitle}>Partners who are part of the IAB TCF</h3>,
+			headline: (
+				<h3 class={style.rowTitle}>
+					<LocalLabel localizeKey="partnersTitle" translations={translations}>
+						Partners who are part of the IAB TCF
+					</LocalLabel>
+				</h3>
+			),
 			theme,
 			expanded,
 			handleConsent: this.handleConsent,

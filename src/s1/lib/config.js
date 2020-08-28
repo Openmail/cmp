@@ -18,10 +18,14 @@ export const config = {
 	ccpaApplies: false,
 	experimentId: 'control',
 	gdprApplies: false,
+	language: 'en',
 	narrowedVendors: [],
 	publisherCountryCode: 'US',
 	shouldAutoConsent: false, // deprecated feature
 	theme,
+	scriptSrc: './tcf-2.0-cmp.js',
+	languageFilename: 'purposes/purposes-[LANG].json',
+	translationFilename: 'translations/translations-[LANG].json',
 	versionedFilename: 'vendor-list.json',
 };
 

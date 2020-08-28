@@ -12,7 +12,21 @@
 
 	var cmpLoader = (function (cmp, __tcfapi) {
 		var logging = 'logging',
-			scriptSrc = 'scriptSrc';
+			scriptSrc = 'scriptSrc',
+			polyfillSrc = 'polyfillSrc',
+			shouldPolyfill = !window.Promise || !window.fetch || !window.Symbol;
+
+		function loadScript(src, done) {
+			var js = document.createElement('script');
+			js.src = src;
+			js.onload = function () {
+				done();
+			};
+			js.onerror = function () {
+				done(new Error('Failed to load script ' + src));
+			};
+			document.head.appendChild(js);
+		}
 
 		return function () {
 			// 2. create global cmp / __tcfapi request queues
@@ -59,14 +73,34 @@
 									"CMP Error: Provide src to load CMP. cmp('init', { scriptSrc: './cmp.js'})"
 								);
 							}
-							scriptEl = document.createElement(script);
-							scriptEl.async = 1;
-							scriptEl.src = parameter[scriptSrc];
-							scriptParentEl = document.getElementsByTagName(script)[0];
-							if (scriptParentEl && scriptParentEl.parentNode) {
-								scriptParentEl.parentNode.insertBefore(scriptEl, scriptParentEl);
+
+							var loadCmp = function () {
+								scriptEl = document.createElement(script);
+								scriptEl.async = 1;
+								scriptEl.src = parameter[scriptSrc];
+								scriptParentEl = document.getElementsByTagName(script)[0];
+								if (scriptParentEl && scriptParentEl.parentNode) {
+									scriptParentEl.parentNode.insertBefore(scriptEl, scriptParentEl);
+								} else {
+									document.body.appendChild(scriptEl);
+								}
+							};
+
+							if (!shouldPolyfill) {
+								loadCmp();
 							} else {
-								document.body.appendChild(scriptEl);
+								// load polyfills
+								var regex = new RegExp('[^/]+$');
+								var pSrc = parameter[polyfillSrc] || regex.replace(parameter[scriptSrc], 'polyfills.js');
+								if (!pSrc) {
+									return log(
+										parameter[logging],
+										// eslint-disable-next-line quotes
+										"CMP Error: Provide polyfillSrc to load CMP. cmp('init', { polyfillSrc: './polyfills.js'})"
+									);
+								}
+								console.log('load polyfillSrc', pSrc);
+								loadScript(pSrc, loadCmp);
 							}
 						}
 					};

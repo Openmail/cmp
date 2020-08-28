@@ -461,7 +461,20 @@ export default class Store {
 			return;
 		}
 
-		return this.gvl.changeLanguage(language).then(() => {
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'toggleLanguage',
+			label: language,
+		});
+
+		const localizePromise = localize(language);
+		localizePromise.then((translations) => {
+			this.setState({
+				translations,
+			});
+		});
+
+		const gvlPromise = this.gvl.changeLanguage(language).then(() => {
 			const { language } = this.gvl;
 			const tcModel = this.tcModel.clone();
 			tcModel.consentLanguage = language;
@@ -469,12 +482,8 @@ export default class Store {
 				tcModel,
 				shouldShowModal: true,
 			});
-
-			logger(LOG_EVENTS.CMPClick, {
-				action: 'click',
-				category: 'toggleLanguage',
-				label: language,
-			});
 		});
+
+		return Promise.all([gvlPromise, localizePromise]);
 	}
 }

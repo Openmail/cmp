@@ -51,13 +51,13 @@
 			padding-left: 1rem;
 			padding-right: 1rem;
 			margin-bottom: 0.4rem;
-			display: flex;
 			flex-wrap: wrap;
 			align-items: center;
 			justify-content: center;
 			border-top-right-radius: 20px;
 			border-bottom-right-radius: 20px;
 			background: linear-gradient(130deg, rgba(0, 0, 0, 0) 20%, rgba(@color-secondary, 0.075));
+			display: flex;
 
 			@media @smartphone {
 				padding-left: 0rem;
@@ -65,12 +65,25 @@
 			}
 		}
 
+		.itemInteractiveAnchor {
+			display: flex;
+
+			span {
+				flex: 1;
+			}
+		}
+
+		.purposeName {
+			display: inline-block;
+			flex: 1;
+		}
+
 		a {
 			flex-basis: 50%;
 			flex-grow: 1;
 			flex-shrink: 1;
 
-			span {
+			.detailName {
 				width: calc(100% - 30px);
 				vertical-align: middle;
 				display: inline-block;
@@ -80,10 +93,14 @@
 				vertical-align: middle;
 				margin-right: 5px;
 				position: relative;
-				top: -1px;
+				top: 5px;
 				transform: rotate(-90deg);
 				transition: 0.5s ease;
 				fill: @color-linkColor;
+
+				@media @smartphone {
+					top: -2px;
+				}
 			}
 
 			@media @smartphone {
@@ -98,6 +115,7 @@
 			transform: translateZ(0);
 			align-items: center;
 			max-height: 0px;
+			padding-left: 21px;
 
 			&.vendorDetails {
 				margin: 0;
@@ -123,6 +141,10 @@
 			p {
 				padding-top: 1rem;
 				margin: 0;
+
+				@media @smartphone {
+					padding-top: 5px;
+				}
 			}
 
 			.reference {
@@ -133,10 +155,12 @@
 		.canConsent {
 			.itemDetails {
 				p {
-					padding-right: 60px;
+					padding-right: 50px;
 
 					@media @smartphone {
-						padding-right: 20px;
+						padding-right: 10px;
+						line-height: 14px;
+						text-align: justify;
 					}
 				}
 			}

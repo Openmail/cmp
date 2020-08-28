@@ -9,7 +9,7 @@ import { CONSENT_SCREENS } from '../../constants';
 
 class LocalLabel extends Label {
 	static defaultProps = {
-		prefix: 'vendors',
+		prefix: 'layer3Vendors',
 		isShowing: false,
 	};
 }
@@ -69,6 +69,7 @@ export default class BannerVendors extends Component {
 		const {
 			config: { theme },
 			isSaveShowing,
+			translations,
 		} = store;
 
 		const {
@@ -109,10 +110,12 @@ export default class BannerVendors extends Component {
 					<div class={style.message} ref={(el) => (this.messageRef = el)}>
 						<div class={style.info}>
 							<div class={style.title} style={{ color: theme.textColor }}>
-								<LocalLabel localizeKey="title">Who is using this information?</LocalLabel>
+								<LocalLabel localizeKey="title" translations={translations}>
+									Who is using this information?
+								</LocalLabel>
 							</div>
 							<div class={style.intro}>
-								<LocalLabel localizeKey="description">
+								<LocalLabel localizeKey="description" translations={translations}>
 									Depending on the type of data they collect, use, and process and other factors including privacy by
 									design, certain partners rely on your consent while others require you to opt-out. For information on
 									each vendor and to exercise your choices, see below. Or to opt-out, visit the{' '}
@@ -140,7 +143,9 @@ export default class BannerVendors extends Component {
 									onClick={this.handleBack}
 									style={{ color: primaryColor, borderColor: primaryColor }}
 								>
-									<LocalLabel localizeKey="links.back">Back</LocalLabel>
+									<LocalLabel localizeKey="links.back" translations={translations}>
+										Back
+									</LocalLabel>
 								</a>
 								<a
 									class={style.continue}
@@ -151,7 +156,9 @@ export default class BannerVendors extends Component {
 										color: primaryTextColor,
 									}}
 								>
-									<LocalLabel localizeKey="links.accept">Accept All</LocalLabel>
+									<LocalLabel localizeKey="links.acceptAll" translations={translations}>
+										Accept All
+									</LocalLabel>
 								</a>
 								<a
 									class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
@@ -161,7 +168,9 @@ export default class BannerVendors extends Component {
 										borderColor: primaryColor,
 									}}
 								>
-									<LocalLabel localizeKey="links.save">Save</LocalLabel>
+									<LocalLabel localizeKey="links.save" translations={translations}>
+										Save
+									</LocalLabel>
 								</a>
 							</div>
 							<div class={style.optionsContainer}>{!store ? <h1>Loading</h1> : <VendorList store={store} />}</div>

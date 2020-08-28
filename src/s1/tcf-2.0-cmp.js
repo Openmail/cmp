@@ -1,19 +1,3 @@
-import 'core-js/fn/array/find-index';
-import 'core-js/fn/array/filter';
-import 'core-js/fn/array/from';
-import 'core-js/fn/array/find';
-import 'core-js/fn/array/map';
-import 'core-js/fn/array/includes';
-import 'core-js/fn/object/keys';
-import 'core-js/fn/object/assign';
-import 'core-js/fn/promise';
-import 'core-js/fn/array/find-index';
-import 'core-js/fn/symbol';
-import 'core-js/fn/number/is-integer';
-import 'core-js/fn/set';
-import 'core-js/fn/string/repeat';
-import 'core-js/fn/map';
-
 import { CmpApi } from '@iabtcf/cmpapi';
 import { GVL } from '@iabtcf/core';
 import { h, render } from 'preact';
@@ -52,6 +36,8 @@ export const setup = (configOpt) => {
 
 	GVL.baseUrl = config.baseUrl;
 	GVL.versionedFilename = config.versionedFilename;
+	GVL.languageFilename = config.languageFilename;
+	GVL.translationFilename = config.translationFilename;
 
 	// 1. customize the CMP API
 	const cmpApi = new CmpApi(config.cmpId, 3, false, {

@@ -1,21 +1,57 @@
-import { h, Component } from 'preact';
-import { Localize } from '../../lib/localize';
-const lookup = new Localize().lookup;
+import { h, Component, createRef } from 'preact';
 
 export default class Label extends Component {
+	ref = createRef();
+
 	static defaultProps = {
 		altLocalizeKey: '',
 		prefix: '',
 	};
 
-	render(props, state) {
-		const { altLocalizeKey, prefix, localizeKey, className, children } = props;
-		const key = prefix ? `${prefix}.${localizeKey}` : localizeKey;
-		const altKey = altLocalizeKey ? (prefix ? `${prefix}.${altLocalizeKey}` : altLocalizeKey) : '';
-		const localizedContent = lookup(key) || (altKey ? lookup(altKey) : '');
+	hookClickHandler() {
+		const { onClick } = this.props;
+		if (onClick && this.ref.current) {
+			const a = this.ref.current.querySelector('a');
+			if (!a || a === this.hooked) {
+				return;
+			}
 
+			if (this.hooked) {
+				this.hooked.removeEventListener('click', onClick);
+			}
+
+			this.hooked = a;
+			this.hooked.addEventListener('click', onClick);
+		}
+	}
+
+	componentDidMount() {
+		this.hookClickHandler();
+	}
+
+	componentDidUpdate() {
+		this.hookClickHandler();
+	}
+
+	componentWillUnmount() {
+		const { onClick } = this.props;
+		if (onClick && this.hooked) {
+			this.hooked.removeEventListener('click', onClick);
+			this.hooked = null;
+		}
+	}
+
+	render(props) {
+		const { prefix, localizeKey, className, children, translations = {} } = props;
+		const key = prefix ? `${prefix}.${localizeKey}` : localizeKey;
+		// 1. get translation from custom translations
+		let localizedContent = translations[key];
 		return (
-			<span class={props.class || className} dangerouslySetInnerHTML={localizedContent && { __html: localizedContent }}>
+			<span
+				class={props.class || className}
+				ref={this.ref}
+				dangerouslySetInnerHTML={localizedContent && { __html: localizedContent }}
+			>
 				{!localizedContent && children}
 			</span>
 		);

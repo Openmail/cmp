@@ -9,7 +9,7 @@ import { CONSENT_SCREENS } from '../../constants';
 
 class LocalLabel extends Label {
 	static defaultProps = {
-		prefix: 'banner',
+		prefix: 'layer1Stacks',
 		isShowing: false,
 	};
 }
@@ -69,6 +69,7 @@ export default class BannerStacks extends Component {
 		const { isShowing, store } = props;
 		const {
 			config: { theme },
+			translations,
 			displayLayer1,
 			isSaveShowing,
 		} = store;
@@ -112,10 +113,12 @@ export default class BannerStacks extends Component {
 					<div class={style.message} ref={(el) => (this.messageRef = el)}>
 						<div class={style.info}>
 							<div class={style.title} style={{ color: textColor }}>
-								<LocalLabel localizeKey="title">Ads help us run this site</LocalLabel>
+								<LocalLabel localizeKey="title" translations={translations}>
+									Ads help us run this site
+								</LocalLabel>
 							</div>
 							<div class={style.intro}>
-								<LocalLabel localizeKey="description">
+								<LocalLabel localizeKey="description" translations={translations} onClick={this.handleLearnMore}>
 									When you visit our site, <a>pre-selected companies</a> may access and use certain information on your
 									device and about this site to serve relevant ads or personalized content.
 								</LocalLabel>
@@ -126,7 +129,9 @@ export default class BannerStacks extends Component {
 									onClick={this.handleLearnMore}
 									style={{ color: primaryColor, borderColor: primaryColor }}
 								>
-									<LocalLabel localizeKey="links.manage">Manage Your Choices</LocalLabel>
+									<LocalLabel localizeKey="links.manage" translations={translations}>
+										Manage Your Choices
+									</LocalLabel>
 								</a>
 								<a
 									class={style.continue}
@@ -137,7 +142,9 @@ export default class BannerStacks extends Component {
 										color: primaryTextColor,
 									}}
 								>
-									<LocalLabel localizeKey="links.accept">Continue to site</LocalLabel>
+									<LocalLabel localizeKey="links.accept" translations={translations}>
+										Continue to site
+									</LocalLabel>
 								</a>
 								<a
 									class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
@@ -147,7 +154,9 @@ export default class BannerStacks extends Component {
 										borderColor: primaryColor,
 									}}
 								>
-									<LocalLabel localizeKey="links.save">Save</LocalLabel>
+									<LocalLabel localizeKey="links.save" translations={translations}>
+										Save
+									</LocalLabel>
 								</a>
 							</div>
 							<div class={style.optionsContainer}>

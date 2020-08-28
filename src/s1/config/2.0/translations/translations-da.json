@@ -1,32 +1,32 @@
 {
 	"layer1Stacks": {
-		"title": "Privacy Choices",
-		"description": "By using this site, you agree to our use of cookies and information to provide personalized content and ads and measure and analyze site usage. Click \"Learn More\" to change your settings.",
+		"title": "Privatlivsindstillinger",
+		"description": "Ved at bruge dette websted accepterer du vores brug af cookies og oplysninger til at levere personligt indhold og annoncer samt måle og analysere brugen af webstedet. Klik på \"Lær mere\" for at ændre dine indstillinger.",
 		"links": {
-			"manage": "Learn More",
-			"accept": "Ok, Got It",
-			"save": "Save"
+			"manage": "Lær Mere",
+			"accept": "Ok, Forstået",
+			"save": "Gemme"
 		},
-		"purposesTitle": "We and <a>our partners</a>:",
-		"stacksTitle": "We and <a>our partners</a> process personal data such as IP address, unique ID, browsing data for:",
-		"specialFeaturesTitle": "For some of the purposes above we and <a>our partners</a>:",
-		"specialPurposesTitle": "We need your consent for all the purposes above but we have a legitimate interest for these purposes:",
-		"featuresTitle": "For some of the purposes above we and <a>our partners</a>"
+		"purposesTitle": "Vi og <a>vores partnere</a>:",
+		"stacksTitle": "Vi og <a>vores partnere</a> behandler personlige data såsom IP-adresse, unik ID, gennemsøgningsdata til:",
+		"specialFeaturesTitle": "Til nogle af ovennævnte formål er vi og <a>vores partnere</a>:",
+		"specialPurposesTitle": "Vi har brug for dit samtykke til alle ovenstående formål, men vi har en legitim interesse til disse formål:",
+		"featuresTitle": "Til nogle af ovennævnte formål er vi og <a>vores partnere</a>:"
 	},
 	"layer3Vendors": {
-		"title": "Who is using this information?",
-		"description": "Here is the complete list of companies who will use your information. Please view their privacy policy for more details.",
-		"partnersTitle": "Partners who are part of the IAB TCF",
-		"privacy": "Privacy Policy:",
+		"title": "Hvem bruger disse oplysninger?",
+		"description": "Her er den komplette liste over virksomheder, der bruger dine oplysninger. Se deres privatlivspolitik for flere detaljer.",
+		"partnersTitle": "Partnere, der er en del af IAB TCF",
+		"privacy": "Privatlivspolitik:",
 		"links": {
-			"back": "Back",
-			"acceptAll": "Allow All",
-			"save": "Save"
+			"back": "Tilbage",
+			"acceptAll": "Tillad Alle",
+			"save": "Gemme"
 		},
-		"purposesConsent": "Purposes (Consent)",
+		"purposesConsent": "Formål (samtykke)",
 		"purposesLegit": "Purposes (Legitimate Interest)",
-		"specialPurposes": "Special Purposes",
-		"features": "Features",
-		"specialFeatures": "Special Features"
+		"specialPurposes": "Særlige Formål",
+		"features": "Egenskaber",
+		"specialFeatures": "Særlige Egenskaber"
 	}
 }

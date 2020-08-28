@@ -20,9 +20,8 @@ import 'whatwg-fetch';
 	if (typeof window.CustomEvent === 'function') return false;
 
 	function CustomEvent(event, params) {
-		params = params || { bubbles: false, cancelable: false, detail: null };
 		const evt = document.createEvent('CustomEvent');
-		evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
+		evt.initCustomEvent(event, false, false, params || {});
 		return evt;
 	}
 

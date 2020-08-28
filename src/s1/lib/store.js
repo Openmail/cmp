@@ -247,8 +247,8 @@ export default class Store {
 			cookie.writeConsentedAllCookie(hasConsentedAll ? '1' : '0', cookieDomain);
 			if (hasConsentedAllCookie !== normalizeHasConsentedAll) {
 				global.dispatchEvent(
-					new MessageEvent(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, {
-						data: {
+					new CustomEvent(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, {
+						detail: {
 							store: {
 								...this.store,
 							},

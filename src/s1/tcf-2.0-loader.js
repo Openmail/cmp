@@ -99,7 +99,6 @@
 										"CMP Error: Provide polyfillSrc to load CMP. cmp('init', { polyfillSrc: './polyfills.js'})"
 									);
 								}
-								console.log('load polyfillSrc', pSrc);
 								loadScript(pSrc, loadCmp);
 							}
 						}

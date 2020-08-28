@@ -91,7 +91,7 @@
 							} else {
 								// load polyfills
 								var regex = new RegExp('[^/]+$');
-								var pSrc = parameter[polyfillSrc] || regex.replace(parameter[scriptSrc], 'polyfills.js');
+								var pSrc = parameter[polyfillSrc] || parameter[scriptSrc].replace(regex, 'polyfills.js');
 								if (!pSrc) {
 									return log(
 										parameter[logging],

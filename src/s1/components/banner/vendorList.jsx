@@ -85,7 +85,7 @@ export default class VendorList extends Component {
 							>
 								<a
 									style={{ color: theme.textLinkColor }}
-									class={isExpanded ? style.detailExpand : ''}
+									class={[style.itemInteractiveAnchor, isExpanded ? style.detailExpand : ''].join(' ')}
 									onClick={this.expandRow.bind(this, displayId)}
 								>
 									<ChevronIcon color={theme.textLinkColor} />
@@ -179,7 +179,12 @@ export default class VendorList extends Component {
 										)}
 
 										<p>
-											<a href={policyUrl} target="_blank" title={`Privacy Policy for ${name}`}>
+											<a
+												class={style.privacyPolicy}
+												href={policyUrl}
+												target="_blank"
+												title={`Privacy Policy for ${name}`}
+											>
 												<LocalLabel localizeKey="privacy" translations={translations}>
 													Privacy Policy:
 												</LocalLabel>{' '}

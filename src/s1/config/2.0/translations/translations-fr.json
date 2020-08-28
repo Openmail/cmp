@@ -1,32 +1,32 @@
 {
 	"layer1Stacks": {
-		"title": "Privacy Choices",
-		"description": "By using this site, you agree to our use of cookies and information to provide personalized content and ads and measure and analyze site usage. Click \"Learn More\" to change your settings.",
+		"title": "Choix en matière de vie privée",
+		"description": "En utilisant ce site, vous acceptez l’utilisation des cookies et des informations nécessaires pour vous fournir un contenu et des publicités personnalisées, ainsi que pour mesurer et analyser l’utilisation du site. Cliquez sur \"En savoir plus\" pour modifier vos paramètres.",
 		"links": {
-			"manage": "Learn More",
-			"accept": "Ok, Got It",
-			"save": "Save"
+			"manage": "En savoir plus",
+			"accept": "OK, j’ai compris",
+			"save": "Enregistrer"
 		},
-		"purposesTitle": "We and <a>our partners</a>:",
-		"stacksTitle": "We and <a>our partners</a> process personal data such as IP address, unique ID, browsing data for:",
-		"specialFeaturesTitle": "For some of the purposes above we and <a>our partners</a>:",
-		"specialPurposesTitle": "We need your consent for all the purposes above but we have a legitimate interest for these purposes:",
-		"featuresTitle": "For some of the purposes above we and <a>our partners</a>"
+		"purposesTitle": "Nous et <a>nos partenaires</a>:",
+		"stacksTitle": "Nous et <a>nos partenaires</a> traitons des données personnelles telles que l'adresse IP, l'identifiant unique, les données de navigation pour:",
+		"specialFeaturesTitle": "Pour certaines des raisons ci-dessus, nous et <a>nos partenaires</a>:",
+		"specialPurposesTitle": "Nous avons besoin de votre consentement pour toutes les fins ci-dessus, mais nous avons un intérêt légitime à ces fins:",
+		"featuresTitle": "Pour certaines des raisons ci-dessus, nous et <a>nos partenaires</a>:"
 	},
 	"layer3Vendors": {
-		"title": "Who is using this information?",
-		"description": "Here is the complete list of companies who will use your information. Please view their privacy policy for more details.",
-		"partnersTitle": "Partners who are part of the IAB TCF",
-		"privacy": "Privacy Policy:",
+		"title": "Qui utilise ces informations?",
+		"description": "Nous et les sociétés présélectionnées utiliserons vos informations. Vous pouvez consulter chaque société figurant dans les liens ci-dessus ou",
+		"partnersTitle": "Partenaires faisant partie de l'IAB TCF",
+		"privacy": "Politique de confidentialité:",
 		"links": {
-			"back": "Back",
-			"acceptAll": "Allow All",
-			"save": "Save"
+			"back": "Retour",
+			"acceptAll": "Autoriser tout",
+			"save": "Enregistrer"
 		},
-		"purposesConsent": "Purposes (Consent)",
-		"purposesLegit": "Purposes (Legitimate Interest)",
-		"specialPurposes": "Special Purposes",
-		"features": "Features",
-		"specialFeatures": "Special Features"
+		"purposesConsent": "Finalités (consentement)",
+		"purposesLegit": "Finalités (intérêt légitime)",
+		"specialPurposes": "Fins Spéciales",
+		"features": "Caractéristiques",
+		"specialFeatures": "Caractéristiques Spéciales"
 	}
 }

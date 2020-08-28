@@ -1,32 +1,32 @@
 {
 	"layer1Stacks": {
-		"title": "Privacy Choices",
-		"description": "By using this site, you agree to our use of cookies and information to provide personalized content and ads and measure and analyze site usage. Click \"Learn More\" to change your settings.",
+		"title": "Integritetsval",
+		"description": "Genom att använda denna webbplats så samtycker du till vår användning av cookies för att tillhandahålla ett mer personligt skräddarsytt innehåll inklusive relaterade annonser samt i syfte att mäta och analysera användningen av webbplatsen. Klicka på \"Lär Dig Mer\" om du vill ändra dina inställningar.",
 		"links": {
-			"manage": "Learn More",
-			"accept": "Ok, Got It",
-			"save": "Save"
+			"manage": "Lär Dig Mer",
+			"accept": "Ok, Jag Förstår",
+			"save": "Spara"
 		},
-		"purposesTitle": "We and <a>our partners</a>:",
-		"stacksTitle": "We and <a>our partners</a> process personal data such as IP address, unique ID, browsing data for:",
-		"specialFeaturesTitle": "For some of the purposes above we and <a>our partners</a>:",
-		"specialPurposesTitle": "We need your consent for all the purposes above but we have a legitimate interest for these purposes:",
-		"featuresTitle": "For some of the purposes above we and <a>our partners</a>"
+		"purposesTitle": "Vi och <a>våra partners</a>:",
+		"stacksTitle": "Vi och <a>våra partners</a> behandlar personuppgifter som IP-adress, unikt ID, bläddrings data för:",
+		"specialFeaturesTitle": "För några av ovanstående syften är vi och <a>våra partners</a>:",
+		"specialPurposesTitle": "Vi behöver ditt samtycke för alla ovanstående ändamål men vi har ett legitimt intresse för dessa ändamål:",
+		"featuresTitle": "För några av ovanstående syften är vi och <a>våra partners</a>:"
 	},
 	"layer3Vendors": {
-		"title": "Who is using this information?",
-		"description": "Here is the complete list of companies who will use your information. Please view their privacy policy for more details.",
-		"partnersTitle": "Partners who are part of the IAB TCF",
-		"privacy": "Privacy Policy:",
+		"title": "Vem använder denna information?",
+		"description": "Vi och förvalda företag kommer att använda din information. Du kan se varje företag i länkarna ovan eller.",
+		"partnersTitle": "Partners som ingår i IAB TCF",
+		"privacy": "Sekretesspolicy:",
 		"links": {
-			"back": "Back",
-			"acceptAll": "Allow All",
-			"save": "Save"
+			"back": "Tillbaka",
+			"acceptAll": "Tillåt Alla",
+			"save": "Spara"
 		},
-		"purposesConsent": "Purposes (Consent)",
-		"purposesLegit": "Purposes (Legitimate Interest)",
-		"specialPurposes": "Special Purposes",
-		"features": "Features",
-		"specialFeatures": "Special Features"
+		"purposesConsent": "Syften (samtycke)",
+		"purposesLegit": "Syften (legitimt intresse)",
+		"specialPurposes": "Speciella Syften",
+		"features": "Funktioner",
+		"specialFeatures": "Speciella Funktioner"
 	}
 }

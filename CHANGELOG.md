@@ -1,3 +1,10 @@
+## [2.0.1](https://github.com/openmail/system1-cmp/compare/v2.0.0...v2.0.1) (2020-08-31)
+
+### Fix
+
+- [x] Update logging Error and Save schemas
+- [x] Fix initial language configuration
+
 ## [2.0.0](https://github.com/openmail/system1-cmp/compare/v1.5.6...v2.0.0) (2020-08-14)
 
 ### Refactor

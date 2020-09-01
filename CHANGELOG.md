@@ -1,5 +1,10 @@
 ## [2.0.1](https://github.com/openmail/system1-cmp/compare/v2.0.0...v2.0.1) (2020-08-31)
 
+### Refactor
+
+- [x] Switch to node 12
+- [x] Animate modal on first reveal
+
 ### Fix
 
 - [x] Update logging Error and Save schemas

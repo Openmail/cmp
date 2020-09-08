@@ -224,7 +224,7 @@ export default class Store {
 	 * @param shouldSaveCookie - optional boolean, sets gdpr_opt_in and stores tcData.consentString too cookie if true
 	 * @param isConsentByUrl - optional boolean, annotates logs to indicate save of consent transfered from URLParams
 	 */
-	updateCmp = ({ tcModel, shouldShowModal, shouldSaveCookie, shouldShowSave, isConsentByUrl }) => {
+	updateCmp = ({ tcModel, shouldShowModal, shouldSaveCookie, shouldShowSave, isConsentByUrl = false }) => {
 		const tcModelNew = this.autoToggleVendorConsents(tcModel);
 		const isModalShowing = shouldShowModal !== undefined ? shouldShowModal : this.isModalShowing;
 		const isSaveShowing = shouldShowSave !== undefined ? shouldShowSave : this.isSaveShowing;

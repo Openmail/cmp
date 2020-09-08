@@ -179,7 +179,7 @@ __tcfapi('init', 2, () => {}, {
 	},
 	canLog: true, // pixel logging for monitoring and alerting
 	canDebug: false, // console.logs for dev debugging
-	narrowedVendors: [1, 2, 3, 4, 5], // only show a select numuber of vendors
+	narrowedVendors: [1, 2, 3, 4, 5], // only show a select vendors
 	cookieDomain: '', // which domain to set the euconsent and gdpr_opt_in cookie on
 });
 ```
@@ -190,6 +190,7 @@ __tcfapi('init', 2, () => {}, {
 | `canDebug`             | optional boolean | `false`                                 | true enables internal console logging for debugging                                                            |
 | `baseUrl`              | optional string  | `./config/2.0`                          | relative or absolute url to load the global vendor list. Combines with `versionedFilename` to load vendorlist. |
 | `versionedFilename`    | optional string  | `vendor-list.json`                      | file name of the global vendor list.                                                                           |
+| `narrowedVendors`      | optional array   | `[]`                                    | Only show select vendors. Example [1,4,5,19]                                                                   |
 | `languageFilename`     | optional string  | `purposes/purposes-[LANG].json`         | file name template for gvl localized purpose json files                                                        |
 | `translationFilename`  | optional string  | `translations/translations-[LANG].json` | file name template for custom localized json files for UI layer                                                |
 | `cookieDomain`         | optional string  | empty                                   | manage consent across subdomains. Example `.mysite.com`                                                        |

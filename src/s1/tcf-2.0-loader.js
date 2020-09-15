@@ -16,6 +16,12 @@
 			polyfillSrc = 'polyfillSrc',
 			shouldPolyfill = !window.Promise || !window.fetch || !window.Symbol;
 
+		// more intricate polyfill
+		if (!shouldPolyfill) {
+			var promiseTest = new Promise(function () {});
+			shouldPolyfill = !promiseTest.finally;
+		}
+
 		function loadScript(src, done) {
 			var js = document.createElement('script');
 			js.src = src;

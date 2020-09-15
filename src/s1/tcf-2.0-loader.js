@@ -16,7 +16,7 @@
 			polyfillSrc = 'polyfillSrc',
 			shouldPolyfill = !window.Promise || !window.fetch || !window.Symbol;
 
-		// more intricate polyfill
+		// Test for specific functionality for some polyfills
 		if (!shouldPolyfill) {
 			var promiseTest = new Promise(function () {});
 			shouldPolyfill = !promiseTest.finally;

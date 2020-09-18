@@ -1,4 +1,5 @@
 import { h, Component } from 'preact';
+import debounce from 'lodash.debounce';
 import style from './banner.less';
 
 import PurposeList from './purposeList';
@@ -91,7 +92,7 @@ export default class BannerStacks extends Component {
 		});
 	};
 
-	handleResize = () => {
+	handleResize = debounce(() => {
 		const { maxHeightModal } = this.state;
 		const { onMaxHeightChange } = this.props;
 		const newMaxHeightModal = this.getMaxHeightModal();
@@ -102,7 +103,7 @@ export default class BannerStacks extends Component {
 			});
 			onMaxHeightChange(newMaxHeightModal);
 		}
-	};
+	}, 200);
 
 	render(props, state) {
 		const { maxHeightModal } = state;

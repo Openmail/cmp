@@ -116,6 +116,7 @@
 		"handlebars-loader": "^1.7.1",
 		"js-beautify": "^1.7.5",
 		"lodash": "^4.17.11",
+		"lodash.debounce": "^4.0.8",
 		"no-case": "^3.0.3",
 		"preact": "^8.4.2",
 		"preact-compat": "^3.18.4",

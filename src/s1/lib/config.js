@@ -1,3 +1,5 @@
+/* global __CMP_VERSION__ */
+
 export const gdprConsentUrlParam = (() => {
 	let gdprConsent = '';
 	if (window && window.location && window.location.search) {
@@ -25,12 +27,13 @@ export const config = {
 	canLog: false, // pixel logs for monitoring
 	canDebug: false, // console.logs
 	cmpId: 38,
-	cmpVersion: 3,
+	cmpVersion: __CMP_VERSION__,
 	cookieDomain: '',
 	ccpaApplies: false,
 	experimentId: 'control',
 	gdprApplies: false,
 	gdprConsentUrlParam,
+	isServiceSpecific: true, // whether or not this cmp is configured to be service specific
 	language: 'en',
 	narrowedVendors: [],
 	publisherCountryCode: 'US',

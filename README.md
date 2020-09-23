@@ -202,6 +202,7 @@ __tcfapi('init', 2, () => {}, {
 | `business`             | optional string  | `dev`                                   | used to correlate CMP events for monitoring across a businessline.                                             |
 | `theme`                | optional object  | [details below](#theme)                 | Override styling choices using the following properties.                                                       |
 | `publisherCountryCode` | optional string  | `US`                                    | String representing country code of parent website business                                                    |
+| `isServiceSpecific`    | optional boolean | `true`                                  | true uses publisher consent, false uses global consent                                                         |
 
 ### theme
 
@@ -240,15 +241,9 @@ Following Google's [Additional Consent Mode](https://support.google.com/admanage
 ## TODO
 
 - [ ] Write Unit Tests and Integration Tests
-- [ ] Docs
-- [ ] Internal Localization
-- [ ] Layer 2 Purposes
 - [ ] Layer 3 Purpose Details
-- [ ] Layer 2 Vendors
 - [ ] Theming
-- [ ] non-personalized performance and monitoring analytics
 - [ ] Validate using the [TCF 2.0 validator extension](https://cmp-validator.consensu.org/chrome-extension/latest/IAB-Europe-CMP-Validator-User-Guide.pdf)
-- [ ] Separate polyfill bundle, use babelrc instead of manually importing from core-js
 
 ## Support Matrix
 

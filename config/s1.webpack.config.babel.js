@@ -7,7 +7,7 @@ import fs from 'fs';
 import UglifyJS from 'uglify-es';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-import { commonConfig, name, uglifyPlugin, version } from './common.webpack.config.babel';
+import { cmpVersion, commonConfig, name, uglifyPlugin, version } from './common.webpack.config.babel';
 
 const ENV = process.env.NODE_ENV || 'development';
 
@@ -44,6 +44,7 @@ module.exports = [
 			new webpack.DefinePlugin({
 				'process.env.NODE_ENV': JSON.stringify(ENV),
 				__VERSION__: JSON.stringify(version),
+				__CMP_VERSION__: JSON.stringify(cmpVersion),
 			}),
 			...pages.map(
 				({ id, filename }) =>

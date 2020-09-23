@@ -97,12 +97,25 @@
 			generated: <%= date %>
 		//-->
 		<div class="reference">
-			<h1 class="p">System1 CMP TCF2.0 Reference Page</h1>
+			<h1 class="p">System1 CMP TCF 2.0 Reference Page</h1>
+			<ul>
+				<li>
+					Current Live Version:
+					<strong>
+						<a
+							href="https://github.com/Openmail/system1-cmp/releases/tag/<%= version %>"
+							title="system1 CMP release notes"
+						>
+							<%= version %>
+						</a>
+					</strong>
+				</li>
+				<li>Last generated <strong><%= date %></strong></li>
+			</ul>
 			<p class="p">
-				This page is a CMP TCF 2.0 reference implementation. For instructions and more detail please see the
-				<a href="https://github.com/Openmail/system1-cmp/tree/potench/tcf-2.0-v.0" target="_github"
-					>openmail/system1-cmp</a
-				>
+				Consent Management Platform (CMP) TCF 2.0 reference implementation. For instructions and more detail please see
+				the
+				<a href="https://github.com/Openmail/system1-cmp" target="_github">openmail/system1-cmp</a>
 				project repository.
 			</p>
 			<ul>
@@ -124,9 +137,7 @@
 							</select>
 						</li>
 						<li>
-							<a href="https://github.com/Openmail/system1-cmp/tree/potench/tcf-2.0-v.0" target="_github"
-								>System1 CMP Github</a
-							>
+							<a href="https://github.com/Openmail/system1-cmp" target="_github">System1 CMP Github</a>
 						</li>
 						<li>
 							Autoresize:
@@ -180,8 +191,9 @@
 				ccpaApplies: false,
 				canLog: true,
 				canDebug: true,
-				// baseUrl: './config/2.0',
-				baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url
+				isServiceSpecific: true,
+				baseUrl: './config/2.0',
+				// baseUrl: 'https://s.flocdn.com/cmp/test/config/2.0', // base url
 				// versionedFilename: 'vendor-list.json', // vendor list json
 				scriptSrc: './tcf-2.0-cmp.js', // cmp SDK
 				// polyfillSrc: './polyfills.js',

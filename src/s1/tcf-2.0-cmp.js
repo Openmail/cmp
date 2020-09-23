@@ -40,7 +40,7 @@ export const setup = (configOpt) => {
 	GVL.translationFilename = config.translationFilename;
 
 	// 1. customize the CMP API
-	const cmpApi = new CmpApi(config.cmpId, 3, false, {
+	const cmpApi = new CmpApi(config.cmpId, config.cmpVersion, config.isServiceSpecific, {
 		[SHOW_CONSENT_TOOL]: (callback) => {
 			store.toggleShowModal(true);
 			callback(store, true);

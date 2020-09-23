@@ -123,7 +123,14 @@ export default class Store {
 	}); // fired after gvl.readyPromise and tcData updated if persisted
 
 	onReady() {
-		const { narrowedVendors, cmpId, cmpVersion, gdprConsentUrlParam, publisherCountryCode } = this.config;
+		const {
+			narrowedVendors,
+			cmpId,
+			cmpVersion,
+			gdprConsentUrlParam,
+			publisherCountryCode,
+			isServiceSpecific,
+		} = this.config;
 		const { vendors } = this.gvl;
 
 		if (narrowedVendors && narrowedVendors.length) {
@@ -133,6 +140,7 @@ export default class Store {
 
 		const tcModel = new TCModel(this.gvl);
 		let persistedTcModel;
+
 		const cookieTCString = cookie.readVendorConsentCookie();
 		const encodedTCString = cookieTCString || gdprConsentUrlParam;
 
@@ -144,6 +152,7 @@ export default class Store {
 					gdprConsentUrlParam ? 'consentUrl' : 'consentCookie'
 				}`,
 			});
+			console.error(e);
 		}
 
 		// Merge persisted model into new model in memory
@@ -151,6 +160,7 @@ export default class Store {
 			...(persistedTcModel ? persistedTcModel : {}),
 			cmpId,
 			cmpVersion,
+			isServiceSpecific,
 			publisherCountryCode,
 			consentScreen: CONSENT_SCREENS.STACKS_LAYER1,
 		});
@@ -261,6 +271,7 @@ export default class Store {
 			const normalizeHasConsentedAll = hasConsentedAll ? '1' : '0';
 			cookie.writeVendorConsentCookie(encodedTCString, cookieDomain);
 			cookie.writeConsentedAllCookie(hasConsentedAll ? '1' : '0', cookieDomain);
+
 			if (hasConsentedAllCookie !== normalizeHasConsentedAll) {
 				global.dispatchEvent(
 					new CustomEvent(CUSTOM_EVENTS.CONSENT_ALL_CHANGED, {

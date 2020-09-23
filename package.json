@@ -1,6 +1,6 @@
 {
 	"name": "system1-cmp",
-	"version": "2.0.4",
+	"version": "2.1.0",
 	"cmpVersion": 4,
 	"description": "System1 Consent Management Platform for TCF 1.1 GDPR Compliance",
 	"scripts": {
@@ -26,7 +26,8 @@
 		"test:watch": "npm run -s test -- --watch",
 		"lint": "eslint src test",
 		"preversion": "npm test",
-		"version": "npm run build"
+		"version": "npm run build",
+		"upgrade-vendor-list": "yarn babel-node scripts/run"
 	},
 	"repository": {
 		"type": "git",
@@ -59,6 +60,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.3.4",
+		"@babel/node": "^7.10.5",
 		"@babel/plugin-proposal-class-properties": "^7.3.4",
 		"@babel/plugin-proposal-decorators": "^7.3.0",
 		"@babel/plugin-transform-object-assign": "^7.2.0",

@@ -273,3 +273,11 @@ yarn
 yarn dev
 # browse to http://localhost:8080/tcf-2.0.html
 ```
+
+### Update Vendor List
+
+Use the included to script to automatically upgrade all vendor-lists. Commit, merge, publish the changes to take effect.
+
+```
+yarn upgrade-vendor-list
+```

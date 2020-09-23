@@ -1,10 +1,14 @@
-## [2.0.5](https://github.com/openmail/system1-cmp/compare/2.0.4...2.0.5) (2020-09-23)
+## [2.1.0](https://github.com/openmail/system1-cmp/compare/2.0.4...2.1.0) (2020-09-23)
 
 ### Refactor
 
-- [x] Update vendor-list to version 56
+- [x] `isServiceSpecific` passed through config, default true.
+- [x] Upgrade to vendor-list 56
+
+### Dev Tooling
+
 - [x] CMPVersion managed in package.json and incremented on each change
-- [x] `isServiceSpecific` passed through config, default true. Store in pubconsent vs global consent
+- [x] Add script to auto-upgrade vendor-list and remote translations using `yarn update-vendor-list`
 
 ## [2.0.4](https://github.com/openmail/system1-cmp/compare/2.0.3...2.0.4) (2020-09-17)
 

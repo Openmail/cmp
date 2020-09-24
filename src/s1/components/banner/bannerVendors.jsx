@@ -148,45 +148,45 @@ export default class BannerVendors extends Component {
 									sites.
 								</LocalLabel>
 							</div>
-							<div class={style.consent}>
-								<a
-									class={style.learnMore}
-									onClick={this.handleBack}
-									style={{ color: primaryColor, borderColor: primaryColor }}
-								>
-									<LocalLabel localizeKey="links.back" translations={translations}>
-										Back
-									</LocalLabel>
-								</a>
-								<a
-									class={style.continue}
-									onClick={this.handleAcceptAll}
-									style={{
-										backgroundColor: primaryColor,
-										borderColor: primaryColor,
-										color: primaryTextColor,
-									}}
-								>
-									<LocalLabel localizeKey="links.acceptAll" translations={translations}>
-										Accept All
-									</LocalLabel>
-								</a>
-								<a
-									class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
-									onClick={this.handleSave}
-									style={{
-										color: primaryColor,
-										borderColor: primaryColor,
-									}}
-								>
-									<LocalLabel localizeKey="links.save" translations={translations}>
-										Save
-									</LocalLabel>
-								</a>
-							</div>
 							<div class={style.optionsContainer}>{!store ? <h1>Loading</h1> : <VendorList store={store} />}</div>
 						</div>
 					</div>
+				</div>
+				<div class={style.navigation}>
+					<a
+						class={style.learnMore}
+						onClick={this.handleBack}
+						style={{ color: primaryColor, borderColor: primaryColor }}
+					>
+						<LocalLabel localizeKey="links.back" translations={translations}>
+							Back
+						</LocalLabel>
+					</a>
+					<a
+						class={style.continue}
+						onClick={this.handleAcceptAll}
+						style={{
+							backgroundColor: primaryColor,
+							borderColor: primaryColor,
+							color: primaryTextColor,
+						}}
+					>
+						<LocalLabel localizeKey="links.acceptAll" translations={translations}>
+							Accept All
+						</LocalLabel>
+					</a>
+					<a
+						class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
+						onClick={this.handleSave}
+						style={{
+							color: primaryColor,
+							borderColor: primaryColor,
+						}}
+					>
+						<LocalLabel localizeKey="links.save" translations={translations}>
+							Save
+						</LocalLabel>
+					</a>
 				</div>
 			</div>
 		);

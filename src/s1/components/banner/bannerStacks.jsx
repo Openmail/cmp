@@ -41,7 +41,7 @@ export default class BannerStacks extends Component {
 
 	getMaxHeightModal() {
 		if (this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
-			return this.aboveFoldRef.clientHeight + 5;
+			return this.aboveFoldRef.clientHeight + 20;
 		}
 		return 0;
 	}
@@ -165,42 +165,6 @@ export default class BannerStacks extends Component {
 										your device and about this site to serve relevant ads or personalized content.
 									</LocalLabel>
 								</div>
-								<div class={style.consent}>
-									<a
-										class={style.learnMore}
-										onClick={this.handleLearnMore}
-										style={{ color: primaryColor, borderColor: primaryColor }}
-									>
-										<LocalLabel localizeKey="links.manage" translations={translations}>
-											Manage Your Choices
-										</LocalLabel>
-									</a>
-									<a
-										class={style.continue}
-										onClick={this.handleAcceptAll}
-										style={{
-											backgroundColor: primaryColor,
-											borderColor: primaryColor,
-											color: primaryTextColor,
-										}}
-									>
-										<LocalLabel localizeKey="links.accept" translations={translations}>
-											Continue to site
-										</LocalLabel>
-									</a>
-									<a
-										class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
-										onClick={this.handleSave}
-										style={{
-											color: primaryColor,
-											borderColor: primaryColor,
-										}}
-									>
-										<LocalLabel localizeKey="links.save" translations={translations}>
-											Save
-										</LocalLabel>
-									</a>
-								</div>
 							</div>
 							<div class={style.optionsContainer}>
 								{!displayLayer1 ? <h1>Loading</h1> : <PurposeList store={store} />}
@@ -208,6 +172,42 @@ export default class BannerStacks extends Component {
 						</div>
 					</div>
 				</div>
+				<navigation class={style.navigation}>
+					<a
+						class={style.learnMore}
+						onClick={this.handleLearnMore}
+						style={{ color: primaryColor, borderColor: primaryColor }}
+					>
+						<LocalLabel localizeKey="links.manage" translations={translations}>
+							Manage Your Choices
+						</LocalLabel>
+					</a>
+					<a
+						class={style.continue}
+						onClick={this.handleAcceptAll}
+						style={{
+							backgroundColor: primaryColor,
+							borderColor: primaryColor,
+							color: primaryTextColor,
+						}}
+					>
+						<LocalLabel localizeKey="links.accept" translations={translations}>
+							Continue to site
+						</LocalLabel>
+					</a>
+					<a
+						class={[style.save, !isSaveShowing ? style.hidden : ''].join(' ')}
+						onClick={this.handleSave}
+						style={{
+							color: primaryColor,
+							borderColor: primaryColor,
+						}}
+					>
+						<LocalLabel localizeKey="links.save" translations={translations}>
+							Save
+						</LocalLabel>
+					</a>
+				</navigation>
 			</div>
 		);
 	}

@@ -304,14 +304,11 @@ export default class PurposeList extends Component {
 			headline: (
 				<h3 class={style.rowTitle}>
 					<LocalLabel localizeKey="legintPurposesTitle" translations={translations} onClick={this.handleVendorsClick}>
-						Review and object to processing of personal data without your consent on the basis of a legitimate interest
-						for each purpose below. Expand each purpose or view{' '}
+						Some of{' '}
 						<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
 							our partners
-						</a>
-						list for more information to help make your choice. To object to the special purposes of ensuring security,
-						preventing fraud, and debugging, and technically delivering ads or content click on a partner's privacy
-						policy link:
+						</a>{' '}
+						have service-specific legitimate interest for these purposes:
 					</LocalLabel>
 				</h3>
 			),

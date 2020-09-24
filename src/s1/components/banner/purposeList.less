@@ -1,7 +1,7 @@
 @import '../../../style/variables.less';
 
 .purposeList {
-	margin-top: 20px;
+	margin-top: 10px;
 	padding: 0;
 	display: flex;
 	flex-wrap: wrap;
@@ -31,6 +31,11 @@
 		background-color: #fafcfb;
 		transform: translateZ(0);
 		width: 100%;
+
+		&:last-child {
+			padding-bottom: 0;
+			margin-bottom: 0;
+		}
 
 		@media @smartphone {
 			margin-right: 5px;
@@ -221,6 +226,7 @@
 		.legitInterestLabel {
 			padding-right: 5px;
 			font-size: 13px;
+			flex: 1;
 			cursor: pointer;
 		}
 	}

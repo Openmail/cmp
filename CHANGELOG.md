@@ -4,6 +4,7 @@
 
 - [x] `isServiceSpecific` passed through config, default true.
 - [x] Upgrade to vendor-list 56
+- [x] Config to turn off Stacks on Layer 1
 
 ### Dev Tooling
 

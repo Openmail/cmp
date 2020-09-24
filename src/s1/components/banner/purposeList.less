@@ -33,7 +33,10 @@
 		width: 100%;
 
 		@media @smartphone {
-			padding: 0.75rem;
+			margin-right: 5px;
+			padding-left: 10px;
+			padding-right: 10px;
+			padding-top: 15px;
 		}
 
 		.detailExpand {
@@ -52,7 +55,7 @@
 		.itemInteractive {
 			padding-top: 0.3rem;
 			padding-bottom: 0.3rem;
-			padding-left: 1rem;
+			padding-left: 0px;
 			padding-right: 1rem;
 			margin-bottom: 0.4rem;
 			flex-wrap: wrap;
@@ -64,7 +67,7 @@
 			display: flex;
 
 			@media @smartphone {
-				padding-left: 0rem;
+				padding-left: 0px;
 				padding-right: 0.5rem;
 			}
 		}
@@ -105,6 +108,7 @@
 
 				@media @smartphone {
 					top: -1px;
+					margin-left: -5px;
 				}
 			}
 
@@ -114,6 +118,12 @@
 		}
 
 		.privacyPolicy {
+			font-size: 13px;
+
+			@media @smartphone {
+				font-size: 11px;
+			}
+
 			svg {
 				top: -1px;
 			}
@@ -141,17 +151,22 @@
 			}
 			h4 {
 				margin: 0;
-				font-size: 0.9rem;
-				padding-top: 1rem;
+				font-size: 15px;
+				padding-top: 10px;
+
+				@media @smartphone {
+					font-size: 13px;
+				}
 			}
 
 			ul {
 				margin: 0;
 				padding-left: 20px;
+				font-size: 13px;
 			}
 
 			p {
-				padding-top: 1rem;
+				padding-top: 10px;
 				margin: 0;
 
 				@media @smartphone {
@@ -170,9 +185,8 @@
 					padding-right: 50px;
 
 					@media @smartphone {
-						padding-right: 10px;
+						padding-right: 0px;
 						line-height: 14px;
-						text-align: justify;
 					}
 				}
 			}
@@ -190,6 +204,17 @@
 			.itemDetails {
 				max-height: 500px;
 			}
+		}
+
+		.objectLegitInterest {
+			display: flex;
+			align-items: center;
+		}
+
+		.legitInterestLabel {
+			padding-right: 5px;
+			font-size: 13px;
+			cursor: pointer;
 		}
 	}
 }

@@ -66,6 +66,7 @@ export default class Store {
 		let bestMatchingStackCount = 0;
 		let bestMatchingStackId = 0;
 
+		const { shouldUseStacks } = this.config;
 		const { stacks, vendors } = this.gvl;
 		const allPurposes = new Set();
 		const allSpecialPurposes = new Set();
@@ -84,18 +85,22 @@ export default class Store {
 			features.forEach(allFeatures.add, allFeatures);
 		});
 
-		Object.keys(stacks).forEach((id) => {
-			const stack = stacks[id];
-			const { purposes, specialFeatures } = stack;
-			const purposeMatches = purposes.filter((purpose) => allPurposes.has(purpose));
-			const specialFeatureMatches = specialFeatures.filter((specialFeature) => allSpecialFeatures.has(specialFeature));
-			const totalMatches = purposeMatches.length + specialFeatureMatches.length;
+		if (shouldUseStacks) {
+			Object.keys(stacks).forEach((id) => {
+				const stack = stacks[id];
+				const { purposes, specialFeatures } = stack;
+				const purposeMatches = purposes.filter((purpose) => allPurposes.has(purpose));
+				const specialFeatureMatches = specialFeatures.filter((specialFeature) =>
+					allSpecialFeatures.has(specialFeature)
+				);
+				const totalMatches = purposeMatches.length + specialFeatureMatches.length;
 
-			if (!bestMatchingStackCount || totalMatches > bestMatchingStackCount) {
-				bestMatchingStackId = id;
-				bestMatchingStackCount = totalMatches;
-			}
-		});
+				if (!bestMatchingStackCount || totalMatches > bestMatchingStackCount) {
+					bestMatchingStackId = id;
+					bestMatchingStackCount = totalMatches;
+				}
+			});
+		}
 
 		const filteredStack = stacks[bestMatchingStackId];
 		const filteredPurposes = [...allPurposes].filter(
@@ -290,12 +295,13 @@ export default class Store {
 			const declinedSpecialFeatures = specialFeatures.filter((id) => !specialFeatureOptins.has(id));
 
 			const declinedVendors = Object.keys(vendors).filter((id) => !vendorConsents.has(parseInt(id, 10)));
+			const declinedStack = stack && !this.getStackOptin(stack) ? `${stack}` : '';
 
 			logger(LOG_EVENTS.CMPSave, {
 				consentScreen,
 				hasConsentedAll,
 				consentByUrl: isConsentByUrl,
-				declinedStack: this.getStackOptin(stack) ? '' : stack,
+				declinedStack,
 				declinedPurposes: declinedPurposes.join(','),
 				declinedSpecialFeatures: declinedSpecialFeatures.join(','),
 				declinedVendors: declinedVendors.join(','),
@@ -438,6 +444,24 @@ export default class Store {
 			}
 		});
 		return tcModel;
+	}
+
+	toggleVendorObjection(ids, shouldObject) {
+		const tcModel = this.tcModel.clone();
+		const { vendorLegitimateInterests } = tcModel;
+
+		ids.forEach((id) => {
+			if (!shouldObject && (vendorLegitimateInterests.has(id) || shouldObject === false)) {
+				vendorLegitimateInterests.unset(id);
+			} else {
+				vendorLegitimateInterests.set(id);
+			}
+		});
+
+		this.updateCmp({
+			tcModel,
+			shouldShowSave: true,
+		});
 	}
 
 	toggleConsentScreen(consentScreen) {

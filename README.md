@@ -203,6 +203,7 @@ __tcfapi('init', 2, () => {}, {
 | `theme`                | optional object  | [details below](#theme)                 | Override styling choices using the following properties.                                                       |
 | `publisherCountryCode` | optional string  | `US`                                    | String representing country code of parent website business                                                    |
 | `isServiceSpecific`    | optional boolean | `true`                                  | true uses publisher consent, false uses global consent                                                         |
+| `shouldUseStacks`      | optional boolean | `false`                                 | true uses stacks on Layer1, TODO stacks need purposes/custom-features toggle to be compliant                   |
 
 ### theme
 

@@ -1,12 +1,18 @@
+/**
+ * Node script used to upgrade vendor-list files. Use by calling `yarn upgrade-vendor-list`
+ */
+
 global.__VERSION__ = 0; // dont need this in node context
 
 const fs = require('fs');
 const https = require('https');
 const { LANGUAGES } = require('../src/s1/constants.js');
 
+const VENDOR_LIST_URL = 'https://vendorlist.consensu.org/v2/vendor-list.json';
+
 const externalFiles = [
 	{
-		url: 'https://vendorlist.consensu.org/v2/vendor-list.json',
+		url: VENDOR_LIST_URL,
 		path: 'src/s1/config/2.0/vendor-list.json',
 	},
 ];
@@ -21,7 +27,7 @@ const downloadFile = async (url, path) => {
 const processFiles = () => {
 	const getVersion = new Promise((resolve, reject) => {
 		https
-			.get('https://vendorlist.consensu.org/v2/vendor-list.json', (response) => {
+			.get(VENDOR_LIST_URL, (response) => {
 				let body = '';
 				response.on('data', (chunk) => {
 					body += chunk;

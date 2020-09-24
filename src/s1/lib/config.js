@@ -38,6 +38,7 @@ export const config = {
 	narrowedVendors: [],
 	publisherCountryCode: 'US',
 	shouldAutoConsent: false, // deprecated feature
+	shouldUseStacks: false, // todo: stacks need individual purposes/special-features with toggles
 	theme,
 	scriptSrc: './tcf-2.0-cmp.js',
 	languageFilename: 'purposes/purposes-[LANG].json',

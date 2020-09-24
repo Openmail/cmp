@@ -81,13 +81,28 @@ export default class PurposeList extends Component {
 		});
 	}
 
-	renderRow(props, state, { headline, expanded, theme, list, displayPrefix, handleConsent, optIns }) {
+	handleToggleObjection(props, state, { id }) {
+		const { store } = props;
+		store.togglePurposeObjection([id]);
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'togglePurposeObjection',
+			label: `${id}`, // force string
+		});
+	}
+
+	renderRow(
+		props,
+		state,
+		{ headline, expanded, theme, list, displayPrefix, handleConsent, handleObjection, optIns, optInsObjections }
+	) {
 		return (
 			<li class={style.item}>
 				{headline}
 				<ul class={style.itemPurpose}>
 					{list.map((item) => {
-						const { name, description, id } = item;
+						const { name, description, descriptionLegal, id } = item;
 						const displayId = `${displayPrefix}-${id}`;
 						const isExpanded = expanded.has(displayId);
 
@@ -118,6 +133,22 @@ export default class PurposeList extends Component {
 								) : null}
 								<div className={[style.itemDetails].join(' ')} style={{ color: theme.textLightColor }}>
 									<p>{description}</p>
+									{descriptionLegal ? <p>{descriptionLegal}</p> : null}
+									{handleObjection ? (
+										<div className={style.objectLegitInterest}>
+											<Switch
+												color={theme.primaryColor}
+												class={style.switch}
+												dataId={`objection-${displayId}`}
+												isSelected={!optInsObjections.has(id)}
+												onClick={handleObjection.bind(this, props, state, { id })}
+											>
+												<label className={style.legitInterestLabel}>
+													Add objection to legitimate interest processing.
+												</label>
+											</Switch>
+										</div>
+									) : null}
 								</div>
 							</li>
 						);
@@ -172,6 +203,7 @@ export default class PurposeList extends Component {
 			specialFeatures: displaySpecialFeatures = [],
 			specialPurposes: displaySpecialPurposes = [],
 			features: displayFeatures = [],
+			legIntPurposes: displayLegIntPurposes = [],
 		} = displayLayer1;
 		const { expanded } = state;
 
@@ -268,6 +300,29 @@ export default class PurposeList extends Component {
 			displayPrefix: 'features-',
 		});
 
+		const displayLegitInterestPurposesDom = this.renderRow(props, state, {
+			headline: (
+				<h3 class={style.rowTitle}>
+					<LocalLabel localizeKey="legintPurposesTitle" translations={translations} onClick={this.handleVendorsClick}>
+						Review and object to processing of personal data without your consent on the basis of a legitimate interest
+						for each purpose below. Expand each purpose or view{' '}
+						<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+							our partners
+						</a>
+						list for more information to help make your choice. To object to the special purposes of ensuring security,
+						preventing fraud, and debugging, and technically delivering ads or content click on a partner's privacy
+						policy link:
+					</LocalLabel>
+				</h3>
+			),
+			theme,
+			expanded,
+			handleObjection: this.handleToggleObjection,
+			optInsObjections: tcModel.purposeLegitimateInterests,
+			list: displayLegIntPurposes.map((key) => purposes[key]),
+			displayPrefix: 'purposes-legit-interest-',
+		});
+
 		return (
 			<ul class={style.purposeList}>
 				{displayPurposesDom}
@@ -275,6 +330,7 @@ export default class PurposeList extends Component {
 				{displaySpecialFeaturesDom}
 				{displaySpecialPurposesDom}
 				{displayFeaturesDom}
+				{displayLegitInterestPurposesDom}
 			</ul>
 		);
 	}

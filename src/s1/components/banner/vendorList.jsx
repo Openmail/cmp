@@ -50,11 +50,11 @@ export default class VendorList extends Component {
 		const { store } = props;
 		store.toggleVendorObjection([id]);
 
-		// logger(LOG_EVENTS.CMPClick, {
-		// 	action: 'click',
-		// 	category: 'objectionVendor',
-		// 	label: `${id}`, // force string
-		// });
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'toggleVendorObjection',
+			label: `${id}`, // force string
+		});
 	}
 
 	renderRow(

@@ -69,20 +69,24 @@ export default class Store {
 		const { shouldUseStacks } = this.config;
 		const { stacks, vendors } = this.gvl;
 		const allPurposes = new Set();
+		const allLegitInterestPurposes = new Set();
 		const allSpecialPurposes = new Set();
 		const allSpecialFeatures = new Set();
 		const allFeatures = new Set();
 
 		Object.keys(vendors).forEach((id) => {
 			const { features, legIntPurposes, purposes, specialFeatures, specialPurposes } = vendors[id];
-			purposes
-				.filter((purpose) => !legIntPurposes.includes(purpose)) // filter out legitInterest
-				// TODO @potench // filter out flexiblePurposes from layer1?
-				// .filter(purpose => !legIntPurposes.includes(purpose))
-				.forEach(allPurposes.add, allPurposes);
+
+			// purposes
+			// 	.filter((purpose) => !legIntPurposes.includes(purpose)) // filter out legitInterest
+			// 	// TODO @potench // filter out flexiblePurposes from layer1?
+			// 	// .filter(purpose => !legIntPurposes.includes(purpose))
+			// 	.forEach(allPurposes.add, allPurposes);
+			purposes.forEach(allPurposes.add, allPurposes);
 			specialFeatures.forEach(allSpecialFeatures.add, allSpecialFeatures);
 			specialPurposes.forEach(allSpecialPurposes.add, allSpecialPurposes);
 			features.forEach(allFeatures.add, allFeatures);
+			legIntPurposes.forEach(allLegitInterestPurposes.add, allLegitInterestPurposes);
 		});
 
 		if (shouldUseStacks) {
@@ -111,6 +115,7 @@ export default class Store {
 			displayLayer1: {
 				stack: bestMatchingStackId,
 				purposes: filteredPurposes.sort(),
+				legIntPurposes: [...allLegitInterestPurposes].sort(),
 				specialFeatures: [...allSpecialFeatures].sort(),
 				specialPurposes: [...allSpecialPurposes].sort(),
 				features: [...allFeatures].sort(),
@@ -455,6 +460,24 @@ export default class Store {
 				vendorLegitimateInterests.unset(id);
 			} else {
 				vendorLegitimateInterests.set(id);
+			}
+		});
+
+		this.updateCmp({
+			tcModel,
+			shouldShowSave: true,
+		});
+	}
+
+	togglePurposeObjection(ids, shouldObject) {
+		const tcModel = this.tcModel.clone();
+		const { purposeLegitimateInterests } = tcModel;
+
+		ids.forEach((id) => {
+			if (!shouldObject && (purposeLegitimateInterests.has(id) || shouldObject === false)) {
+				purposeLegitimateInterests.unset(id);
+			} else {
+				purposeLegitimateInterests.set(id);
 			}
 		});
 

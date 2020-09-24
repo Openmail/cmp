@@ -136,15 +136,20 @@
 			transform: translateZ(0);
 			align-items: center;
 			max-height: 0px;
-			padding-left: 21px;
+			padding-left: 22px;
+
+			@media @smartphone {
+				padding-left: 16px;
+			}
 
 			&.vendorDetails {
 				margin: 0;
-				padding-left: 21px;
+				padding-left: 20px;
 				padding-right: 20px;
 				padding-bottom: 10px;
 
 				@media @smartphone {
+					padding-left: 16px;
 					padding-right: 20px;
 					padding-bottom: 0px;
 				}
@@ -202,7 +207,9 @@
 			}
 
 			.itemDetails {
-				max-height: 500px;
+				max-height: none;
+				padding-bottom: 5px;
+				padding-right: 5px;
 			}
 		}
 

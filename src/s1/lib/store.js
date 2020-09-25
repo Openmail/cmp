@@ -33,13 +33,8 @@ export default class Store {
 	listeners = new Set();
 
 	constructor(options) {
-		const { theme } = this.config;
 		Object.assign(this, {
 			...options,
-			theme: {
-				...theme,
-				...options.theme,
-			},
 		});
 		const { language } = this.config;
 		const { tcfApi, gvl } = options;

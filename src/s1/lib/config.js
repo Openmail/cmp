@@ -12,11 +12,11 @@ export const gdprConsentUrlParam = (() => {
 })();
 
 export const theme = {
-	primaryColor: '#0099ff',
-	textLinkColor: '#0099ff',
-	boxShadow: 'none',
-	secondaryColor: '#869cc0',
-	featuresColor: '#d0d3d7',
+	// primaryColor: '#0099ff',
+	// textLinkColor: '#0099ff',
+	// boxShadow: 'none',
+	// secondaryColor: '#869cc0',
+	// featuresColor: '#d0d3d7',
 	shouldAutoResizeModal: false,
 	maxHeightModal: '40vh',
 };

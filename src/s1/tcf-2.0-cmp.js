@@ -18,6 +18,10 @@ export const setup = (configOpt) => {
 	const config = {
 		...defaultConfig,
 		...configOpt,
+		theme: {
+			...defaultConfig.theme,
+			...(configOpt.theme || {}),
+		},
 	};
 
 	debug.isEnabled = config.canDebug;

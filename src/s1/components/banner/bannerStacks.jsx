@@ -41,7 +41,7 @@ export default class BannerStacks extends Component {
 
 	getMaxHeightModal() {
 		if (this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
-			return this.aboveFoldRef.clientHeight + 20;
+			return this.aboveFoldRef.clientHeight + 100;
 		}
 		return 0;
 	}

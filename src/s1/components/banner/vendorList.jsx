@@ -133,8 +133,9 @@ export default class VendorList extends Component {
 											>
 												<LocalLabel localizeKey="privacy" translations={translations}>
 													Privacy Policy:
-												</LocalLabel>{' '}
-												{policyUrl} <ExternalLinkIcon color={theme.textLinkColor} />
+												</LocalLabel>
+												<span>{policyUrl}</span>
+												<ExternalLinkIcon color={theme.textLinkColor} />
 											</a>
 										</p>
 

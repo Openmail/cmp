@@ -17,7 +17,7 @@ export const theme = {
 	// boxShadow: 'none',
 	// secondaryColor: '#869cc0',
 	// featuresColor: '#d0d3d7',
-	shouldAutoResizeModal: false,
+	shouldAutoResizeModal: true,
 	maxHeightModal: '40vh',
 };
 

@@ -1,11 +1,11 @@
 import { h, Component } from 'preact';
-import debounce from 'lodash.debounce';
 import style from './banner.less';
 
 import PurposeList from './purposeList';
 import Label from '../label/label';
 
 import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
+import debounce from '../../lib/debounce';
 import { CONSENT_SCREENS } from '../../constants';
 
 class LocalLabel extends Label {
@@ -52,6 +52,8 @@ export default class BannerStacks extends Component {
 		if (this.scrollRef) {
 			this.scrollRef.removeEventListener('scroll', this.handleScroll);
 		}
+
+		debounce.clear();
 	}
 
 	handleAcceptAll = () => {

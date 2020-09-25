@@ -5,6 +5,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import path from 'path';
 import fs from 'fs';
 import UglifyJS from 'uglify-es';
+import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 import { cmpVersion, commonConfig, name, uglifyPlugin, version } from './common.webpack.config.babel';
@@ -89,6 +90,9 @@ module.exports = [
 					},
 				},
 			]),
+			new BundleAnalyzerPlugin({
+				analyzerMode: 'disabled',
+			}),
 		].concat(ENV === 'production' ? uglifyPlugin : []),
 	},
 ];

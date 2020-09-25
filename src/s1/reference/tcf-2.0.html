@@ -143,6 +143,10 @@
 							Autoresize:
 							<input id="domShouldAutoResize" type="checkbox" />
 						</li>
+						<li>
+							Use Stacks:
+							<input id="domShouldUseStacks" type="checkbox" />
+						</li>
 					</ul>
 				</li>
 			</ul>
@@ -159,6 +163,7 @@
 			const selectLanguage = document.querySelector('#selectLanguage');
 			const selectVendors = document.querySelector('#selectVendors');
 			const domShouldAutoResize = document.querySelector('#domShouldAutoResize');
+			const domShouldUseStacks = document.querySelector('#domShouldUseStacks');
 
 			const setupQaTools = function (store) {
 				const LANGUAGES = store.LANGUAGES;
@@ -178,13 +183,19 @@
 			};
 
 			const shouldAutoResize = function () {
-				return window.location.search.indexOf('resize') >= 0 ? true : false;
+				let params = new URLSearchParams(window.location.search);
+				return params.get('resize') === 'true';
+			};
+
+			const shouldUseStacks = function () {
+				let params = new URLSearchParams(window.location.search);
+				return params.get('stacks') === 'true';
 			};
 
 			const config = {
 				theme: {
 					shouldAutoResizeModal: shouldAutoResize(),
-					maxHeightModal: '75vh',
+					maxHeightModal: '60vh',
 				},
 				business: 'reference',
 				gdprApplies: true,
@@ -199,6 +210,7 @@
 				// polyfillSrc: './polyfills.js',
 				publisherCountryCode: 'US',
 				language: 'en', // default
+				shouldUseStacks: shouldUseStacks(),
 				// narrowedVendors: [1, 2, 3, 4, 5, 6],
 			};
 
@@ -246,7 +258,16 @@
 
 			domShouldAutoResize.checked = shouldAutoResize();
 			domShouldAutoResize.addEventListener('change', function () {
-				window.location.search = domShouldAutoResize.checked ? '?resize=true' : '';
+				let params = new URLSearchParams(window.location.search);
+				params.set('resize', domShouldAutoResize.checked);
+				window.location.search = params.toString();
+			});
+
+			domShouldUseStacks.checked = shouldUseStacks();
+			domShouldUseStacks.addEventListener('change', function () {
+				let params = new URLSearchParams(window.location.search);
+				params.set('stacks', domShouldUseStacks.checked);
+				window.location.search = params.toString();
 			});
 		</script>
 	</body>

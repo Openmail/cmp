@@ -18,7 +18,6 @@ export default class App extends Component {
 
 	handleMaxHeightChange = (newMaxHeightModal) => {
 		const { maxHeightModal } = this.state;
-		console.log('maxHeightModal', maxHeightModal);
 		if (typeof maxHeightModal !== 'string') {
 			// once we switch to %/vh based max-height, keep it
 			this.setState({

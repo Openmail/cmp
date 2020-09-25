@@ -95,10 +95,21 @@ export default class PurposeList extends Component {
 	renderRow(
 		props,
 		state,
-		{ headline, expanded, theme, list, displayPrefix, handleConsent, handleObjection, optIns, optInsObjections }
+		{
+			containerClass,
+			headline,
+			expanded,
+			theme,
+			list,
+			displayPrefix,
+			handleConsent,
+			handleObjection,
+			optIns,
+			optInsObjections,
+		}
 	) {
 		return (
-			<li class={style.item}>
+			<li class={[style.item, containerClass ? containerClass : ''].join(' ')}>
 				{headline}
 				<ul class={style.itemPurpose}>
 					{list.map((item) => {
@@ -158,7 +169,22 @@ export default class PurposeList extends Component {
 		);
 	}
 
-	renderStack(props, state, { headline, name, description, isConsented, id, displayId, isExpanded, theme }) {
+	renderStack(
+		props,
+		state,
+		{
+			headline,
+			name,
+			description,
+			displayPurposesStackDom,
+			displaySpecialFeaturesStackDom,
+			displayId,
+			id,
+			isConsented,
+			isExpanded,
+			theme,
+		}
+	) {
 		return (
 			<li class={[style.item, isExpanded ? style.expanded : ''].join(' ')}>
 				{headline}
@@ -180,6 +206,12 @@ export default class PurposeList extends Component {
 					/>
 					<div className={[style.itemDetails].join(' ')} style={{ color: theme.textLightColor }}>
 						<p>{description}</p>
+						{displayPurposesStackDom || displaySpecialFeaturesStackDom ? (
+							<ul class={style.stackList}>
+								{displayPurposesStackDom || null}
+								{displaySpecialFeaturesStackDom || null}
+							</ul>
+						) : null}
 					</div>
 				</div>
 			</li>
@@ -226,27 +258,80 @@ export default class PurposeList extends Component {
 			displayPrefix: 'purpose-',
 		});
 
-		const stackDisplayId = `stack-${displayStack}`;
-		const displayStackDom = displayStack
-			? this.renderStack(props, state, {
-					headline: (
-						<h3 class={style.rowTitle}>
-							<LocalLabel localizeKey="stacksTitle" translations={translations} onClick={this.handleVendorsClick}>
-								We and{' '}
-								<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
-									our partners
-								</a>{' '}
-								process personal data such as IP address, unique ID, browsing data for:
-							</LocalLabel>
-						</h3>
-					),
-					theme,
-					displayId: stackDisplayId,
-					isExpanded: expanded.has(stackDisplayId),
-					isConsented: store.getStackOptin(displayStack),
-					...stacks[displayStack],
-			  })
-			: null;
+		let displayStackDom = null;
+		if (displayStack && stacks[displayStack]) {
+			const stack = stacks[displayStack];
+			const stackDisplayId = `stack-${displayStack}`;
+			let displayPurposesStackDom = stack.purposes.length
+				? this.renderRow(props, state, {
+						headline: (
+							<h3 class={style.rowTitle}>
+								<LocalLabel
+									localizeKey="stacksPurposesTitle"
+									translations={translations}
+									onClick={this.handleVendorsClick}
+								>
+									Purposes
+								</LocalLabel>
+							</h3>
+						),
+						containerClass: style.stackListItem,
+						theme,
+						expanded,
+						handleConsent: this.handleTogglePurpose,
+						optIns: tcModel.purposeConsents,
+						list: stack.purposes.map((key) => purposes[key]),
+						displayPrefix: 'stack-purpose-',
+				  })
+				: null;
+
+			let displaySpecialFeaturesStackDom = stack.specialFeatures.length
+				? this.renderRow(props, state, {
+						headline: (
+							<h3 class={style.rowTitle}>
+								<LocalLabel
+									localizeKey="stacksSpecialFeaturesTitle"
+									translations={translations}
+									onClick={this.handleVendorsClick}
+								>
+									Special Features
+								</LocalLabel>
+							</h3>
+						),
+						containerClass: style.stackListItem,
+						theme,
+						expanded,
+						handleConsent: this.handleToggleSpecialFeature,
+						optIns: tcModel.specialFeatureOptins,
+						list: stack.specialFeatures.map((key) => specialFeatures[key]),
+						displayPrefix: 'stack-special-feature-',
+				  })
+				: null;
+
+			displayStackDom = this.renderStack(props, state, {
+				headline: (
+					<h3 class={style.rowTitle}>
+						<LocalLabel localizeKey="stacksTitle" translations={translations} onClick={this.handleVendorsClick}>
+							We and{' '}
+							<a style={{ color: theme.textLinkColor }} onClick={this.handleVendorsClick}>
+								our partners
+							</a>{' '}
+							process personal data such as IP address, unique ID, browsing data for:
+						</LocalLabel>
+					</h3>
+				),
+				theme,
+				displayId: stackDisplayId,
+				isExpanded: expanded.has(stackDisplayId),
+				isConsented: store.getStackOptin(displayStack),
+				...stacks[displayStack],
+				displayPurposesStackDom,
+				displaySpecialFeaturesStackDom,
+				specialFeaturesList: stacks[displayStack]
+					? stacks[displayStack].specialFeatures.map((key) => specialFeatures[key])
+					: [],
+			});
+		}
 
 		const displaySpecialFeaturesDom = this.renderRow(props, state, {
 			headline: (

@@ -96,6 +96,43 @@
 			padding-right: 5px;
 			padding-bottom: 15px;
 			margin-bottom: 40px;
+
+			&.layer1 {
+				@supports (-webkit-touch-callout: none) {
+					padding-right: 10px;
+
+					&:before {
+						content: '';
+						position: absolute;
+						top: 18px;
+						right: 12px;
+						width: 4px;
+						background: rgba(0, 0, 0, 0.02);
+						border: 1px solid #fff;
+						border-radius: 20px;
+						height: 86%;
+						overflow: hidden;
+					} /* ios only because scrollbar is small */
+
+					&:after {
+						content: '';
+						position: absolute;
+						top: 18px;
+						right: 12px;
+						width: 3px;
+						border: 1px solid #fff;
+						background: rgba(0, 0, 0, 0.1);
+						border-radius: 20px;
+						height: 30%;
+					}
+
+					&.scrolling {
+						&:after {
+							display: none;
+						}
+					}
+				}
+			}
 		}
 
 		.message {
@@ -158,7 +195,7 @@
 		display: flex;
 
 		@media @smartphone {
-			right: 25px;
+			right: 23px;
 			flex-direction: row; /* horizontal alignment of flex items (default value; can be omitted) */
 			align-items: stretch; /* will apply equal heights to flex items (default value; can be omitted) */
 			font-size: 12px;
@@ -173,6 +210,10 @@
 			border-top-right-radius: 0px;
 			box-shadow: 25px -30px 10px -30px rgba(0, 0, 0, 0.05), -25px -30px 10px -30px rgba(0, 0, 0, 0.05),
 				0px -15px 10px -15px rgba(0, 0, 0, 0.1);
+
+			@supports (-webkit-touch-callout: none) {
+				right: 18px; /* cant customize scrollbar on iOS */
+			}
 		}
 
 		a {

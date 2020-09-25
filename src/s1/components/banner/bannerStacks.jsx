@@ -23,6 +23,7 @@ export default class BannerStacks extends Component {
 	}
 
 	state = {
+		hasScrolled: false,
 		maxHeightModal: this.getMaxHeightModal(),
 	};
 
@@ -30,12 +31,21 @@ export default class BannerStacks extends Component {
 		if (window) {
 			window.addEventListener('resize', this.handleResize);
 		}
+
+		if (this.scrollRef) {
+			this.scrollRef.addEventListener('scroll', this.handleScroll);
+		}
+
 		this.handleResize();
 	}
 
 	componentWillUnmount() {
 		if (window) {
 			window.removeEventListener('resize', this.handleResize);
+		}
+
+		if (this.scrollRef) {
+			this.scrollRef.removeEventListener('scroll', this.handleScroll);
 		}
 	}
 
@@ -105,8 +115,18 @@ export default class BannerStacks extends Component {
 		}
 	}, 200);
 
+	handleScroll = debounce(() => {
+		this.setState({
+			hasScrolled: true,
+		});
+
+		if (this.scrollRef) {
+			this.scrollRef.removeEventListener('scroll', this.handleScroll);
+		}
+	});
+
 	render(props, state) {
-		const { maxHeightModal } = state;
+		const { hasScrolled, maxHeightModal } = state;
 		const { isShowing, maxHeightModal: maxHeightModalGlobal, store } = props;
 		const {
 			config: { theme },
@@ -143,10 +163,10 @@ export default class BannerStacks extends Component {
 					backgroundColor,
 					color: textLightColor,
 				}}
-				onResize={this.handleResize}
 			>
 				<div
-					class={style.content}
+					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
+					ref={(el) => (this.scrollRef = el)}
 					style={{
 						maxHeight: maxHeightModalGlobal || maxHeightModal,
 					}}

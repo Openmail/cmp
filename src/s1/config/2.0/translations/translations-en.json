@@ -1,7 +1,7 @@
 {
 	"layer1Stacks": {
 		"title": "Privacy Choices",
-		"description": "By using this site, you agree to our use of cookies and information to provide personalized content and ads and measure and analyze site usage. Click <a>Learn More</a> to change your settings.",
+		"description": "By using this site, you agree to our use of cookies and information to provide personalized content and ads and to measure and analyze site usage. You can change or manage your consent settings at any time via the \"manage preferences\" link.",
 		"links": {
 			"manage": "Learn More",
 			"accept": "Ok, Got It",

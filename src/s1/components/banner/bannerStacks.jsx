@@ -12,8 +12,6 @@ class LocalLabel extends Label {
 	static defaultProps = {
 		prefix: 'layer1Stacks',
 		isShowing: false,
-		maxHeightModal: 0,
-		onMaxHeightChange: () => {},
 	};
 }
 
@@ -24,11 +22,14 @@ export default class BannerStacks extends Component {
 
 	state = {
 		hasScrolled: false,
-		maxHeightModal: this.getMaxHeightModal(),
 	};
 
 	componentDidMount() {
-		if (window) {
+		const {
+			store: { theme: shouldAutoResizeModal },
+		} = this.props;
+
+		if (window && shouldAutoResizeModal) {
 			window.addEventListener('resize', this.handleResize);
 		}
 
@@ -40,20 +41,17 @@ export default class BannerStacks extends Component {
 	}
 
 	componentWillUnmount() {
-		if (window) {
+		const {
+			store: { theme: shouldAutoResizeModal },
+		} = this.props;
+
+		if (window && shouldAutoResizeModal) {
 			window.removeEventListener('resize', this.handleResize);
 		}
 
 		if (this.scrollRef) {
 			this.scrollRef.removeEventListener('scroll', this.handleScroll);
 		}
-	}
-
-	getMaxHeightModal() {
-		if (this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
-			return this.aboveFoldRef.clientHeight + 100;
-		}
-		return 0;
 	}
 
 	handleAcceptAll = () => {
@@ -103,17 +101,17 @@ export default class BannerStacks extends Component {
 	};
 
 	handleResize = debounce(() => {
-		const { maxHeightModal } = this.state;
-		const { onMaxHeightChange } = this.props;
-		const newMaxHeightModal = this.getMaxHeightModal();
+		const { store } = this.props;
+		const { maxHeightModal, shouldAutoResizeModal } = store;
 
-		if (newMaxHeightModal !== maxHeightModal) {
-			this.setState({
-				maxHeightModal: newMaxHeightModal,
-			});
-			onMaxHeightChange(newMaxHeightModal);
+		let newMaxHeightModal = maxHeightModal;
+
+		if (shouldAutoResizeModal && this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
+			newMaxHeightModal = this.aboveFoldRef.clientHeight + 100;
 		}
-	}, 200);
+
+		store.updateMaxHeightModal(newMaxHeightModal, shouldAutoResizeModal);
+	}, 100);
 
 	handleScroll = debounce(() => {
 		this.setState({
@@ -126,19 +124,20 @@ export default class BannerStacks extends Component {
 	});
 
 	render(props, state) {
-		const { hasScrolled, maxHeightModal } = state;
-		const { isShowing, maxHeightModal: maxHeightModalGlobal, store } = props;
+		const { hasScrolled } = state;
+		const { isShowing, store } = props;
 		const {
 			config: { theme },
 			translations,
 			displayLayer1,
 			isSaveShowing,
+			maxHeightModal,
 		} = store;
 
 		const {
 			isBannerModal,
 			isBannerInline,
-			// maxHeightModal,
+			// maxHeightModal, // handled in store
 			primaryColor,
 			primaryTextColor,
 			backgroundColor,
@@ -168,7 +167,7 @@ export default class BannerStacks extends Component {
 					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
 					ref={(el) => (this.scrollRef = el)}
 					style={{
-						maxHeight: maxHeightModalGlobal || maxHeightModal,
+						maxHeight: maxHeightModal,
 					}}
 				>
 					<div class={style.message}>

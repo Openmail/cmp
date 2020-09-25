@@ -18,6 +18,8 @@ export const mock = {
 export default class Store {
 	config = config;
 	displayLayer1; // stacks
+	maxHeightModal = 0;
+	shouldAutoResizeModal = false;
 	manualVendorConsents = new Set(); // vendor-consent management partially automatic and partially manual depending on the consent screen
 	isModalShowing = false;
 	isSaveShowing = false;
@@ -33,9 +35,14 @@ export default class Store {
 	listeners = new Set();
 
 	constructor(options) {
+		const { config: { theme = config.theme } = config } = options;
 		Object.assign(this, {
 			...options,
+			theme,
+			shouldAutoResizeModal: theme.shouldAutoResizeModal,
+			maxHeightModal: theme.shouldAutoResizeModal ? 0 : theme.maxHeightModal,
 		});
+
 		const { language } = this.config;
 		const { tcfApi, gvl } = options;
 		const { readyPromise } = gvl;
@@ -309,6 +316,10 @@ export default class Store {
 		}
 	};
 
+	updateMaxHeightModal(maxHeightModal, shouldAutoResizeModal) {
+		this.setState({ maxHeightModal, shouldAutoResizeModal });
+	}
+
 	setState = (state = {}, isQuiet = false) => {
 		Object.assign(this, {
 			...state,
@@ -337,7 +348,7 @@ export default class Store {
 
 	save() {
 		// close the cmp and persist settings
-		this.updateCmp({ shouldShowModal: false, shouldSaveCookie: true, shouldShowSave: false });
+		this.updateCmp({ shouldShowModal: false, shouldSaveCookie: true, shouldShowSave: false, maxHeightModal: 0 });
 	}
 
 	toggleAll() {
@@ -348,6 +359,7 @@ export default class Store {
 		this.updateCmp({
 			tcModel,
 			shouldShowModal: false,
+			maxHeightModal: 0,
 			shouldSaveCookie: true,
 			shouldShowSave: false,
 		});

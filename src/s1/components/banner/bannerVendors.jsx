@@ -11,8 +11,6 @@ class LocalLabel extends Label {
 	static defaultProps = {
 		prefix: 'layer3Vendors',
 		isShowing: false,
-		maxHeightModal: 0, // starting modalHeight
-		onMaxHeightChange: () => {},
 	};
 }
 
@@ -22,12 +20,12 @@ export default class BannerVendors extends Component {
 	}
 
 	componentDidMount() {
-		const { store, onMaxHeightChange } = this.props;
+		const { store } = this.props;
 		const { theme } = store;
-		const { maxHeightModal: maxHeightModalTheme } = theme;
+		const { maxHeightModal } = theme;
 		setTimeout(() => {
-			onMaxHeightChange(maxHeightModalTheme);
-		}, 1);
+			store.updateMaxHeightModal(maxHeightModal, false);
+		}, 10);
 	}
 
 	handleBack = () => {
@@ -76,22 +74,15 @@ export default class BannerVendors extends Component {
 	};
 
 	render(props) {
-		const { isShowing, store, maxHeightModal } = props;
+		const { isShowing, store } = props;
 		const {
 			config: { theme },
 			isSaveShowing,
 			translations,
+			maxHeightModal,
 		} = store;
 
-		const {
-			isBannerModal,
-			isBannerInline,
-			// maxHeightModal,
-			primaryColor,
-			primaryTextColor,
-			backgroundColor,
-			textLightColor,
-		} = theme;
+		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor } = theme;
 
 		const bannerClasses = [style.banner];
 		if (!isShowing) {
@@ -115,7 +106,7 @@ export default class BannerVendors extends Component {
 				<div
 					class={style.content}
 					style={{
-						...(maxHeightModal ? { maxHeight: maxHeightModal } : {}),
+						maxHeight: maxHeightModal,
 					}}
 				>
 					<div class={style.message} ref={(el) => (this.messageRef = el)}>

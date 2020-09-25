@@ -251,6 +251,8 @@ export default class Store {
 		const isModalShowing = shouldShowModal !== undefined ? shouldShowModal : this.isModalShowing;
 		const isSaveShowing = shouldShowSave !== undefined ? shouldShowSave : this.isSaveShowing;
 		const encodedTCString = TCString.encode(tcModelNew);
+		const shouldAutoResizeModal = isSaveShowing ? false : this.shouldAutoResizeModal;
+		const maxHeightModal = shouldAutoResizeModal ? this.maxHeightModal : this.theme.maxHeightModal;
 
 		const { vendorConsents, purposeConsents, specialFeatureOptins } = tcModelNew;
 		const { purposes, specialFeatures, vendors } = this.gvl;
@@ -272,6 +274,8 @@ export default class Store {
 				hasConsentedAll,
 				isSaveShowing,
 				hasSession,
+				shouldAutoResizeModal,
+				maxHeightModal,
 			},
 			true
 		);
@@ -316,8 +320,21 @@ export default class Store {
 		}
 	};
 
-	updateMaxHeightModal(maxHeightModal, shouldAutoResizeModal) {
-		this.setState({ maxHeightModal, shouldAutoResizeModal });
+	toggleAutoResizeModal(shouldAutoResizeModal, dynamicMaxHeightModal) {
+		const { theme } = this;
+		const maxHeightModal =
+			shouldAutoResizeModal && dynamicMaxHeightModal ? dynamicMaxHeightModal : theme.maxHeightModal;
+
+		console.log('toggleAutoResizeModal 1', maxHeightModal, shouldAutoResizeModal);
+		// only set if there's a change
+		if (shouldAutoResizeModal !== this.shouldAutoResizeModal || maxHeightModal !== this.maxHeightModal) {
+			this.setState({
+				maxHeightModal,
+				shouldAutoResizeModal,
+			});
+
+			console.log('toggleAutoResizeModal 2', maxHeightModal, shouldAutoResizeModal);
+		}
 	}
 
 	setState = (state = {}, isQuiet = false) => {

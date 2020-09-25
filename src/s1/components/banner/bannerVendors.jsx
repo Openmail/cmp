@@ -21,10 +21,8 @@ export default class BannerVendors extends Component {
 
 	componentDidMount() {
 		const { store } = this.props;
-		const { theme } = store;
-		const { maxHeightModal } = theme;
 		setTimeout(() => {
-			store.updateMaxHeightModal(maxHeightModal, false);
+			store.toggleAutoResizeModal(false);
 		}, 10);
 	}
 

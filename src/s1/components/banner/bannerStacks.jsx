@@ -110,7 +110,7 @@ export default class BannerStacks extends Component {
 			newMaxHeightModal = this.aboveFoldRef.clientHeight + 100;
 		}
 
-		store.updateMaxHeightModal(newMaxHeightModal, shouldAutoResizeModal);
+		store.toggleAutoResizeModal(shouldAutoResizeModal, newMaxHeightModal);
 	}, 100);
 
 	handleScroll = debounce(() => {

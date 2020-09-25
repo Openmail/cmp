@@ -23,6 +23,7 @@ export default class VendorList extends Component {
 	};
 
 	expandRow(id) {
+		const { store } = this.props;
 		const { expanded } = this.state;
 		if (expanded.has(id)) {
 			expanded.delete(id);
@@ -33,6 +34,8 @@ export default class VendorList extends Component {
 		this.setState({
 			expanded,
 		});
+
+		store.toggleAutoResizeModal(false);
 	}
 
 	handleConsent(props, state, { id }) {

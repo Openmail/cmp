@@ -21,6 +21,7 @@ export default class PurposeList extends Component {
 	};
 
 	expandPurposeRow(id) {
+		const { store } = this.props;
 		const { expanded } = this.state;
 		if (expanded.has(id)) {
 			expanded.delete(id);
@@ -31,6 +32,8 @@ export default class PurposeList extends Component {
 		this.setState({
 			expanded,
 		});
+
+		store.toggleAutoResizeModal(false);
 	}
 
 	handleVendorsClick = () => {

@@ -324,16 +324,12 @@ export default class Store {
 		const { theme } = this;
 		const maxHeightModal =
 			shouldAutoResizeModal && dynamicMaxHeightModal ? dynamicMaxHeightModal : theme.maxHeightModal;
-
-		console.log('toggleAutoResizeModal 1', maxHeightModal, shouldAutoResizeModal);
 		// only set if there's a change
 		if (shouldAutoResizeModal !== this.shouldAutoResizeModal || maxHeightModal !== this.maxHeightModal) {
 			this.setState({
 				maxHeightModal,
 				shouldAutoResizeModal,
 			});
-
-			console.log('toggleAutoResizeModal 2', maxHeightModal, shouldAutoResizeModal);
 		}
 	}
 

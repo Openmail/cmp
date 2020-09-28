@@ -18,7 +18,7 @@ export const theme = {
 	// secondaryColor: '#869cc0',
 	// featuresColor: '#d0d3d7',
 	shouldAutoResizeModal: true,
-	maxHeightModal: '40vh',
+	maxHeightModal: '45vh',
 };
 
 export const config = {
@@ -38,7 +38,7 @@ export const config = {
 	narrowedVendors: [],
 	publisherCountryCode: 'US',
 	shouldAutoConsent: false, // deprecated feature
-	shouldUseStacks: false, // todo: stacks need individual purposes/special-features with toggles
+	shouldUseStacks: true, // todo: stacks need individual purposes/special-features with toggles
 	theme,
 	scriptSrc: './tcf-2.0-cmp.js',
 	languageFilename: 'purposes/purposes-[LANG].json',

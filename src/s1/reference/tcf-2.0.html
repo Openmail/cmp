@@ -195,7 +195,7 @@
 			const config = {
 				theme: {
 					shouldAutoResizeModal: shouldAutoResize(),
-					maxHeightModal: '60vh',
+					maxHeightModal: '65vh',
 				},
 				business: 'reference',
 				gdprApplies: true,
@@ -224,6 +224,9 @@
 				function (store, error) {
 					setupQaTools(store);
 					console.log('cmp: onInitComplete', store, error);
+					if (!store.isModalShowing) {
+						__tcfapi('showConsentTool', 2, function () {});
+					}
 				},
 				config
 			);

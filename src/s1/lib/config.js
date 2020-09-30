@@ -35,7 +35,7 @@ export const config = {
 	gdprApplies: false,
 	gdprConsentUrlParam,
 	isServiceSpecific: true, // whether or not this cmp is configured to be service specific
-	language: '', // left blank so browser picks up language by default
+	language: '', // empty to detect browser navigator language
 	narrowedVendors: [],
 	publisherCountryCode: 'US',
 	shouldAutoConsent: false, // deprecated feature

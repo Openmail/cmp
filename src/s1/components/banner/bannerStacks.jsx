@@ -37,7 +37,7 @@ export default class BannerStacks extends Component {
 			this.scrollRef.addEventListener('scroll', this.handleScroll);
 		}
 
-		this.handleResize();
+		setTimeout(this.handleResize, 10);
 	}
 
 	componentWillUnmount() {
@@ -139,6 +139,7 @@ export default class BannerStacks extends Component {
 		const {
 			isBannerModal,
 			isBannerInline,
+			maxWidthModal,
 			// maxHeightModal, // handled in store
 			primaryColor,
 			primaryTextColor,
@@ -163,6 +164,7 @@ export default class BannerStacks extends Component {
 				style={{
 					backgroundColor,
 					color: textLightColor,
+					...(maxWidthModal ? { maxWidth: maxWidthModal } : {}),
 				}}
 			>
 				<div

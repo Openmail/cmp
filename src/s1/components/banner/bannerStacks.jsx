@@ -37,7 +37,7 @@ export default class BannerStacks extends Component {
 			this.scrollRef.addEventListener('scroll', this.handleScroll);
 		}
 
-		setTimeout(this.handleResize, 10);
+		this.handleResize();
 	}
 
 	componentWillUnmount() {

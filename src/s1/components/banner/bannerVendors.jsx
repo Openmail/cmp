@@ -32,12 +32,16 @@ export default class BannerVendors extends Component {
 			tcModel: { consentScreen },
 		} = store;
 
+		const { 
+			config: { slimMode } 
+		} = store;
+
 		logger(LOG_EVENTS.CMPClick, {
 			action: 'click',
 			category: 'back',
 			label: `screen${consentScreen}`,
 		});
-		store.toggleConsentScreen(CONSENT_SCREENS.STACKS_LAYER1);
+		store.toggleConsentScreen( (slimMode? CONSENT_SCREENS.SLIM_LAYER0 : CONSENT_SCREENS.STACKS_LAYER1 ));
 	};
 
 	handleSave = () => {

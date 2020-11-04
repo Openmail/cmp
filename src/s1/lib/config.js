@@ -32,6 +32,7 @@ export const config = {
 	cookieDomain: '',
 	ccpaApplies: false,
 	experimentId: 'control',
+	slimMode: false,
 	gdprApplies: false,
 	gdprConsentUrlParam,
 	isServiceSpecific: true, // whether or not this cmp is configured to be service specific

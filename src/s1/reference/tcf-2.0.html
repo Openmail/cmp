@@ -217,17 +217,17 @@
 				return params.get('slim') === 'true';
 			};
 
-			const useFullWidth = function () {
+			const isFullWidth = function () {
 				let params = new URLSearchParams(window.location.search);
 				return params.get('fullwidth') === 'true';
 			};
 
-			const useDropShadow = function () {
+			const shouldShowDropShadow = function () {
 				let params = new URLSearchParams(window.location.search);
 				return params.get('dropshadow') !== 'false';
 			};
 
-			const useCloseWithX = function () {
+			const shouldShowCloseX = function () {
 				let params = new URLSearchParams(window.location.search);
 				return params.get('closewithx') === 'true';
 			};
@@ -236,8 +236,8 @@
 				theme: {
 					shouldAutoResizeModal: shouldAutoResize(),
 					maxHeightModal: '65vh',
-					fullWidth: useFullWidth(),
-					showDropShadow: useDropShadow(),					
+					isFullWidth: isFullWidth(),
+					shouldShowDropShadow: shouldShowDropShadow(),
 				},
 				business: 'reference',
 				gdprApplies: true,
@@ -253,8 +253,8 @@
 				publisherCountryCode: 'US',
 				// language: '', // default
 				shouldUseStacks: shouldUseStacks(),
-				slimMode: shouldUseSlim(), 
-				showCloseX: useCloseWithX(),
+				isSlimMode: shouldUseSlim(), 
+				shouldShowCloseX: shouldShowCloseX(),
 				// narrowedVendors: [1, 2, 3, 4, 5, 6],
 			};
 
@@ -325,21 +325,21 @@
 				window.location.search = params.toString();
 			});
 
-			domFullWidth.checked = useFullWidth();
+			domFullWidth.checked = isFullWidth();
 			domFullWidth.addEventListener('change', function () {
 				let params = new URLSearchParams(window.location.search);
 				params.set('fullwidth', domFullWidth.checked);
 				window.location.search = params.toString();
 			});
 
-			domDropShadow.checked = useDropShadow();
+			domDropShadow.checked = shouldShowDropShadow();
 			domDropShadow.addEventListener('change', function () {
 				let params = new URLSearchParams(window.location.search);
 				params.set('dropshadow', domDropShadow.checked);
 				window.location.search = params.toString();
 			});
 
-			domCloseWithX.checked = useCloseWithX();
+			domCloseWithX.checked = shouldShowCloseX();
 			domCloseWithX.addEventListener('change', function () {
 				let params = new URLSearchParams(window.location.search);
 				params.set('closewithx', domCloseWithX.checked);

@@ -74,7 +74,7 @@ See a [working example in codepen](https://codepen.io/potench/pen/GRZZprw).
 			publisherCountryCode: 'US',
 			// language: '', // empty string or unset to default to browser language
 			shouldUseStacks: true,
-			slimMode: true,
+			isSlimMode: true,
 			// narrowedVendors: [1, 2, 3, 4, 5, 6],
 			theme: {
 				boxShadow: 'none',
@@ -84,7 +84,7 @@ See a [working example in codepen](https://codepen.io/potench/pen/GRZZprw).
 				secondaryColor: '#869cc0',
 				shouldAutoResizeModal: true, // resizes modal on stacks screen to push stacks below fold
 				textLinkColor: '#0099ff',
-				fullWidth: false,
+				isFullWidth: false,
 			},
 		}
 	);
@@ -222,8 +222,8 @@ __tcfapi('init', 2, () => {}, {
 | `publisherCountryCode` | optional string  | `US`                                    | String representing country code of parent website business                                                       |
 | `isServiceSpecific`    | optional boolean | `true`                                  | true uses publisher consent, false uses global consent                                                            |
 | `shouldUseStacks`      | optional boolean | `true`                                  | true uses stacks on Layer1, TODO stacks need purposes/custom-features toggle to be compliant                      |
-| `slimMode`             | optional boolean | `false`                                 | If `true`, initial banner is low profile, full width banner <sup>v2.1.4+</sup>                                    |
-| `showCloseX`           | optional boolean | `false`                                 | If `true`, a &times; icon will appear in the upper right on layers to accept-all and close <sup>v2.1.4+</sup>     |
+| `isSlimMode`           | optional boolean | `false`                                 | If `true`, initial banner is low profile, full width banner <sup>v2.1.4+</sup>                                    |
+| `shouldShowCloseX`     | optional boolean | `false`                                 | If `true`, a &times; icon will appear in the upper right on layers to accept-all and close <sup>v2.1.4+</sup>     |
 
 ### theme
 
@@ -239,8 +239,8 @@ Themeing is a bit limited right now. Pass in a `config.theme` object during init
 | `secondaryColor`        | optional string  | null     | Example: `#869cc0`                                                                                       |
 | `featuresColor`         | optional string  | null     | Example: `#d0d3d7`                                                                                       |
 | `backgroundColor`       | optional string  | null     | Example: `#d0d3d7` Sets the background color of the banners.  <sup>v2.1.4+</sup>                         |
-| `fullWidth`             | optional boolean | false    | Removes rounded corners and makes banners full width - matching style layout slimMode <sup>v2.1.4+</sup> |
-| `showDropShadow`        | optional boolean | true     | When set to `true`, displays the drop shadoq on banners <sup>v2.1.4+</sup>                               |
+| `isFullWidth`           | optional boolean | false    | Removes rounded corners and makes banners full width - matching style layout slimMode <sup>v2.1.4+</sup> |
+| `shouldShowDropShadow`  | optional boolean | true     | When set to `true`, displays the drop shadoq on banners <sup>v2.1.4+</sup>                               |
 
 ## Initialize With Euconsent String from URL Param
 

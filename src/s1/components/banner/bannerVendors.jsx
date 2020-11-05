@@ -74,22 +74,22 @@ export default class BannerVendors extends Component {
 	render(props) {
 		const { isShowing, store } = props;
 		const {
-			config: { theme, showCloseX, },
+			config: { theme, shouldShowCloseX, },
 			isSaveShowing,
 			translations,
 			maxHeightModal,			
 		} = store;
 
-		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor, fullWidth, showDropShadow, } = theme;
+		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor, isFullWidth, shouldShowDropShadow, } = theme;
 
 		const bannerClasses = [style.banner];
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
-		if( !fullWidth ) {
+		if( !isFullWidth ) {
 			bannerClasses.push(style.bannerRounded);
 		}		
-		if( showDropShadow ) {
+		if( shouldShowDropShadow ) {
 			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {
@@ -113,7 +113,7 @@ export default class BannerVendors extends Component {
 						maxHeight: maxHeightModal,
 					}}
 				>
-					{ showCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
+					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
 					<div class={style.message} ref={(el) => (this.messageRef = el)}>
 						<div class={style.info}>
 							<div class={style.title} style={{ color: theme.textColor }}>

@@ -128,7 +128,7 @@ export default class BannerSlim extends Component {
 		const { hasScrolled } = state;
 		const { isShowing, store } = props;
 		const {
-			config: { theme, showCloseX, },
+			config: { theme, shouldShowCloseX, },
 			translations,
 			maxHeightModal,			
 		} = store;
@@ -143,14 +143,14 @@ export default class BannerSlim extends Component {
 			backgroundColor,
 			textColor,
 			textLightColor,
-			showDropShadow,
+			shouldShowDropShadow,
 		} = theme;
 
 		const bannerClasses = [style.banner, style.bannerSlim];
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
-		if( showDropShadow ) {
+		if( shouldShowDropShadow ) {
 			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {
@@ -175,7 +175,7 @@ export default class BannerSlim extends Component {
 						maxHeight: maxHeightModal,
 					}}
 				>
-					{ showCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
+					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
 					<div class={style.message}>
 						<div class={style.info}>
 							<div ref={(el) => (this.aboveFoldRef = el)}>

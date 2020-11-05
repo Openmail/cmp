@@ -18,8 +18,8 @@ export const theme = {
 	// secondaryColor: '#869cc0',
 	// featuresColor: '#d0d3d7',
 	// maxWidthModal: '500px',
-	fullWidth: false,
-	showDropShadow: true,
+	isFullWidth: false,
+	shouldShowDropShadow: true,
 	shouldAutoResizeModal: true,
 	maxHeightModal: '45vh',
 };
@@ -34,8 +34,8 @@ export const config = {
 	cookieDomain: '',
 	ccpaApplies: false,
 	experimentId: 'control',
-	slimMode: false,
-	showCloseX: false,
+	isSlimMode: false,
+	shouldShowCloseX: false,
 	gdprApplies: false,
 	gdprConsentUrlParam,
 	isServiceSpecific: true, // whether or not this cmp is configured to be service specific

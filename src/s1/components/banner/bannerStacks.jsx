@@ -140,6 +140,7 @@ export default class BannerStacks extends Component {
 			isBannerModal,
 			isBannerInline,
 			maxWidthModal,
+			fullWidth,
 			// maxHeightModal, // handled in store
 			primaryColor,
 			primaryTextColor,
@@ -152,10 +153,13 @@ export default class BannerStacks extends Component {
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
+		if( !fullWidth ) {
+			bannerClasses.push(style.bannerRounded);
+		}
 		if (isBannerModal) {
 			bannerClasses.push(style.bannerModal);
 		} else if (isBannerInline) {
-			bannerClasses.push(style.bannerInline);
+			bannerClasses.push(style.bannerInline);			
 		}
 
 		return (

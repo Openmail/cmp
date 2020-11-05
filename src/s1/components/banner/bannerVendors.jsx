@@ -80,11 +80,14 @@ export default class BannerVendors extends Component {
 			maxHeightModal,
 		} = store;
 
-		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor } = theme;
+		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor, fullWidth } = theme;
 
 		const bannerClasses = [style.banner];
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
+		}
+		if( !fullWidth ) {
+			bannerClasses.push(style.bannerRounded);
 		}
 		if (isBannerModal) {
 			bannerClasses.push(style.bannerModal);

@@ -18,6 +18,7 @@ export const theme = {
 	// secondaryColor: '#869cc0',
 	// featuresColor: '#d0d3d7',
 	// maxWidthModal: '500px',
+	fullWidth: false,
 	shouldAutoResizeModal: true,
 	maxHeightModal: '45vh',
 };

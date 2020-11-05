@@ -129,7 +129,7 @@ export default class BannerStacks extends Component {
 		const { hasScrolled } = state;
 		const { isShowing, store } = props;
 		const {
-			config: { theme },
+			config: { theme, showCloseX, },
 			translations,
 			displayLayer1,
 			isSaveShowing,
@@ -141,6 +141,7 @@ export default class BannerStacks extends Component {
 			isBannerInline,
 			maxWidthModal,
 			fullWidth,
+			showDropShadow,
 			// maxHeightModal, // handled in store
 			primaryColor,
 			primaryTextColor,
@@ -155,6 +156,9 @@ export default class BannerStacks extends Component {
 		}
 		if( !fullWidth ) {
 			bannerClasses.push(style.bannerRounded);
+		}
+		if( showDropShadow ) {
+			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {
 			bannerClasses.push(style.bannerModal);
@@ -178,6 +182,7 @@ export default class BannerStacks extends Component {
 						maxHeight: maxHeightModal,
 					}}
 				>
+					{ showCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
 					<div class={style.message}>
 						<div class={style.info}>
 							<div ref={(el) => (this.aboveFoldRef = el)}>

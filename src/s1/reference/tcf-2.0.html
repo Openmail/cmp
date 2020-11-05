@@ -155,6 +155,14 @@
 							Full Width:
 							<input id="domFullWidth" type="checkbox" />
 						</li>
+						<li>
+							Drop Shadow:
+							<input id="domDropShadow" type="checkbox" checked />
+						</li>
+						<li>
+							Close with X:
+							<input id="domCloseWithX" type="checkbox" />
+						</li>
 					</ul>
 				</li>
 			</ul>
@@ -174,6 +182,8 @@
 			const domShouldUseStacks = document.querySelector('#domShouldUseStacks');
 			const domShouldUseSlim = document.querySelector('#domShouldUseSlim');
 			const domFullWidth = document.querySelector('#domFullWidth');
+			const domDropShadow = document.querySelector('#domDropShadow');
+			const domCloseWithX = document.querySelector('#domCloseWithX');
 
 			const setupQaTools = function (store) {
 				const LANGUAGES = store.LANGUAGES;
@@ -212,11 +222,22 @@
 				return params.get('fullwidth') === 'true';
 			};
 
+			const useDropShadow = function () {
+				let params = new URLSearchParams(window.location.search);
+				return params.get('dropshadow') !== 'false';
+			};
+
+			const useCloseWithX = function () {
+				let params = new URLSearchParams(window.location.search);
+				return params.get('closewithx') === 'true';
+			};
+
 			const config = {
 				theme: {
 					shouldAutoResizeModal: shouldAutoResize(),
 					maxHeightModal: '65vh',
 					fullWidth: useFullWidth(),
+					showDropShadow: useDropShadow(),					
 				},
 				business: 'reference',
 				gdprApplies: true,
@@ -233,6 +254,7 @@
 				// language: '', // default
 				shouldUseStacks: shouldUseStacks(),
 				slimMode: shouldUseSlim(), 
+				showCloseX: useCloseWithX(),
 				// narrowedVendors: [1, 2, 3, 4, 5, 6],
 			};
 
@@ -307,6 +329,20 @@
 			domFullWidth.addEventListener('change', function () {
 				let params = new URLSearchParams(window.location.search);
 				params.set('fullwidth', domFullWidth.checked);
+				window.location.search = params.toString();
+			});
+
+			domDropShadow.checked = useDropShadow();
+			domDropShadow.addEventListener('change', function () {
+				let params = new URLSearchParams(window.location.search);
+				params.set('dropshadow', domDropShadow.checked);
+				window.location.search = params.toString();
+			});
+
+			domCloseWithX.checked = useCloseWithX();
+			domCloseWithX.addEventListener('change', function () {
+				let params = new URLSearchParams(window.location.search);
+				params.set('closewithx', domCloseWithX.checked);
 				window.location.search = params.toString();
 			});
 		</script>

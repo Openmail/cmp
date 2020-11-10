@@ -55,7 +55,11 @@ export default class BannerSlim extends Component {
 		debounce.clear();
 	}
 
-	handleAcceptAll = () => {
+	handleClose = () => {
+		this.handleAcceptAll( 'acceptAllClose' );
+	}
+
+	handleAcceptAll = ( clickCategory = 'acceptAll' ) => {
 		const { store } = this.props;
 		const {
 			tcModel: { consentScreen },
@@ -63,7 +67,7 @@ export default class BannerSlim extends Component {
 
 		logger(LOG_EVENTS.CMPClick, {
 			action: 'click',
-			category: 'acceptAll',
+			category: clickCategory,
 			label: `screen${consentScreen}`,
 		});
 
@@ -175,7 +179,7 @@ export default class BannerSlim extends Component {
 						maxHeight: maxHeightModal,
 					}}
 				>
-					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
+					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleClose}>&times;</div>}
 					<div class={style.message}>
 						<div class={style.info}>
 							<div ref={(el) => (this.aboveFoldRef = el)}>

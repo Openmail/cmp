@@ -56,7 +56,11 @@ export default class BannerVendors extends Component {
 		});
 	};
 
-	handleAcceptAll = () => {
+	handleClose = () => {
+		this.handleAcceptAll( 'acceptAllClose' );
+	}
+
+	handleAcceptAll = ( clickCategory = 'acceptAll' ) => {
 		const { store } = this.props;
 		const {
 			tcModel: { consentScreen },
@@ -64,7 +68,7 @@ export default class BannerVendors extends Component {
 
 		logger(LOG_EVENTS.CMPClick, {
 			action: 'click',
-			category: 'acceptAll',
+			category: clickCategory,
 			label: `screen${consentScreen}`,
 		});
 
@@ -113,7 +117,7 @@ export default class BannerVendors extends Component {
 						maxHeight: maxHeightModal,
 					}}
 				>
-					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleAcceptAll}>&times;</div>}
+					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleClose}>&times;</div>}
 					<div class={style.message} ref={(el) => (this.messageRef = el)}>
 						<div class={style.info}>
 							<div class={style.title} style={{ color: theme.textColor }}>

@@ -1,7 +1,7 @@
 {
 	"name": "system1-cmp",
-	"version": "2.1.7",
-	"cmpVersion": 5,
+	"version": "2.1.8",
+	"cmpVersion": 6,
 	"description": "System1 Consent Management Platform for TCF 1.1 GDPR Compliance",
 	"scripts": {
 		"clean": "rimraf ./dist",

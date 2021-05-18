@@ -224,6 +224,8 @@ __tcfapi('init', 2, () => {}, {
 | `shouldUseStacks`      | optional boolean | `true`                                  | true uses stacks on Layer1, TODO stacks need purposes/custom-features toggle to be compliant                      |
 | `isSlimMode`           | optional boolean | `false`                                 | If `true`, initial banner is low profile, full width banner <sup>v2.1.4+</sup>                                    |
 | `shouldShowCloseX`     | optional boolean | `false`                                 | If `true`, a &times; icon will appear in the upper right on layers to accept-all and close <sup>v2.1.4+</sup>     |
+| `isInlineMode`         | optional boolean | `false`                                 | If `true`, banner will be relative positioned instead of overlay <sup>v2.1.8+</sup>                               |
+| `insertionNode` 	   	 | optional string  | `<body>`                                | UI will be appended to this element using `querySelector`. Default behavior appends to body <sup>v2.1.8+</sup>    |
 
 ### theme
 

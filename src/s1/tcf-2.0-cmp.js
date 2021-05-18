@@ -119,7 +119,8 @@ export const setup = (configOpt) => {
 	});
 
 	const init = () => {
-		render(<App store={store} />, document.body);
+		const insertionNode = (config.insertionNode && document.querySelector(config.insertionNode)) || document.body;
+		render(<App store={store} />, insertionNode);
 		return store;
 	};
 

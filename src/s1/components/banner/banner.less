@@ -17,7 +17,7 @@
 	color: @color-textLight;
 	background: #fff;
 	font-size: 16px;
-	transition: transform 350ms ease-in-out, opacity 350ms linear;		
+	transition: transform 350ms ease-in-out, opacity 350ms linear;
 	margin: auto;
 
 	&.bannerShadow {
@@ -44,11 +44,6 @@
 		transform: translateY(1000px);
 		opacity: 0;
 		transition-delay: 250ms;
-	}
-
-	&.bannerInline {
-		position: relative;
-		box-shadow: none;
 	}
 
 	&.bannerModal {
@@ -136,6 +131,26 @@
 					margin: 0;
 				}
 			}
+		}
+	}
+
+	&.bannerInline {
+		position: relative;
+		max-height: 680px;
+
+		&.hidden {
+			pointer-events: none;
+			transform: translateY(0px);
+			opacity: 0;
+			transition-delay: 250ms;
+			padding-top: 0;
+			max-height: 0px;
+			transition: transform 350ms ease-in-out, opacity 350ms linear, max-height 350ms ease-in-out, padding 350ms ease-in-out;
+			overflow: hidden;
+		}
+
+		.content {
+			margin-bottom: 0px;
 		}
 	}
 

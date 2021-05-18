@@ -143,7 +143,7 @@ export default class Store {
 			gdprConsentUrlParam,
 			publisherCountryCode,
 			isServiceSpecific,
-			isSlimMode,
+			isSlimMode,	
 		} = this.config;
 		const { vendors } = this.gvl;
 

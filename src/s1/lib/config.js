@@ -18,6 +18,7 @@ export const theme = {
 	// secondaryColor: '#869cc0',
 	// featuresColor: '#d0d3d7',
 	// maxWidthModal: '500px',
+	isBannerInline: false, // inline styling instead of modal/overlay
 	isFullWidth: false,
 	shouldShowDropShadow: true,
 	shouldAutoResizeModal: true,
@@ -35,6 +36,7 @@ export const config = {
 	ccpaApplies: false,
 	experimentId: 'control',
 	isSlimMode: false,
+	insertionNode: '', // target dom node to append UI
 	shouldShowCloseX: false,
 	gdprApplies: false,
 	gdprConsentUrlParam,

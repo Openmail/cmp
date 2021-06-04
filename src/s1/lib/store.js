@@ -144,6 +144,7 @@ export default class Store {
 			publisherCountryCode,
 			isServiceSpecific,
 			isSlimMode,
+			isMainlineMode,
 		} = this.config;
 		const { vendors } = this.gvl;
 
@@ -169,6 +170,14 @@ export default class Store {
 			console.error(e);
 		}
 
+		let consentScreen;
+		if (isSlimMode) {
+			consentScreen = CONSENT_SCREENS.SLIM_LAYER0;
+		} else if (isMainlineMode) {
+			consentScreen = CONSENT_SCREENS.MAINLINE_LAYER4;
+		} else {
+			consentScreen = CONSENT_SCREENS.STACKS_LAYER1;
+		}
 		// Merge persisted model into new model in memory
 		Object.assign(tcModel, {
 			...(persistedTcModel ? persistedTcModel : {}),
@@ -176,7 +185,7 @@ export default class Store {
 			cmpVersion,
 			isServiceSpecific,
 			publisherCountryCode,
-			consentScreen: ( isSlimMode ? CONSENT_SCREENS.SLIM_LAYER0 : CONSENT_SCREENS.STACKS_LAYER1 ),
+			consentScreen,
 		});
 
 		// Handle a new user
@@ -520,10 +529,16 @@ export default class Store {
 		if (!this.tcModel) {
 			return;
 		}
-		const { isSlimMode } = this.config;
+		const { isSlimMode, isMainlineMode } = this.config;
 		let tcModel = this.tcModel.clone();
-		
-		tcModel.consentScreen = ( isSlimMode ? CONSENT_SCREENS.SLIM_LAYER0 : CONSENT_SCREENS.STACKS_LAYER1 );
+
+		if (isSlimMode) {
+			tcModel.consentScreen = CONSENT_SCREENS.SLIM_LAYER0;
+		} else if (isMainlineMode) {
+			tcModel.consentScreen = CONSENT_SCREENS.MAINLINE_LAYER4;
+		} else {
+			tcModel.consentScreen = CONSENT_SCREENS.STACKS_LAYER1;
+		}
 
 		this.updateCmp({
 			shouldShowModal,

@@ -34,6 +34,7 @@ export const config = {
 	cookieDomain: '',
 	ccpaApplies: false,
 	experimentId: 'control',
+	isMainlineMode: false,
 	isSlimMode: false,
 	shouldShowCloseX: false,
 	gdprApplies: false,

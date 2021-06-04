@@ -1,0 +1,214 @@
+import { h, Component } from 'preact';
+import style from './banner.less';
+
+import Label from '../label/label';
+
+import logger, { EVENTS as LOG_EVENTS } from '../../lib/logger';
+import debounce from '../../lib/debounce';
+import { CONSENT_SCREENS } from '../../constants';
+
+class LocalLabel extends Label {
+	static defaultProps = {
+		prefix: 'layer4Mainline',
+		isShowing: false,
+	};
+}
+
+export default class BannerMainline extends Component {
+	constructor(props) {
+		super(props);
+	}
+
+	state = {
+		hasScrolled: false,
+	};
+
+	componentDidMount() {
+		const {
+			store: { theme: shouldAutoResizeModal },
+		} = this.props;
+
+		if (window && shouldAutoResizeModal) {
+			window.addEventListener('resize', this.handleResize);
+		}
+
+		if (this.scrollRef) {
+			this.scrollRef.addEventListener('scroll', this.handleScroll);
+		}
+
+		this.handleResize();
+	}
+
+	componentWillUnmount() {
+		const {
+			store: { theme: shouldAutoResizeModal },
+		} = this.props;
+
+		if (window && shouldAutoResizeModal) {
+			window.removeEventListener('resize', this.handleResize);
+		}
+
+		if (this.scrollRef) {
+			this.scrollRef.removeEventListener('scroll', this.handleScroll);
+		}
+
+		debounce.clear();
+	}
+
+	handleContinue = () => {
+		this.handleAcceptAll( 'acceptAllContinue' );
+	}
+
+	handleClose = () => {
+		this.handleAcceptAll( 'acceptAllClose' );
+	}
+
+	handleAcceptAll = ( clickCategory = 'acceptAll' ) => {
+		const { store } = this.props;
+		const {
+			tcModel: { consentScreen },
+		} = store;
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: clickCategory,
+			label: `screen${consentScreen}`,
+		});
+
+		store.toggleAll();
+	};
+
+	handleLearnMore = () => {
+		const { store } = this.props;
+		const {
+			tcModel: { consentScreen },
+		} = store;
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'learnMore',
+			label: `screen${consentScreen}`,
+		});
+
+		store.toggleConsentScreen(CONSENT_SCREENS.STACKS_LAYER1);
+	};
+
+	handleSave = () => {
+		const { store } = this.props;
+
+		store.save();
+
+		const {
+			tcModel: { consentScreen },
+		} = store;
+
+		logger(LOG_EVENTS.CMPClick, {
+			action: 'click',
+			category: 'save',
+			label: `screen${consentScreen}`,
+		});
+	};
+
+	handleResize = debounce(() => {
+		const { store } = this.props;
+		const { maxHeightModal, shouldAutoResizeModal } = store;
+
+		let newMaxHeightModal = maxHeightModal;
+
+		if (shouldAutoResizeModal && this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
+			newMaxHeightModal = this.aboveFoldRef.clientHeight + 100;
+		}
+
+		store.toggleAutoResizeModal(shouldAutoResizeModal, newMaxHeightModal);
+	}, 100);
+
+	handleScroll = debounce(() => {
+		this.setState({
+			hasScrolled: true,
+		});
+
+		if (this.scrollRef) {
+			this.scrollRef.removeEventListener('scroll', this.handleScroll);
+		}
+	});
+
+	render(props, state) {
+		const { hasScrolled } = state;
+		const { isShowing, store } = props;
+		const {
+			config: { theme, },
+			translations,
+			maxHeightModal,
+		} = store;
+
+		const {
+			isBannerModal,
+			isBannerInline,
+			maxWidthModal,
+			// maxHeightModal, // handled in store
+			primaryColor,
+			primaryTextColor,
+			backgroundColor,
+			textColor,
+			textLightColor,
+		} = theme;
+
+		const bannerClasses = [style.banner, style.bannerMainline];
+		if (!isShowing) {
+			bannerClasses.push(style.hidden);
+		}
+		if (isBannerModal) {
+			bannerClasses.push(style.bannerModal);
+		} else if (isBannerInline) {
+			bannerClasses.push(style.bannerInline);
+		}
+
+		return (
+			<div
+				class={bannerClasses.join(' ')}
+				style={{
+					backgroundColor,
+					color: textLightColor,
+					...(maxWidthModal ? { maxWidth: maxWidthModal } : {}),
+				}}
+			>
+				<div
+					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
+					ref={(el) => (this.scrollRef = el)}
+					style={{
+						maxHeight: maxHeightModal,
+					}}
+				>
+					<div class={style.message}>
+						<div class={style.info}>
+							<div ref={(el) => (this.aboveFoldRef = el)}>
+								<div class={style.intro}>
+									<span>
+									<LocalLabel localizeKey="description" translations={translations}>
+									{'We and our partners use cookies and other technologies to store and/or access information on or from your device (with or without your permission, depending on the type of data) while you use this site, in order to personalize ads and content, analyze or measure site usage, and develop audience insights. '}
+									</LocalLabel>
+									</span>
+									<span class={style.link} onClick={this.handleLearnMore}>
+									<LocalLabel localizeKey="links.manage" translations={translations}>
+									Learn More
+									</LocalLabel>
+									</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<navigation class={style.navigation}>
+					<a
+						class={style.continue}
+						onClick={this.handleContinue}
+					>
+						<LocalLabel localizeKey="links.accept" translations={translations}>
+							OK
+						</LocalLabel>
+					</a>
+				</navigation>
+			</div>
+		);
+	}
+}

@@ -152,6 +152,10 @@
 							<input id="domShouldUseSlim" type="checkbox" />
 						</li>
 						<li>
+							Use Mainline:
+							<input id="domShouldUseMainline" type="checkbox" />
+						</li>
+						<li>
 							Full Width:
 							<input id="domFullWidth" type="checkbox" />
 						</li>
@@ -181,6 +185,7 @@
 			const domShouldAutoResize = document.querySelector('#domShouldAutoResize');
 			const domShouldUseStacks = document.querySelector('#domShouldUseStacks');
 			const domShouldUseSlim = document.querySelector('#domShouldUseSlim');
+			const domShouldUseMainline = document.querySelector('#domShouldUseMainline');
 			const domFullWidth = document.querySelector('#domFullWidth');
 			const domDropShadow = document.querySelector('#domDropShadow');
 			const domCloseWithX = document.querySelector('#domCloseWithX');
@@ -215,6 +220,11 @@
 			const shouldUseSlim = function () {
 				let params = new URLSearchParams(window.location.search);
 				return params.get('slim') === 'true';
+			};
+
+			const shouldUseMainline = function () {
+				let params = new URLSearchParams(window.location.search);
+				return params.get('mainline') === 'true';
 			};
 
 			const isFullWidth = function () {
@@ -253,7 +263,8 @@
 				publisherCountryCode: 'US',
 				// language: '', // default
 				shouldUseStacks: shouldUseStacks(),
-				isSlimMode: shouldUseSlim(), 
+				isSlimMode: shouldUseSlim(),
+				isMainlineMode: shouldUseMainline(),
 				shouldShowCloseX: shouldShowCloseX(),
 				// narrowedVendors: [1, 2, 3, 4, 5, 6],
 			};
@@ -309,7 +320,6 @@
 				params.set('resize', domShouldAutoResize.checked);
 				window.location.search = params.toString();
 			});
-			
 
 			domShouldUseStacks.checked = shouldUseStacks();
 			domShouldUseStacks.addEventListener('change', function () {
@@ -322,6 +332,13 @@
 			domShouldUseSlim.addEventListener('change', function () {
 				let params = new URLSearchParams(window.location.search);
 				params.set('slim', domShouldUseSlim.checked);
+				window.location.search = params.toString();
+			});
+
+			domShouldUseMainline.checked = shouldUseMainline();
+			domShouldUseMainline.addEventListener('change', function () {
+				let params = new URLSearchParams(window.location.search);
+				params.set('mainline', domShouldUseMainline.checked);
 				window.location.search = params.toString();
 			});
 

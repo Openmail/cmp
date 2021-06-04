@@ -2,6 +2,7 @@ import { h, Component } from 'preact';
 import BannerStacks from './banner/bannerStacks';
 import BannerVendors from './banner/bannerVendors';
 import BannerSlim from './banner/bannerSlim';
+import BannerMainline from './banner/BannerMainline';
 
 import { CONSENT_SCREENS } from '../constants';
 
@@ -55,9 +56,15 @@ export default class App extends Component {
 					))
 				}
 
-				{  
+				{
 					(consentScreen === CONSENT_SCREENS.SLIM_LAYER0 && (
 						<BannerSlim store={store} isShowing={shouldShowModal && tcModel} />
+					))
+				}
+
+				{
+					(consentScreen === CONSENT_SCREENS.MAINLINE_LAYER4 && (
+						<BannerMainline store={store} isShowing={shouldShowModal && tcModel} />
 					))
 				}
 

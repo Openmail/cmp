@@ -138,7 +138,8 @@ export default class BannerSlim extends Component {
 		const {
 			config: { theme, shouldShowCloseX, },
 			translations,
-			maxHeightModal,			
+			maxHeightModal,
+			minHeightModal
 		} = store;
 
 		const {
@@ -146,6 +147,7 @@ export default class BannerSlim extends Component {
 			isBannerInline,
 			maxWidthModal,
 			// maxHeightModal, // handled in store
+			// minHeightModal, // handled in store
 			primaryColor,
 			primaryTextColor,
 			backgroundColor,
@@ -174,6 +176,7 @@ export default class BannerSlim extends Component {
 					backgroundColor,
 					color: textLightColor,
 					...(maxWidthModal ? { maxWidth: maxWidthModal } : {}),
+					// ...(minHeightModal ? { minHeight: minHeightModal } : {}),
 				}}
 			>
 				<div
@@ -181,6 +184,7 @@ export default class BannerSlim extends Component {
 					ref={(el) => (this.scrollRef = el)}
 					style={{
 						maxHeight: maxHeightModal,
+						minHeight: minHeightModal
 					}}
 				>
 					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleClose}>&times;</div>}

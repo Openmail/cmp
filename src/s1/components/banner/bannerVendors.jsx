@@ -86,6 +86,7 @@ export default class BannerVendors extends Component {
 			isSaveShowing,
 			translations,
 			maxHeightModal,			
+			minHeightModal
 		} = store;
 
 		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor, isFullWidth, shouldShowDropShadow, } = theme;
@@ -119,6 +120,7 @@ export default class BannerVendors extends Component {
 					class={style.content}
 					style={{
 						maxHeight: maxHeightModal,
+						...(minHeightModal ? { minHeight: minHeightModal } : {}),
 					}}
 				>
 					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleClose}>&times;</div>}

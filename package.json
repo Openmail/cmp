@@ -6,7 +6,7 @@
 	"scripts": {
 		"clean": "rimraf ./dist",
 		"dev": "yarn dev:s1",
-		"dev:s1": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress --config config/s1.webpack.config.babel.js",
+		"dev:s1": "cross-env PORT=3030 NODE_ENV=development webpack-dev-server --inline --hot --progress --config config/s1.webpack.config.babel.js",
 		"dev:original": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --progress --config config/webpack.config.babel.js",
 		"start": "serve dist -c 1",
 		"prestart": "npm run build",

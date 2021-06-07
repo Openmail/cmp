@@ -148,6 +148,7 @@ export default class BannerStacks extends Component {
 			isBannerModal,
 			isBannerInline,
 			maxWidthModal,
+			minHeightModal,
 			isFullWidth,
 			shouldShowDropShadow,
 			// maxHeightModal, // handled in store
@@ -181,6 +182,7 @@ export default class BannerStacks extends Component {
 					backgroundColor,
 					color: textLightColor,
 					...(maxWidthModal ? { maxWidth: maxWidthModal } : {}),
+					...(minHeightModal ? { minHeight: minHeightModal } : {}),
 				}}
 			>
 				<div

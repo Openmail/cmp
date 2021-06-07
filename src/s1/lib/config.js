@@ -18,6 +18,7 @@ export const theme = {
 	// secondaryColor: '#869cc0',
 	// featuresColor: '#d0d3d7',
 	// maxWidthModal: '500px',
+	// minHeightModal: '100px',
 	isBannerInline: false, // inline styling instead of modal/overlay
 	isFullWidth: false,
 	shouldShowDropShadow: true,

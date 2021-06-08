@@ -36,7 +36,6 @@
 
 	@media @smartphone {
 		padding: 15px 10px;
-		width: calc(100% - 20px);
 	}
 
 	&.hidden {
@@ -164,6 +163,14 @@
 		overflow: auto;
 		-webkit-overflow-scrolling: touch;
 		transition: max-height 350ms ease-in-out;
+
+		&.animated {
+			overflow: auto;
+			animation: hide-scroll 500ms backwards;
+			@keyframes hide-scroll {
+				from, to { overflow: hidden; } 
+			}
+		}
 
 		@media @smartphone {
 			padding-top: 0px;

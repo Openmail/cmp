@@ -89,7 +89,17 @@ export default class BannerVendors extends Component {
 			minHeightModal
 		} = store;
 
-		const { isBannerModal, isBannerInline, primaryColor, primaryTextColor, backgroundColor, textLightColor, isFullWidth, shouldShowDropShadow, } = theme;
+		const { 
+			isBannerModal,
+			isBannerInline,
+			primaryColor,
+			primaryTextColor,
+			backgroundColor,
+			textLightColor,
+			isFullWidth,
+			shouldShowDropShadow,
+			maxHeightInline
+		} = theme;
 
 		const bannerClasses = [style.banner];
 		if (!isShowing) {
@@ -117,9 +127,9 @@ export default class BannerVendors extends Component {
 				}}
 			>
 				<div
-					class={style.content}
+					class={[style.content].join(' ')}
 					style={{
-						maxHeight: maxHeightModal,
+						maxHeight: (isBannerInline ? `min(${maxHeightInline}, ${maxHeightModal})` : maxHeightModal),
 						...(minHeightModal ? { minHeight: minHeightModal } : {}),
 					}}
 				>

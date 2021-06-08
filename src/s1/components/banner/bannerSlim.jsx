@@ -180,7 +180,7 @@ export default class BannerSlim extends Component {
 				}}
 			>
 				<div
-					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
+					class={[style.content, style.layer1, style.animated, hasScrolled ? style.scrolling : ''].join(' ')}
 					ref={(el) => (this.scrollRef = el)}
 					style={{
 						maxHeight: maxHeightModal,

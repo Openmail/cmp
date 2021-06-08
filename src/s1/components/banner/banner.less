@@ -25,15 +25,6 @@
 		0 -8px 8px rgba(0, 0, 0, 0.12), 0 -16px 16px rgba(0, 0, 0, 0.12);	
 	}
 
-	&.bannerRounded {
-		border-top-left-radius: 25px;
-		border-top-right-radius: 25px;
-		border-bottom-left-radius: 10px;
-		border-bottom-right-radius: 10px;
-		width: calc(100% - 50px);
-		max-width: 1024px;
-	}
-
 	@media @smartphone {
 		padding: 15px 10px;
 	}
@@ -98,6 +89,10 @@
 			margin-bottom: 0;
 			padding: 0 30px 30px;
 
+			.message {
+				padding-bottom: 0;
+			}
+
 			@media @smartphone {
 				padding: 12px 20px 0;
 
@@ -150,6 +145,31 @@
 
 		.content {
 			margin-bottom: 0px;
+
+			.message {
+				padding-bottom: 60px;
+			}
+		}
+
+		&.bannerSlim {
+			.content {
+				.message {
+					padding-bottom: 0;
+				}
+			}
+		}
+	}
+
+	&.bannerRounded {
+		border-top-left-radius: 25px;
+		border-top-right-radius: 25px;
+		border-bottom-left-radius: 10px;
+		border-bottom-right-radius: 10px;
+		width: calc(100% - 50px);
+		max-width: 1024px;
+
+		@media @smartphone {
+			width: calc(100% - 20px);
 		}
 	}
 
@@ -218,8 +238,7 @@
 		}
 
 		.message {
-			// padding-bottom: 10px;
-			padding-bottom: 60px;
+			padding-bottom: 10px;
 
 			@media @smartphone {
 				display: block;

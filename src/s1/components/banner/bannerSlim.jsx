@@ -145,6 +145,7 @@ export default class BannerSlim extends Component {
 		const {
 			isBannerModal,
 			isBannerInline,
+			isFullWidth,
 			maxWidthModal,
 			// maxHeightModal, // handled in store
 			// minHeightModal, // handled in store
@@ -160,7 +161,10 @@ export default class BannerSlim extends Component {
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
-		if( shouldShowDropShadow ) {
+		if (!isFullWidth) {
+			bannerClasses.push(style.bannerRounded);
+		}
+		if (shouldShowDropShadow) {
 			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {

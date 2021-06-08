@@ -105,10 +105,10 @@ export default class BannerVendors extends Component {
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
-		if( !isFullWidth ) {
+		if (!isFullWidth) {
 			bannerClasses.push(style.bannerRounded);
-		}		
-		if( shouldShowDropShadow ) {
+		}
+		if (shouldShowDropShadow) {
 			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {

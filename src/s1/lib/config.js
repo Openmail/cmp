@@ -19,6 +19,7 @@ export const theme = {
 	// featuresColor: '#d0d3d7',
 	// maxWidthModal: '500px',
 	// minHeightModal: '100px',
+	// maxHeightInline: '680px', // max height of the inline SCREEN_0
 	isBannerInline: false, // inline styling instead of modal/overlay
 	isFullWidth: false,
 	shouldShowDropShadow: true,

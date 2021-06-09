@@ -148,9 +148,11 @@ export default class BannerStacks extends Component {
 			isBannerModal,
 			isBannerInline,
 			maxWidthModal,
+			minHeightModal,
 			isFullWidth,
 			shouldShowDropShadow,
 			// maxHeightModal, // handled in store
+			maxHeightInline,
 			primaryColor,
 			primaryTextColor,
 			backgroundColor,
@@ -187,7 +189,8 @@ export default class BannerStacks extends Component {
 					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
 					ref={(el) => (this.scrollRef = el)}
 					style={{
-						maxHeight: maxHeightModal,
+						maxHeight: (isBannerInline ? `min(${maxHeightInline}, ${maxHeightModal})` : maxHeightModal),
+						...(minHeightModal ? { minHeight: minHeightModal } : {}),
 					}}
 				>
 					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleClose}>&times;</div>}

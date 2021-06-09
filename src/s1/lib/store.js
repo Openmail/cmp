@@ -19,6 +19,7 @@ export default class Store {
 	config = config;
 	displayLayer1; // stacks
 	maxHeightModal = 0;
+	minHeightModal = 0;
 	shouldAutoResizeModal = false;
 	manualVendorConsents = new Set(); // vendor-consent management partially automatic and partially manual depending on the consent screen
 	isModalShowing = false;
@@ -143,7 +144,7 @@ export default class Store {
 			gdprConsentUrlParam,
 			publisherCountryCode,
 			isServiceSpecific,
-			isSlimMode,
+			isSlimMode,	
 		} = this.config;
 		const { vendors } = this.gvl;
 
@@ -255,6 +256,7 @@ export default class Store {
 		const encodedTCString = TCString.encode(tcModelNew);
 		const shouldAutoResizeModal = isSaveShowing ? false : this.shouldAutoResizeModal;
 		const maxHeightModal = shouldShowSave ? this.theme.maxHeightModal : this.maxHeightModal;
+		const minHeightModal = shouldShowSave ? this.theme.minHeightModal : this.minHeightModal;
 
 		const { vendorConsents, purposeConsents, specialFeatureOptins } = tcModelNew;
 		const { purposes, specialFeatures, vendors } = this.gvl;
@@ -277,6 +279,7 @@ export default class Store {
 				isSaveShowing,
 				hasSession,
 				maxHeightModal,
+				minHeightModal,
 				shouldAutoResizeModal,
 			},
 			true
@@ -326,10 +329,12 @@ export default class Store {
 		const { theme } = this;
 		const maxHeightModal =
 			shouldAutoResizeModal && dynamicMaxHeightModal ? dynamicMaxHeightModal : theme.maxHeightModal;
+		const minHeightModal = shouldAutoResizeModal && dynamicMaxHeightModal ? 0 : (theme.minHeightModal || 0);
 		// only set if there's a change
 		if (shouldAutoResizeModal !== this.shouldAutoResizeModal || maxHeightModal !== this.maxHeightModal) {
 			this.setState({
 				maxHeightModal,
+				minHeightModal,
 				shouldAutoResizeModal,
 			});
 		}

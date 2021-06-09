@@ -138,14 +138,17 @@ export default class BannerSlim extends Component {
 		const {
 			config: { theme, shouldShowCloseX, },
 			translations,
-			maxHeightModal,			
+			maxHeightModal,
+			minHeightModal
 		} = store;
 
 		const {
 			isBannerModal,
 			isBannerInline,
+			isFullWidth,
 			maxWidthModal,
 			// maxHeightModal, // handled in store
+			// minHeightModal, // handled in store
 			primaryColor,
 			primaryTextColor,
 			backgroundColor,
@@ -158,7 +161,10 @@ export default class BannerSlim extends Component {
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
-		if( shouldShowDropShadow ) {
+		if (!isFullWidth) {
+			bannerClasses.push(style.bannerRounded);
+		}
+		if (shouldShowDropShadow) {
 			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {
@@ -174,13 +180,15 @@ export default class BannerSlim extends Component {
 					backgroundColor,
 					color: textLightColor,
 					...(maxWidthModal ? { maxWidth: maxWidthModal } : {}),
+					// ...(minHeightModal ? { minHeight: minHeightModal } : {}),
 				}}
 			>
 				<div
-					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
+					class={[style.content, style.layer1, style.animated, hasScrolled ? style.scrolling : ''].join(' ')}
 					ref={(el) => (this.scrollRef = el)}
 					style={{
 						maxHeight: maxHeightModal,
+						minHeight: minHeightModal
 					}}
 				>
 					{ shouldShowCloseX && <div class={style.closeX} onClick={this.handleClose}>&times;</div>}

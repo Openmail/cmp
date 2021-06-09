@@ -137,7 +137,7 @@ export default class BannerStacks extends Component {
 		const { hasScrolled } = state;
 		const { isShowing, store } = props;
 		const {
-			config: { theme, shouldShowCloseX, },
+			config: { theme, shouldShowCloseX},
 			translations,
 			displayLayer1,
 			isSaveShowing,
@@ -164,16 +164,16 @@ export default class BannerStacks extends Component {
 		if (!isShowing) {
 			bannerClasses.push(style.hidden);
 		}
-		if( !isFullWidth ) {
+		if (!isFullWidth) {
 			bannerClasses.push(style.bannerRounded);
 		}
-		if( shouldShowDropShadow ) {
+		if (shouldShowDropShadow) {
 			bannerClasses.push(style.bannerShadow);
 		}
 		if (isBannerModal) {
 			bannerClasses.push(style.bannerModal);
 		} else if (isBannerInline) {
-			bannerClasses.push(style.bannerInline);			
+			bannerClasses.push(style.bannerInline);
 		}
 
 		return (
@@ -189,7 +189,7 @@ export default class BannerStacks extends Component {
 					class={[style.content, style.layer1, hasScrolled ? style.scrolling : ''].join(' ')}
 					ref={(el) => (this.scrollRef = el)}
 					style={{
-						maxHeight: (isBannerInline ? `min(${maxHeightInline}, ${maxHeightModal})` : maxHeightModal),
+						maxHeight: (isBannerInline && maxHeightInline ? `min(${maxHeightInline}, ${isNaN(maxHeightModal) ? maxHeightModal : maxHeightModal + 'px'})` : maxHeightModal),
 						...(minHeightModal ? { minHeight: minHeightModal } : {}),
 					}}
 				>

@@ -129,7 +129,7 @@ export default class BannerVendors extends Component {
 				<div
 					class={[style.content].join(' ')}
 					style={{
-						maxHeight: (isBannerInline ? `min(${maxHeightInline}, ${maxHeightModal})` : maxHeightModal),
+						maxHeight: (isBannerInline && maxHeightInline ? `min(${maxHeightInline}, ${isNaN(maxHeightModal) ? maxHeightModal : maxHeightModal + 'px'})` : maxHeightModal),
 						...(minHeightModal ? { minHeight: minHeightModal } : {}),
 					}}
 				>

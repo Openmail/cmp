@@ -259,7 +259,7 @@
 					shouldAutoResizeModal: shouldAutoResize(),
 					maxHeightModal: '65vh',
 					minHeightModal: '400px',
-					// maxHeightInline: '25vh',
+					maxHeightInline: '25vh',
 					isFullWidth: isFullWidth(),
 					shouldShowDropShadow: shouldShowDropShadow(),
 				},
@@ -314,6 +314,20 @@
 			// __tcfapi('offConsentAllChanged', 2, unsub);
 
 			btnShowConsentTool.addEventListener('click', function () {
+				__tcfapi(
+					'changeConfig', 
+					2, 
+					function (store) { 
+						console.log('cmp: changeConfig', store);
+					},
+					{
+						...config,
+						theme: {
+							...config.theme,
+							isBannerInline: false
+						}
+					}
+				)
 				__tcfapi('showConsentTool', 2, function () {});
 			});
 

@@ -594,4 +594,15 @@ export default class Store {
 
 		return Promise.all([gvlPromise, localizePromise]);
 	}
+
+	updateConfig(newConfig) {
+		const {theme = config.theme } = newConfig;
+		Object.assign(this.config, {
+			...newConfig,
+			theme: {
+				...this.config.theme,
+				...theme
+			}
+		});
+	}
 }

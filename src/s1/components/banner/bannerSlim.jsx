@@ -201,7 +201,7 @@ export default class BannerSlim extends Component {
 									</LocalLabel>
 								</div>
 								<div class={style.intro}>
-									<LocalLabel localizeKey="description" translations={translations} onClick={this.handleLearnMore}>
+									<LocalLabel localizeKey="description" translations={translations} onClick={this.handleLearnMore} theme={theme}>
 									We and our partners use cookies and other technologies to store and/or access information on or from your device (with or without your permission, depending on the type of data) while you use this site, in order to personalize ads and content, analyze or measure site usage, and develop audience insights. You can learn more and change or manage your consent setting preferences via the "manage preferences" link or visiting our "privacy policy".
 									</LocalLabel>
 								</div>

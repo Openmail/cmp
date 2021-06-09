@@ -203,7 +203,7 @@ export default class BannerStacks extends Component {
 									</LocalLabel>
 								</div>
 								<div class={style.intro}>
-									<LocalLabel localizeKey="description" translations={translations} onClick={this.handleLearnMore}>
+									<LocalLabel localizeKey="description" translations={translations} onClick={this.handleLearnMore} theme={theme}>
 										When you visit our site, <a>pre-selected companies</a> may access and use certain information on
 										your device and about this site to serve relevant ads or personalized content.
 									</LocalLabel>

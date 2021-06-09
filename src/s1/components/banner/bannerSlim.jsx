@@ -111,11 +111,11 @@ export default class BannerSlim extends Component {
 
 	handleResize = debounce(() => {
 		const { store } = this.props;
-		const { maxHeightModal, shouldAutoResizeModal } = store;
+		const { maxHeightModal, shouldAutoResizeModal, isSlimMode } = store;
 
 		let newMaxHeightModal = maxHeightModal;
 
-		if (shouldAutoResizeModal && this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
+		if (!isSlimMode && shouldAutoResizeModal && this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
 			newMaxHeightModal = this.aboveFoldRef.clientHeight + 100;
 		}
 
@@ -136,7 +136,7 @@ export default class BannerSlim extends Component {
 		const { hasScrolled } = state;
 		const { isShowing, store } = props;
 		const {
-			config: { theme, shouldShowCloseX, },
+			config: { theme, shouldShowCloseX},
 			translations,
 			maxHeightModal,
 			minHeightModal

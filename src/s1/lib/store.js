@@ -525,7 +525,16 @@ export default class Store {
 		if (!this.tcModel) {
 			return;
 		}
-		const { isSlimMode } = this.config;
+		const { isSlimMode, theme } = this.config;
+		const { isBannerInline } = theme;
+		if (this.hasShownModal && isBannerInline) {
+			this.updateConfig({
+				theme: {
+					isBannerInline: false
+				}
+			});
+		}
+		this.hasShownModal = true;
 		let tcModel = this.tcModel.clone();
 		
 		tcModel.consentScreen = ( isSlimMode ? CONSENT_SCREENS.SLIM_LAYER0 : CONSENT_SCREENS.STACKS_LAYER1 );

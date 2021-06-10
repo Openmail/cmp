@@ -85,7 +85,7 @@ export default class BannerVendors extends Component {
 			config: { theme, shouldShowCloseX, },
 			isSaveShowing,
 			translations,
-			maxHeightModal,			
+			maxHeightModal,		
 			minHeightModal
 		} = store;
 
@@ -129,7 +129,7 @@ export default class BannerVendors extends Component {
 				<div
 					class={[style.content].join(' ')}
 					style={{
-						maxHeight: (isBannerInline && maxHeightInline ? `min(${maxHeightInline}, ${isNaN(maxHeightModal) ? maxHeightModal : maxHeightModal + 'px'})` : maxHeightModal),
+						maxHeight: maxHeightModal,
 						...(minHeightModal ? { minHeight: minHeightModal } : {}),
 					}}
 				>

@@ -111,11 +111,11 @@ export default class BannerSlim extends Component {
 
 	handleResize = debounce(() => {
 		const { store } = this.props;
-		const { maxHeightModal, shouldAutoResizeModal, isSlimMode } = store;
+		const { maxHeightModal, shouldAutoResizeModal} = store;
 
 		let newMaxHeightModal = maxHeightModal;
 
-		if (!isSlimMode && shouldAutoResizeModal && this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
+		if (shouldAutoResizeModal && this.aboveFoldRef && this.aboveFoldRef.clientHeight) {
 			newMaxHeightModal = this.aboveFoldRef.clientHeight + 100;
 		}
 
@@ -147,6 +147,7 @@ export default class BannerSlim extends Component {
 			isBannerInline,
 			isFullWidth,
 			maxWidthModal,
+			maxHeightInline,
 			// maxHeightModal, // handled in store
 			// minHeightModal, // handled in store
 			primaryColor,
@@ -173,6 +174,8 @@ export default class BannerSlim extends Component {
 			bannerClasses.push(style.bannerInline);
 		}
 
+		const maxHeightStr = (isBannerInline && maxHeightInline ? `min(${maxHeightInline}, ${isNaN(maxHeightModal) ? maxHeightModal : maxHeightModal + 'px'})` : maxHeightModal);
+
 		return (
 			<div
 				class={bannerClasses.join(' ')}
@@ -180,6 +183,7 @@ export default class BannerSlim extends Component {
 					backgroundColor,
 					color: textLightColor,
 					...(maxWidthModal ? { maxWidth: maxWidthModal } : {}),
+					...( isBannerInline ? { maxHeight: (isShowing ? maxHeightModal : 0) } : {}),
 					// ...(minHeightModal ? { minHeight: minHeightModal } : {}),
 				}}
 			>
@@ -187,7 +191,7 @@ export default class BannerSlim extends Component {
 					class={[style.content, style.layer1, style.animated, hasScrolled ? style.scrolling : ''].join(' ')}
 					ref={(el) => (this.scrollRef = el)}
 					style={{
-						maxHeight: maxHeightModal,
+						maxHeight: maxHeightStr,
 						minHeight: minHeightModal
 					}}
 				>

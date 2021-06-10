@@ -192,6 +192,7 @@ export default class Store {
 			// update internal models, show ui, dont save to cookie
 			this.updateCmp({ tcModel, shouldShowModal: true });
 			this.setDisplayLayer1();
+			this.hasShownModal = true;
 		} else {
 			// handle a return user
 
@@ -525,15 +526,15 @@ export default class Store {
 		if (!this.tcModel) {
 			return;
 		}
-		const { isSlimMode, theme } = this.config;
-		const { isBannerInline } = theme;
-		if (this.hasShownModal && isBannerInline) {
+		if (this.hasShownModal) { // reset on subsequent display
 			this.updateConfig({
+				isSlimMode: false,
 				theme: {
 					isBannerInline: false
 				}
 			});
 		}
+		const { isSlimMode } = this.config;
 		this.hasShownModal = true;
 		let tcModel = this.tcModel.clone();
 		
